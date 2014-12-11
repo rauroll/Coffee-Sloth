@@ -1,0 +1,15 @@
+body {
+	font-family: Open Sans, sans-serif;
+	background: #222;
+}
+
+.main-wrapper {
+	width: 960px;
+	text-align: center;
+	margin: 0 auto;
+}
+
+h1 {
+	color: #eee;
+	font-size: 3em;
+}
