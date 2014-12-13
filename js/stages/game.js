@@ -39,42 +39,35 @@ gameStage.onFrame = function () {
 	}
 };
 
-gameStage.keyDown = function (code) {
-	switch(code) {
-		case 38: // space
-			Accelerator.add('velocity', 10, function () {
-				velBoost = 5;
-				rotationCache = sloth.rotation;
-				removeVelBoost = false;
-			}, function () {
+var keyboardManager = new KeyboardInputManager([
+	new KeyAction([38], function () {
+		if(!this.interval) {
+			velBoost = 5;
+			rotationCache = sloth.rotation;
+			removeVelBoost = false;
+			this.interval = setInterval(function () {
 				velBoost += 0.3;
-			});
-			break;
-		case 39: // right
-			Accelerator.add('rotation', 50, function () {
-				rotationBoost = 8;
-				removeRotationBoost = false;
-			}, function () {
-				rotationBoost *= 1.1;
-			});
-			break;
-		case 37: // left
-			Accelerator.add('rotation', 50, function () {
-				rotationBoost = -8;
-				removeRotationBoost = false;
-			}, function () {
-				rotationBoost *= 1.1;
-			});
-			break;
-	}
-};
-
-gameStage.keyUp = function (code) {
-	if(code === 38) {
+			}, 10);
+		}
+	}, function () {
 		removeVelBoost = true;
-		Accelerator.remove('velocity');
-	} else if(code === 37 || code === 39) {
+		clearInterval(this.interval);
+		this.interval = false;
+	}),
+	new KeyAction([37, 39], function (code) {
+		if(!this.interval) {
+			rotationBoost = code === 39 ? 8 : -8;
+			removeRotationBoost = false;
+			this.interval = setInterval(function () {
+				rotationBoost *= 1.1;
+			}, 50);
+		}
+	}, function () {
 		removeRotationBoost = true;
-		Accelerator.remove('rotation');
-	}
-};
+		clearInterval(this.interval);
+		this.interval = false;
+	})
+]);
+
+gameStage.keyDown = function (code) { keyboardManager.onKeyDown(code); };
+gameStage.keyUp = function (code) { keyboardManager.onKeyUp(code); };
