@@ -2,9 +2,12 @@ var gameStage = new PIXI.Stage(0x66FF55);
 
 var sloth = new PIXI.Graphics();
 sloth.beginFill(0x000000);
-sloth.drawRect(0, 0, 50, 50);
+sloth.moveTo(0, 50);
+sloth.lineTo(40, 50);
+sloth.lineTo(20, 0);
+sloth.lineTo(0, 50);
 sloth.position.set(100, 200);
-sloth.pivot.set(25, 25);
+sloth.pivot.set(20, 25);
 gameStage.addChild(sloth);
 
 var rotationCache = 0;
@@ -38,7 +41,7 @@ gameStage.onFrame = function () {
 
 gameStage.keyDown = function (code) {
 	switch(code) {
-		case 32: // space
+		case 38: // space
 			Accelerator.add('velocity', 10, function () {
 				velBoost = 5;
 				rotationCache = sloth.rotation;
@@ -67,7 +70,7 @@ gameStage.keyDown = function (code) {
 };
 
 gameStage.keyUp = function (code) {
-	if(code === 32) {
+	if(code === 38) {
 		removeVelBoost = true;
 		Accelerator.remove('velocity');
 	} else if(code === 37 || code === 39) {

@@ -3,9 +3,7 @@ var Accelerator = {
 	add: function (name, frequency, startFn, accelerationFn) {
 		if(!(name in this.accelerators)) {
 			startFn();
-			this.accelerators[name] = setInterval(function () {
-				accelerationFn();
-			}, frequency);
+			this.accelerators[name] = setInterval(accelerationFn, frequency);
 		}
 	},
 	remove: function (name) {
