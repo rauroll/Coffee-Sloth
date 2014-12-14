@@ -1,95 +1,49 @@
-var gameStage = new PIXI.Stage(0x66FF55);
+var gameStage = new PIXI.Stage();
 
-var sloth = new PIXI.Graphics();
-var farTexture = PIXI.Texture.fromImage("assets/img/bg-far.png");
-var far = new PIXI.TilingSprite(farTexture, 960, 480);
-var midTexture = PIXI.Texture.fromImage("assets/img/bg-mid.png");
-var mid = new PIXI.TilingSprite(midTexture, 960, 480);
-far.tilePosition.x = 0;
-far.tilePosition.y = 0;
-mid.tilePosition.x = 0;
-mid.tilePosition.y = 0;
 gameStage.addChild(far);
 gameStage.addChild(mid);
-
-
-
-sloth.beginFill(0x000000);
-sloth.moveTo(0, 50);
-sloth.lineTo(40, 50);
-sloth.lineTo(20, 0);
-sloth.lineTo(0, 50);
-sloth.position.set(100, 200);
-sloth.pivot.set(20, 25);
 gameStage.addChild(sloth);
 
-var rotationCache = 0;
-var gravity = 0.2;
+var gravity = 0.15;
 
-var removeAccel = false;
-var accel = 0;
-var accelx = 0;
-var accely = 0;
-var velx = 0;
-var vely = 0;
+var acceleration = 0;
+var velocity = new PIXI.Point(0, 0);
 
+var rotation = 0;
 var removeRotationBoost = false;
-var rotationBoost = 0;
-
-
-
+var rotationStep = 0;
 
 gameStage.onFrame = function () {
-	accelx = accel * Math.sin(rotationCache);
-	accely = accel * Math.cos(rotationCache) - gravity;
-	velx += accelx;
-	vely -= accely;
-	far.tilePosition.x -= 0.128 * velx;
-	mid.tilePosition.x -= 0.64 * velx;
-	//sloth.position.x += velx * Math.sin(rotationCache);
+	velocity.x += acceleration * Math.sin(rotation);
+	velocity.y -= acceleration * Math.cos(rotation) - gravity;
+	far.tilePosition.x -= 0.128 * velocity.x;
+	mid.tilePosition.x -= 0.64 * velocity.x;
 
-	sloth.position.y += vely;
+	sloth.position.y += velocity.y;
 
-	sloth.rotation += rotationBoost / 200;
-
-	if(removeAccel) {
-		// Not accelerating, start slowing down slowly
-		accel = 0;
-
-	}
+	sloth.rotation += rotationStep / 200;
 
 	if(removeRotationBoost) {
-		if(rotationBoost > 0)
-			rotationBoost -= 0.5;
-		else if(rotationBoost < 0)
-			rotationBoost += 0.5;
+		if(rotationStep > 0)
+			rotationStep -= 0.5;
+		else if(rotationStep < 0)
+			rotationStep += 0.5;
 	}
 };
 
 var keyboardManager = new KeyboardInputManager([
 	new KeyAction([38], function () {
-		if(!this.interval) {
-			accel = 1;
-			rotationCache = sloth.rotation;
-
-			removeAccel = false;
-			//this.interval = setInterval(function () {
-			//	accel += 0.3;
-			//}, 10);
-		}
+		acceleration = 0.6;
+		rotation = sloth.rotation;
 	}, function () {
-		removeAccel = true;
-		clearInterval(this.interval);
-		this.interval = false;
+		acceleration = 0;
 	}),
 	new KeyAction([37, 39], function (code) {
-		if(!this.interval) {
-			rotationBoost = code === 39 ? 8 : -8;
-			removeRotationBoost = false;
-			this.interval = setInterval(function () {
-				rotationBoost *= 1.1;
-			}, 50);
-		}
+		rotationStep = code === 39 ? 8 : -8;
+		removeRotationBoost = false;
+		this.interval = setInterval(function () {
+			rotationStep *= 1.1;
+		}, 50);
 	}, function () {
 		removeRotationBoost = true;
 		clearInterval(this.interval);
