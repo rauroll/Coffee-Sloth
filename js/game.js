@@ -1,10 +1,11 @@
 var renderer;
 var currentStage;
 $(document).ready(function () {
-	renderer = PIXI.autoDetectRenderer(960, 500);
+	renderer = PIXI.autoDetectRenderer(960, 480);
 	$('.game-wrapper').append(renderer.view);
 
 	currentStage = mainStage;
+	console.log(currentStage)
 
 	requestAnimFrame(animate);
 	function animate() {
