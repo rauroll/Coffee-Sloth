@@ -2,14 +2,14 @@ var mainStage = new PIXI.Stage();
 
 $(document).ready(function () {
 	// background
-	var bg = PIXI.Sprite.fromImage('assets/img/main-background.jpg');
+	var bg = PIXI.Sprite.fromImage('asset/image/main-background.jpg');
 	var blurFilter = new PIXI.BlurFilter();
 	blurFilter.blur = 20;
 	bg.filters = [blurFilter];
 	mainStage.addChild(bg);
 
 	// coffee sloth label
-	var logo = PIXI.Sprite.fromImage('assets/img/logo.png');
+	var logo = PIXI.Sprite.fromImage('asset/image/logo.png');
 	logo.position.set(renderer.width / 2, renderer.height / 2);
 	logo.pivot.set(700 / 2, 200 / 2);
 	mainStage.addChild(logo);
