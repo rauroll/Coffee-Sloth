@@ -40,18 +40,21 @@ var rotationBoost = 0;
 
 
 gameStage.onFrame = function () {
-	velx += accelx
-	vely += -accely * Math.cos(rotationCache) + gravity
-	far.tilePosition.x -= 0.128 * velx ;
+	accelx = accel * Math.sin(rotationCache);
+	accely = accel * Math.cos(rotationCache) - gravity;
+	velx += accelx;
+	vely -= accely;
+	far.tilePosition.x -= 0.128 * velx;
 	mid.tilePosition.x -= 0.64 * velx;
-	sloth.position.x += velBoost * Math.sin(rotationCache);
-	if (sloth.position.y < 460) {
-		sloth.position.y += vely;
-	}
+	//sloth.position.x += velx * Math.sin(rotationCache);
+
+	sloth.position.y += vely;
+
 	sloth.rotation += rotationBoost / 200;
 
 	if(removeAccel) {
 		// Not accelerating, start slowing down slowly
+		accel = 0;
 
 	}
 
@@ -66,10 +69,9 @@ gameStage.onFrame = function () {
 var keyboardManager = new KeyboardInputManager([
 	new KeyAction([38], function () {
 		if(!this.interval) {
-			if (accel < 0.5) {
-				accel = 4;
-			}
+			accel = 1;
 			rotationCache = sloth.rotation;
+
 			removeAccel = false;
 			//this.interval = setInterval(function () {
 			//	accel += 0.3;
