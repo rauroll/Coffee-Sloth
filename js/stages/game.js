@@ -1,6 +1,7 @@
 var rotationStep = 8;
 var gravity = 0.15;
-var backgroundVelocity = 0.128;
+var airResistanceFactor = 0.7;
+var backgroundVelocity = 0.1;
 
 var gameStage = new PIXI.Stage();
 
@@ -16,7 +17,7 @@ var removeRotationBoost = false;
 var rotationVelocity = 0;
 
 gameStage.onFrame = function () {
-	velocity.x += acceleration * Math.sin(rotation);
+	velocity.x += acceleration * Math.sin(rotation) * airResistanceFactor;
 	velocity.y -= acceleration * Math.cos(rotation) - gravity;
 	far.tilePosition.x -= backgroundVelocity * velocity.x;
 	mid.tilePosition.x = far.tilePosition.x / 0.2;
