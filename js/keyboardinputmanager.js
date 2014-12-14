@@ -6,7 +6,10 @@ KeyboardInputManager.prototype.onKeyDown = function (code) {
 	for (var i = 0; i < this.actions.length; i++) {
 		var action = this.actions[i];
 		if(action.keys.indexOf(code) >= 0) {
-			action.onKeyDown(code);
+			if(!action.active) {
+				action.onKeyDown(code);
+				action.active = true;
+			}
 			break;
 		}
 	};
@@ -17,6 +20,7 @@ KeyboardInputManager.prototype.onKeyUp = function (code) {
 		var action = this.actions[i];
 		if(action.keys.indexOf(code) >= 0) {
 			action.onKeyUp(code);
+			action.active = false;
 			break;
 		}
 	};
@@ -26,4 +30,5 @@ function KeyAction(keys, onKeyDown, onKeyUp) {
 	this.keys = keys;
 	this.onKeyDown = onKeyDown;
 	this.onKeyUp = onKeyUp;
+	this.active = false;
 };

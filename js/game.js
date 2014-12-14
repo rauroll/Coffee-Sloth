@@ -5,7 +5,6 @@ $(document).ready(function () {
 	$('.game-wrapper').append(renderer.view);
 
 	currentStage = mainStage;
-	console.log(currentStage)
 
 	requestAnimFrame(animate);
 	function animate() {
