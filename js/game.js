@@ -17,4 +17,9 @@ $(document).ready(function () {
 		if (currentStage.keyDown)
 			currentStage.keyDown(e.keyCode);
 	});
+
+	$(document).on('keyup', function (e) {
+		if (currentStage.keyUp)
+			currentStage.keyUp(e.keyCode);
+	});
 });

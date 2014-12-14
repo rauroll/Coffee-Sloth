@@ -9,7 +9,22 @@ body {
 	margin: 0 auto;
 }
 
+.main-wrapper canvas {
+	width: 100%;
+	height: auto;
+}
+
 h1 {
 	color: #eee;
 	font-size: 3em;
+}
+
+@media (max-width:960px) {
+	.main-wrapper {
+		width: 100%;
+	}
+
+	h1 {
+		font-size: 1.5em;
+	}
 }
