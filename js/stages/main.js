@@ -1,5 +1,11 @@
 var mainStage = new PIXI.Stage(0x66FF99);
 
+
+// background
+var bg = PIXI.Sprite.fromImage('assets/img/main-background.jpg');
+mainStage.addChild(bg);
+
+// new game label
 var newGameLabel = new PIXI.Text("New Game", {
 	font: "bold 72px Arial"
 });
