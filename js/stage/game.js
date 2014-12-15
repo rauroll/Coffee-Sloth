@@ -9,6 +9,7 @@ var gameStage = {
 	removeRotationBoost: false,
 	rotationVelocity: 0,
 	keyboardManager: null,
+
 	onFrame:  function () {
 		this.velocity.x += this.acceleration * Math.sin(sloth.rotation);
 		this.velocity.y -= this.acceleration * Math.cos(sloth.rotation) - gravity;
@@ -22,14 +23,23 @@ var gameStage = {
 		if(this.removeRotationBoost && this.rotationVelocity !== 0)
 			this.rotationVelocity += this.rotationVelocity > 0 ? -0.5 : 0.5;
 	},
-	keyDown: function (code) { this.keyboardManager.onKeyDown(code); },
-	keyUp: function (code) { this.keyboardManager.onKeyUp(code); },
 	init: function () {
 		var t = this;
-		
+
+		var backArrow = new PIXI.Sprite.fromImage('asset/image/back.png');
+		backArrow.position.set(12, 12);
+		backArrow.alpha = 0.5;
+		backArrow.interactive = true;
+		backArrow.click = function () {
+			setStage(mainStage);
+		};
+		backArrow.mouseover = function () { backArrow.alpha = 1; };
+		backArrow.mouseout = function () { backArrow.alpha = 0.5; };
+
 		this.stage.addChild(far);
 		this.stage.addChild(mid);
 		this.stage.addChild(sloth);
+		this.stage.addChild(backArrow);
 
 		this.keyboardManager = new KeyboardInputManager([
 			new KeyAction([38], function () {

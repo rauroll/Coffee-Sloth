@@ -46,5 +46,10 @@ var mainStage = {
 		this.stage.addChild(this.bg);
 		this.stage.addChild(this.logo);
 		this.stage.addChild(this.newGameLabel);
-	}
+	},
+	keyboardManager: new KeyboardInputManager([
+		new KeyAction([13], function () {
+			setStage(gameStage);
+		})
+	])
 };

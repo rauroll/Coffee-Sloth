@@ -17,18 +17,19 @@ $(document).ready(function () {
 	}
 
 	$(document).on('keydown', function (e) {
-		if (currentStage.keyDown)
-			currentStage.keyDown(e.keyCode);
+		if (currentStage.keyboardManager)
+			currentStage.keyboardManager.keyDown(e.keyCode);
 	});
 
 	$(document).on('keyup', function (e) {
-		if (currentStage.keyUp)
-			currentStage.keyUp(e.keyCode);
+		if (currentStage.keyboardManager)
+			currentStage.keyboardManager.keyUp(e.keyCode);
 	});
 
+
+
 	for (var i = scenes.length - 1; i >= 0; i--) {
-		if(scenes[i].init)
-			scenes[i].init();
+		if(scenes[i].init) scenes[i].init();
 	}
 });
 

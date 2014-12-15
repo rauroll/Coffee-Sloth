@@ -2,7 +2,7 @@ function KeyboardInputManager(actions) {
 	this.actions = actions;
 };
 
-KeyboardInputManager.prototype.onKeyDown = function (code) {
+KeyboardInputManager.prototype.keyDown = function (code) {
 	for (var i = 0; i < this.actions.length; i++) {
 		var action = this.actions[i];
 		if(action.keys.indexOf(code) >= 0) {
@@ -15,7 +15,7 @@ KeyboardInputManager.prototype.onKeyDown = function (code) {
 	};
 };
 
-KeyboardInputManager.prototype.onKeyUp = function (code) {
+KeyboardInputManager.prototype.keyUp = function (code) {
 	for (var i = 0; i < this.actions.length; i++) {
 		var action = this.actions[i];
 		if(action.keys.indexOf(code) >= 0) {
