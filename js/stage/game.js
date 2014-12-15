@@ -19,7 +19,7 @@ var gameStage = {
 			gameStage.rotationVelocity = code === 39 ? rotationStep : -rotationStep;
 			gameStage.removeRotationBoost = false;
 			gameStage.interval = setInterval(function () {
-				gameStage.rotationVelocity *= 1.1;
+				gameStage.rotationVelocity *= 1.07;
 			}, 50);
 		}, function () {
 			gameStage.removeRotationBoost = true;
