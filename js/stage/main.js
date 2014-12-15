@@ -27,7 +27,7 @@ $(document).ready(function () {
 	newGameLabel.position.set(renderer.width / 2, renderer.height / 2 + 150);
 	newGameLabel.pivot.set(bounds.width / 2, bounds.height / 2);
 	newGameLabel.click = function () {
-		currentStage = gameStage;
+		setStage(gameStage);
 	};
 	newGameLabel.mouseover = function () {
 		newGameLabel.alpha = 1;

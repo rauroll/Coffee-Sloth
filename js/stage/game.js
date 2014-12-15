@@ -1,6 +1,5 @@
 var rotationStep = 8;
 var gravity = 0.15;
-var airResistanceFactor = 0.7;
 var backgroundVelocity = 0.1;
 
 var gameStage = new PIXI.Stage();
@@ -12,13 +11,12 @@ gameStage.addChild(sloth);
 var acceleration = 0;
 var velocity = new PIXI.Point(0, 0);
 
-var rotation = 0;
 var removeRotationBoost = false;
 var rotationVelocity = 0;
 
 gameStage.onFrame = function () {
-	velocity.x += acceleration * Math.sin(rotation) * airResistanceFactor;
-	velocity.y -= acceleration * Math.cos(rotation) - gravity;
+	velocity.x += acceleration * Math.sin(sloth.rotation);
+	velocity.y -= acceleration * Math.cos(sloth.rotation) - gravity;
 	far.tilePosition.x -= backgroundVelocity * velocity.x;
 	mid.tilePosition.x = far.tilePosition.x / 0.2;
 
@@ -26,18 +24,13 @@ gameStage.onFrame = function () {
 
 	sloth.rotation += rotationVelocity / 200;
 
-	if(removeRotationBoost) {
-		if(rotationVelocity > 0)
-			rotationVelocity -= 0.5;
-		else if(rotationVelocity < 0)
-			rotationVelocity += 0.5;
-	}
+	if(removeRotationBoost && rotationVelocity !== 0)
+		rotationVelocity += rotationVelocity > 0 ? -0.5 : 0.5;
 };
 
 var keyboardManager = new KeyboardInputManager([
 	new KeyAction([38], function () {
 		acceleration = 0.6;
-		rotation = sloth.rotation;
 	}, function () {
 		acceleration = 0;
 	}),
@@ -51,6 +44,9 @@ var keyboardManager = new KeyboardInputManager([
 		removeRotationBoost = true;
 		clearInterval(this.interval);
 		this.interval = false;
+	}),
+	new KeyAction([27], function () {
+		currentStage = mainStage;
 	})
 ]);
 
