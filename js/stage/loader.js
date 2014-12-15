@@ -1,50 +1,55 @@
-var loaderStage = new PIXI.Stage();
-
-$(document).ready(function () {
-	var assets = [
+var loaderStage = {
+	stage: new PIXI.Stage(),
+	assets: [
 		'asset/image/bg-far.png',
 		'asset/image/bg-mid.png',
 		'asset/image/logo.png',
 		'asset/image/main-background.jpg',
 		'asset/image/slothsprite.png'
-	];
-	var assetLoader = new PIXI.AssetLoader(assets);
-	var loaded = 0;
-	assetLoader.on('onProgress', function () {
-		progressBar.scale.x = loaded++ / assets.length;
-	});
-	assetLoader.on('onComplete', function () {
-		progressBar.scale.x = 1;
-		setStage(mainStage)
-	});
-	assetLoader.load();
-
-	var container = new PIXI.DisplayObjectContainer();
-
-	// label
-	var label = new PIXI.Text("Loading...", {
+	],
+	assetLoader: null,
+	loaded: 0,
+	container: null,
+	progressBar: null,
+	progressBarOutline: null,
+	label: new PIXI.Text("Loading...", {
 		font: "bold 60px Arial",
 		fill: "#fff",
 		dropShadow: true,
 		dropShadowDistance: 1
-	});
-	container.addChild(label);
+	}),
+	init: function () {
+		var t = this;
+		this.assetLoader = new PIXI.AssetLoader(this.assets);
+		this.assetLoader.on('onProgress', function () {
+			t.progressBar.scale.x = t.loaded++ / t.assets.length;
+		});
+		this.assetLoader.on('onComplete', function () {
+			t.progressBar.scale.x = 1;
+			setStage(mainStage)
+		});
+		this.assetLoader.load();
+		
+		this.progressBar = new PIXI.Graphics();
+		this.progressBar.beginFill(0xFFFFFF);
+		this.progressBar.drawRect(0, 0, this.label.width, 5);
+		this.progressBar.position.set(0, this.label.height + 10);
+		this.progressBar.scale.x = 0;
+		
+		this.progressBarOutline = new PIXI.Graphics();
+		this.progressBarOutline.lineStyle(1, 0xFFFFFF);
+		this.progressBarOutline.drawRect(0, 0, this.label.width, 5);
+		this.progressBarOutline.position.set(0, this.label.height + 10);
 
-	// progressbar
-	var progressBar = new PIXI.Graphics();
-	progressBar.beginFill(0xFFFFFF);
-	progressBar.drawRect(0, 0, label.width, 5);
-	progressBar.position.set(0, label.height + 10);
-	progressBar.scale.x = 0;
-	container.addChild(progressBar);
-	var progressBarOutline = new PIXI.Graphics();
-	progressBarOutline.lineStyle(1, 0xFFFFFF);
-	progressBarOutline.drawRect(0, 0, label.width, 5);
-	progressBarOutline.position.set(0, label.height + 10);
-	container.addChild(progressBarOutline);
+		this.container = new PIXI.DisplayObjectContainer();
+		this.container.addChild(this.label);
+		this.container.addChild(this.progressBar);
+		this.container.addChild(this.progressBarOutline);
 
-	var bounds = container.getBounds();
-	container.position.set(renderer.width / 2, renderer.height / 2);
-	container.pivot.set(bounds.width / 2, bounds.height / 2);
-	loaderStage.addChild(container);
-});
+		var bounds = this.container.getBounds();
+		this.container.position.set(renderer.width / 2, renderer.height / 2);
+		this.container.pivot.set(bounds.width / 2, bounds.height / 2);
+
+		this.stage.addChild(this.container);
+	}
+};

@@ -1,3 +1,5 @@
+var scenes = [loaderStage, mainStage, gameStage];
+
 var renderer;
 var currentStage;
 $(document).ready(function () {
@@ -11,7 +13,7 @@ $(document).ready(function () {
 		requestAnimFrame(animate);
 		if(currentStage.onFrame)
 			currentStage.onFrame();	
-		renderer.render(currentStage);
+		renderer.render(currentStage.stage);
 	}
 
 	$(document).on('keydown', function (e) {
@@ -23,11 +25,16 @@ $(document).ready(function () {
 		if (currentStage.keyUp)
 			currentStage.keyUp(e.keyCode);
 	});
+
+	for (var i = scenes.length - 1; i >= 0; i--) {
+		if(scenes[i].init)
+			scenes[i].init();
+	}
 });
 
 function setStage(stage) {
 	currentStage = stage;
-}
+};
 
 PIXI.Stage.prototype.hasChild = function (child) {
 	for (var i = 0; i < this.children.length; i++) {

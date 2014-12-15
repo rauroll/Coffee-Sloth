@@ -2,53 +2,55 @@ var rotationStep = 8;
 var gravity = 0.15;
 var backgroundVelocity = 0.1;
 
-var gameStage = new PIXI.Stage();
+var gameStage = {
+	stage: new PIXI.Stage(),
+	acceleration: 0,
+	velocity: new PIXI.Point(0, 0),
+	removeRotationBoost: false,
+	rotationVelocity: 0,
+	keyboardManager: null,
+	onFrame:  function () {
+		this.velocity.x += this.acceleration * Math.sin(sloth.rotation);
+		this.velocity.y -= this.acceleration * Math.cos(sloth.rotation) - gravity;
+		far.tilePosition.x -= backgroundVelocity * this.velocity.x;
+		mid.tilePosition.x = far.tilePosition.x / 0.2;
 
-gameStage.addChild(far);
-gameStage.addChild(mid);
-gameStage.addChild(sloth);
+		sloth.position.y += this.velocity.y;
 
-var acceleration = 0;
-var velocity = new PIXI.Point(0, 0);
+		sloth.rotation += this.rotationVelocity / 200;
 
-var removeRotationBoost = false;
-var rotationVelocity = 0;
+		if(this.removeRotationBoost && this.rotationVelocity !== 0)
+			this.rotationVelocity += this.rotationVelocity > 0 ? -0.5 : 0.5;
+	},
+	keyDown: function (code) { this.keyboardManager.onKeyDown(code); },
+	keyUp: function (code) { this.keyboardManager.onKeyUp(code); },
+	init: function () {
+		var t = this;
+		
+		this.stage.addChild(far);
+		this.stage.addChild(mid);
+		this.stage.addChild(sloth);
 
-gameStage.onFrame = function () {
-	velocity.x += acceleration * Math.sin(sloth.rotation);
-	velocity.y -= acceleration * Math.cos(sloth.rotation) - gravity;
-	far.tilePosition.x -= backgroundVelocity * velocity.x;
-	mid.tilePosition.x = far.tilePosition.x / 0.2;
-
-	sloth.position.y += velocity.y;
-
-	sloth.rotation += rotationVelocity / 200;
-
-	if(removeRotationBoost && rotationVelocity !== 0)
-		rotationVelocity += rotationVelocity > 0 ? -0.5 : 0.5;
+		this.keyboardManager = new KeyboardInputManager([
+			new KeyAction([38], function () {
+				t.acceleration = 0.6;
+			}, function () {
+				t.acceleration = 0;
+			}),
+			new KeyAction([37, 39], function (code) {
+				t.rotationVelocity = code === 39 ? rotationStep : -rotationStep;
+				t.removeRotationBoost = false;
+				t.interval = setInterval(function () {
+					t.rotationVelocity *= 1.1;
+				}, 50);
+			}, function () {
+				t.removeRotationBoost = true;
+				clearInterval(t.interval);
+				t.interval = false;
+			}),
+			new KeyAction([27], function () {
+				setStage(mainStage);
+			})
+		]);
+	}
 };
-
-var keyboardManager = new KeyboardInputManager([
-	new KeyAction([38], function () {
-		acceleration = 0.6;
-	}, function () {
-		acceleration = 0;
-	}),
-	new KeyAction([37, 39], function (code) {
-		rotationVelocity = code === 39 ? rotationStep : -rotationStep;
-		removeRotationBoost = false;
-		this.interval = setInterval(function () {
-			rotationVelocity *= 1.1;
-		}, 50);
-	}, function () {
-		removeRotationBoost = true;
-		clearInterval(this.interval);
-		this.interval = false;
-	}),
-	new KeyAction([27], function () {
-		currentStage = mainStage;
-	})
-]);
-
-gameStage.keyDown = function (code) { keyboardManager.onKeyDown(code); };
-gameStage.keyUp = function (code) { keyboardManager.onKeyUp(code); };
