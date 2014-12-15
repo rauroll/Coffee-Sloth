@@ -5,9 +5,11 @@ var loaderStage = {
 		'asset/image/bg-mid.png',
 		'asset/image/logo.png',
 		'asset/image/main-background.jpg',
-		'asset/image/slothsprite.png'
+		'asset/image/sloth/slothsprite1.png'
+
 	],
 	assetLoader: null,
+	spriteSheetLoader: null,
 	loaded: 0,
 	container: null,
 	progressBar: null,
@@ -45,6 +47,9 @@ var loaderStage = {
 		this.container.addChild(this.label);
 		this.container.addChild(this.progressBar);
 		this.container.addChild(this.progressBarOutline);
+
+
+
 
 		var bounds = this.container.getBounds();
 		this.container.position.set(renderer.width / 2, renderer.height / 2);

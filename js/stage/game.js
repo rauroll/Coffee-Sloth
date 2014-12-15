@@ -2,6 +2,7 @@ var rotationStep = 8;
 var airResistance = -0.01;
 var gravity = 0.15;
 var backgroundVelocity = 0.1;
+var sloth;
 
 var gameStage = {
 	stage: new PIXI.Stage(),
@@ -31,6 +32,7 @@ var gameStage = {
 		})
 	]),
 	onFrame:  function () {
+		sloth.setTexture()
 		this.velocity.x += this.acceleration * Math.sin(sloth.rotation) + airResistance * this.velocity.x;
 		this.velocity.y -= this.acceleration * Math.cos(sloth.rotation) - gravity - airResistance * this.velocity.y;
 		far.tilePosition.x -= backgroundVelocity * this.velocity.x;
@@ -51,6 +53,9 @@ var gameStage = {
 		backArrow.click = function () { setStage(mainStage); };
 		backArrow.mouseover = function () { backArrow.alpha = 1; };
 		backArrow.mouseout = function () { backArrow.alpha = 0.5; };
+
+
+
 
 		this.stage.addChild(far);
 		this.stage.addChild(mid);
