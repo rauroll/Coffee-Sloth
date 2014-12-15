@@ -1,0 +1,48 @@
+{"frames": [
+
+{
+	"filename": "slothsprite1.png",
+	"frame": {"x":2,"y":2,"w":117,"h":80},
+	"rotated": true,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":117,"h":80},
+	"sourceSize": {"w":117,"h":80},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "slothsprite2.png",
+	"frame": {"x":84,"y":2,"w":117,"h":80},
+	"rotated": true,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":117,"h":80},
+	"sourceSize": {"w":117,"h":80},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "slothsprite3.png",
+	"frame": {"x":166,"y":2,"w":117,"h":80},
+	"rotated": true,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":117,"h":80},
+	"sourceSize": {"w":117,"h":80},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "slothsprite4.png",
+	"frame": {"x":248,"y":2,"w":117,"h":80},
+	"rotated": true,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":117,"h":80},
+	"sourceSize": {"w":117,"h":80},
+	"pivot": {"x":0.5,"y":0.5}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "slothsprite.png",
+	"format": "RGBA8888",
+	"size": {"w":330,"h":121},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:eccda040a707f038f9a2ac7d9d77eef1:5f94d7b91df9c6319d0cac9c113cf1b7:32f47db25379a3296d4d04af7cab1ae0$"
+}
+}
