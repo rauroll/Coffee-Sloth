@@ -38,3 +38,8 @@ PIXI.Stage.prototype.hasChild = function (child) {
 	}
 	return false;
 };
+
+PIXI.DisplayObjectContainer.prototype.center = function () {
+	this.pivot.set(this.width / 2, this.height / 2);
+	this.position.set(renderer.width / 2, renderer.height / 2);
+};

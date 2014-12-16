@@ -10,12 +10,12 @@ var gameStage = {
 	removeRotationBoost: false,
 	rotationVelocity: 0,
 	backgroundContainer: null,
+	throttleKeyAction: new KeyAction([38], function () {
+		gameStage.acceleration = 0.6;
+	}, function () {
+		gameStage.acceleration = 0;
+	}),
 	keyboardManager: new KeyboardInputManager([
-		new KeyAction([38], function () {
-			gameStage.acceleration = 0.6;
-		}, function () {
-			gameStage.acceleration = 0;
-		}),
 		new KeyAction([37, 39], function (code) {
 			gameStage.rotationVelocity = code === 39 ? rotationStep : -rotationStep;
 			gameStage.removeRotationBoost = false;
@@ -31,10 +31,19 @@ var gameStage = {
 			setStage(mainStage);
 		})
 	]),
-	slothFrameIndex: 0,
+	slothFrameIndex: 1,
+	slothFrameOffset: 0,
 	onFrame: function () {
-		this.slothFrameIndex = ((this.slothFrameIndex) % 4) + 1
-		sloth.setTexture(PIXI.Texture.fromImage('asset/image/sloth/slothsprite' + this.slothFrameIndex + '.png'));
+		if (this.throttleKeyAction.active) {
+			if (this.slothFrameOffset > 3) {
+				this.slothFrameIndex = this.slothFrameIndex % 4 + 1;
+				this.slothFrameOffset = 0;
+			}
+			sloth.setTexture(PIXI.Texture.fromImage('asset/image/sloth/slothsprite' + this.slothFrameIndex + '.png'));
+			this.slothFrameOffset++;
+		}
+		else
+			sloth.setTexture(PIXI.Texture.fromImage('asset/image/sloth/slothsprite_nofire.png'));
 
 		this.velocity.x += this.acceleration * Math.sin(sloth.rotation + 1) + airResistance * this.velocity.x;
 		this.velocity.y -= this.acceleration * Math.cos(sloth.rotation + 1) - gravity - airResistance * this.velocity.y;
@@ -49,11 +58,13 @@ var gameStage = {
 			this.rotationVelocity += this.rotationVelocity > 0 ? -0.5 : 0.5;
 
 		if(coffeeBarInside.scale.x > 0)
-			coffeeBarInside.scale.x -= 0.001;
+			coffeeBarInside.scale.x -= 0.01;
 		else
-			this.gameOver()
+			this.gameOver();
 	},
 	init: function () {
+		this.keyboardManager.add(this.throttleKeyAction);
+
 		var backArrow = new PIXI.Sprite.fromImage('asset/image/back.png');
 		backArrow.position.set(12, 12);
 		backArrow.alpha = 0.5;
@@ -70,24 +81,22 @@ var gameStage = {
 		this.stage.addChild(sloth);
 		this.stage.addChild(coffeeBar);
 		this.stage.addChild(backArrow);
-	},
-	addOverlayFilter: function () {
-		var blurFilter = new PIXI.BlurFilter();
-		blurFilter.blur = 20;
-		this.backgroundContainer.filters = [new PIXI.GrayFilter(), blurFilter];
-		sloth.filters = this.backgroundContainer.filters;
-	},
-	removeOverlayFilter: function () {
-		this.backgroundContainer.filters = null;
-		sloth.filters = null;
+		this.stage.addChild(overlay);
 	},
 	boostCoffeeLevel: function (amount) {
 		amount = amount || 0.2;
 		coffeeBarInside.scale.x = Math.min(1, coffeeBarInside.scale.x + amount);
 	},
 	gameOver: function () {
-		this.addOverlayFilter();
-		this.keyboardManager.actions[0].enabled = false;
+		overlay.visible = true;
+		this.throttleKeyAction.enabled = false;
+		this.throttleKeyAction.onKeyUp();
+		coffeeBar.visible = false;
+	},
+	newGame: function () {
+		overlay.visible = false;
+		this.throttleKeyAction.enabled = true;
+		coffeeBar.visible = true;
 	}
 };
 

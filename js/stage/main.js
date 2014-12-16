@@ -2,12 +2,9 @@ var mainStage = {
 	stage: new PIXI.Stage(),
 	bg: PIXI.Sprite.fromImage('asset/image/main-background.jpg'),
 	blurFilter: new PIXI.BlurFilter(),
-	logo: PIXI.Sprite.fromImage('asset/image/logo.png'),
-	newGameLabel: new PIXI.Text("New Game", {
-		font: "bold 60px Arial",
-		fill: "#fff",
-		dropShadow: true,
-		dropShadowDistance: 1
+	logo: null,
+	newGameLabel: new InteractiveText('New Game', 60, function () {
+		setStage(gameStage);
 	}),
 	i: 0,
 	onFrame: function () {
@@ -24,24 +21,13 @@ var mainStage = {
 		this.bg.filters = [this.blurFilter];
 
 		// coffee sloth label
-		this.logo.position.set(renderer.width / 2, renderer.height / 2);
+		this.logo = PIXI.Sprite.fromImage('asset/image/logo.png');
+		this.logo.center();
 		this.logo.pivot.set(700 / 2, 200 / 2);
 
 		// new game label
-		this.newGameLabel.alpha = 0.8;
-		this.newGameLabel.interactive = true;
-		var bounds = this.newGameLabel.getBounds();
-		this.newGameLabel.position.set(renderer.width / 2, renderer.height / 2 + 150);
-		this.newGameLabel.pivot.set(bounds.width / 2, bounds.height / 2);
-		this.newGameLabel.click = function () {
-			setStage(gameStage);
-		};
-		this.newGameLabel.mouseover = function () {
-			t.newGameLabel.alpha = 1;
-		};
-		this.newGameLabel.mouseout = function () {
-			t.newGameLabel.alpha = 0.8;
-		};
+		this.newGameLabel.center();
+		this.newGameLabel.position.y += 150;
 
 		this.stage.addChild(this.bg);
 		this.stage.addChild(this.logo);
