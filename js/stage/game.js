@@ -10,6 +10,7 @@ var gameStage = {
 	velocity: new PIXI.Point(0, 0),
 	removeRotationBoost: false,
 	rotationVelocity: 0,
+	backgroundContainer: null,
 	keyboardManager: new KeyboardInputManager([
 		new KeyAction([38], function () {
 			gameStage.acceleration = 0.6;
@@ -31,7 +32,7 @@ var gameStage = {
 			setStage(mainStage);
 		})
 	]),
-	onFrame:  function () {
+	onFrame: function () {
 
 		this.velocity.x += this.acceleration * Math.sin(sloth.rotation + 1) + airResistance * this.velocity.x;
 		this.velocity.y -= this.acceleration * Math.cos(sloth.rotation + 1) - gravity - airResistance * this.velocity.y;
@@ -54,12 +55,20 @@ var gameStage = {
 		backArrow.mouseover = function () { backArrow.alpha = 1; };
 		backArrow.mouseout = function () { backArrow.alpha = 0.5; };
 
+		this.backgroundContainer = new PIXI.DisplayObjectContainer();
+		this.backgroundContainer.addChild(far);
+		this.backgroundContainer.addChild(mid);
+		this.stage.addChild(this.backgroundContainer);
 
-
-
-		this.stage.addChild(far);
-		this.stage.addChild(mid);
 		this.stage.addChild(sloth);
 		this.stage.addChild(backArrow);
+	},
+	addOverlayFilter: function () {
+		var blurFilter = new PIXI.BlurFilter();
+		blurFilter.blur = 20;
+		this.backgroundContainer.filters = [new PIXI.GrayFilter(), blurFilter];
+	},
+	removeOverlayFilter: function () {
+		this.backgroundContainer.filters = [];
 	}
 };
