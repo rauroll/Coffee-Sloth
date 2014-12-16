@@ -32,9 +32,9 @@ var gameStage = {
 		})
 	]),
 	onFrame:  function () {
-		sloth.setTexture()
-		this.velocity.x += this.acceleration * Math.sin(sloth.rotation) + airResistance * this.velocity.x;
-		this.velocity.y -= this.acceleration * Math.cos(sloth.rotation) - gravity - airResistance * this.velocity.y;
+
+		this.velocity.x += this.acceleration * Math.sin(sloth.rotation + 1) + airResistance * this.velocity.x;
+		this.velocity.y -= this.acceleration * Math.cos(sloth.rotation + 1) - gravity - airResistance * this.velocity.y;
 		far.tilePosition.x -= backgroundVelocity * this.velocity.x;
 		mid.tilePosition.x = far.tilePosition.x / 0.2;
 
