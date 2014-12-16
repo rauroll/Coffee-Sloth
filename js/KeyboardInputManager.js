@@ -2,6 +2,10 @@ function KeyboardInputManager(actions) {
 	this.actions = actions;
 };
 
+KeyboardInputManager.prototype.add = function (keyAction) {
+	this.actions.push(keyAction);
+};
+
 KeyboardInputManager.prototype.keyDown = function (code) {
 	for (var i = 0; i < this.actions.length; i++) {
 		var action = this.actions[i];

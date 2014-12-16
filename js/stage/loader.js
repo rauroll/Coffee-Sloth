@@ -5,8 +5,11 @@ var loaderStage = {
 		'asset/image/bg-mid.png',
 		'asset/image/logo.png',
 		'asset/image/main-background.jpg',
-		'asset/image/sloth/slothsprite1.png'
-
+		'asset/image/sloth/slothsprite1.png',
+		'asset/image/sloth/slothsprite2.png',
+		'asset/image/sloth/slothsprite3.png',
+		'asset/image/sloth/slothsprite4.png',
+		'asset/image/sloth/slothsprite_nofire.png'
 	],
 	assetLoader: null,
 	spriteSheetLoader: null,
@@ -48,12 +51,7 @@ var loaderStage = {
 		this.container.addChild(this.progressBar);
 		this.container.addChild(this.progressBarOutline);
 
-
-
-
-		var bounds = this.container.getBounds();
-		this.container.position.set(renderer.width / 2, renderer.height / 2);
-		this.container.pivot.set(bounds.width / 2, bounds.height / 2);
+		this.container.center();
 
 		this.stage.addChild(this.container);
 	}
