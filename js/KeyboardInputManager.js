@@ -6,7 +6,7 @@ KeyboardInputManager.prototype.keyDown = function (code) {
 	for (var i = 0; i < this.actions.length; i++) {
 		var action = this.actions[i];
 		if(action.keys.indexOf(code) >= 0) {
-			if(!action.active) {
+			if(!action.active && action.enabled) {
 				action.onKeyDown(code);
 				action.active = true;
 			}
@@ -31,4 +31,5 @@ function KeyAction(keys, onKeyDown, onKeyUp) {
 	this.onKeyDown = onKeyDown;
 	this.onKeyUp = onKeyUp;
 	this.active = false;
+	this.enabled = true;
 };

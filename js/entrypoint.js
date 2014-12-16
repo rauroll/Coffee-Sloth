@@ -1,5 +1,3 @@
-var scenes = [loaderStage, mainStage, gameStage];
-
 var renderer;
 var currentStage;
 $(document).ready(function () {
@@ -26,11 +24,7 @@ $(document).ready(function () {
 			currentStage.keyboardManager.keyUp(e.keyCode);
 	});
 
-
-
-	for (var i = scenes.length - 1; i >= 0; i--) {
-		if(scenes[i].init) scenes[i].init();
-	}
+	$(window).trigger('rendererReady');
 });
 
 function setStage(stage) {

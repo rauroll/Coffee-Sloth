@@ -58,3 +58,7 @@ var loaderStage = {
 		this.stage.addChild(this.container);
 	}
 };
+
+$(window).on('rendererReady', function () {
+	loaderStage.init();
+});

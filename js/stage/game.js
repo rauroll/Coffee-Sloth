@@ -2,7 +2,6 @@ var rotationStep = 8;
 var airResistance = -0.01;
 var gravity = 0.15;
 var backgroundVelocity = 0.1;
-var sloth;
 
 var gameStage = {
 	stage: new PIXI.Stage(),
@@ -45,6 +44,11 @@ var gameStage = {
 
 		if(this.removeRotationBoost && this.rotationVelocity !== 0)
 			this.rotationVelocity += this.rotationVelocity > 0 ? -0.5 : 0.5;
+
+		if(coffeeBarInside.scale.x > 0)
+			coffeeBarInside.scale.x -= 0.001;
+		else
+			this.gameOver()
 	},
 	init: function () {
 		var backArrow = new PIXI.Sprite.fromImage('asset/image/back.png');
@@ -61,14 +65,29 @@ var gameStage = {
 		this.stage.addChild(this.backgroundContainer);
 
 		this.stage.addChild(sloth);
+		this.stage.addChild(coffeeBar);
 		this.stage.addChild(backArrow);
 	},
 	addOverlayFilter: function () {
 		var blurFilter = new PIXI.BlurFilter();
 		blurFilter.blur = 20;
 		this.backgroundContainer.filters = [new PIXI.GrayFilter(), blurFilter];
+		sloth.filters = this.backgroundContainer.filters;
 	},
 	removeOverlayFilter: function () {
-		this.backgroundContainer.filters = [];
+		this.backgroundContainer.filters = null;
+		sloth.filters = null;
+	},
+	boostCoffeeLevel: function (amount) {
+		amount = amount || 0.2;
+		coffeeBarInside.scale.x = Math.min(1, coffeeBarInside.scale.x + amount);
+	},
+	gameOver: function () {
+		this.addOverlayFilter();
+		this.keyboardManager.actions[0].enabled = false;
 	}
 };
+
+$(window).on('rendererReady', function () {
+	gameStage.init();
+});

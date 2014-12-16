@@ -53,3 +53,7 @@ var mainStage = {
 		})
 	])
 };
+
+$(window).on('rendererReady', function () {
+	mainStage.init();
+});
