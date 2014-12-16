@@ -31,7 +31,10 @@ var gameStage = {
 			setStage(mainStage);
 		})
 	]),
+	slothFrameIndex: 0,
 	onFrame: function () {
+		this.slothFrameIndex = ((this.slothFrameIndex) % 4) + 1
+		sloth.setTexture(PIXI.Texture.fromImage('asset/image/sloth/slothsprite' + this.slothFrameIndex + '.png'));
 
 		this.velocity.x += this.acceleration * Math.sin(sloth.rotation + 1) + airResistance * this.velocity.x;
 		this.velocity.y -= this.acceleration * Math.cos(sloth.rotation + 1) - gravity - airResistance * this.velocity.y;
