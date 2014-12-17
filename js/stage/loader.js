@@ -58,5 +58,5 @@ var loaderStage = {
 };
 
 $(window).on('rendererReady', function () {
-	loaderStage.init();
+	StageManager.changeStage(mainStage);
 });

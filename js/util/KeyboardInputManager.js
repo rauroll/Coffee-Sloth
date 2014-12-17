@@ -10,7 +10,7 @@ KeyboardInputManager.prototype.keyDown = function (code) {
 	for (var i = 0; i < this.actions.length; i++) {
 		var action = this.actions[i];
 		if(action.keys.indexOf(code) >= 0) {
-			if(!action.active && action.enabled) {
+			if(!action.active && action.enabled && action.onKeyDown) {
 				action.onKeyDown(code);
 				action.active = true;
 			}

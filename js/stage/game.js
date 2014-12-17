@@ -27,8 +27,8 @@ var gameStage = {
 			clearInterval(gameStage.interval);
 			gameStage.interval = false;
 		}),
-		new KeyAction([27], function () {
-			setStage(mainStage);
+		new KeyAction([27], null, function () {
+			StageManager.changeStage(mainStage);
 		})
 	]),
 	slothFrameIndex: 1,
@@ -58,7 +58,7 @@ var gameStage = {
 			this.rotationVelocity += this.rotationVelocity > 0 ? -0.5 : 0.5;
 
 		if(coffeeBarInside.scale.x > 0)
-			coffeeBarInside.scale.x -= 0.01;
+			coffeeBarInside.scale.x -= 0.001;
 		else
 			this.gameOver();
 	},
@@ -69,7 +69,7 @@ var gameStage = {
 		backArrow.position.set(12, 12);
 		backArrow.alpha = 0.5;
 		backArrow.interactive = true;
-		backArrow.click = function () { setStage(mainStage); };
+		backArrow.click = function () { StageManager.changeStage(mainStage); };
 		backArrow.mouseover = function () { backArrow.alpha = 1; };
 		backArrow.mouseout = function () { backArrow.alpha = 0.5; };
 

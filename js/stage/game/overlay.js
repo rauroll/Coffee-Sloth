@@ -3,7 +3,7 @@ var overlay = new PIXI.DisplayObjectContainer();
 $(window).on('rendererReady', function () {
 	var background = new PIXI.Graphics();
 	background.beginFill(0x000000, 0.9);
-	background.drawRect(0, 0, renderer.width, renderer.height);
+	background.drawRect(0, 0, StageManager.renderer.width, StageManager.renderer.height);
 	
 	var container = new PIXI.DisplayObjectContainer();	
 	var gameOverLabel = new PIXI.Text('Game Over!', {

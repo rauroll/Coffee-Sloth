@@ -15,5 +15,5 @@ coffeeBarOutline.drawRect(0, 0, coffeeBarWidth, coffeeBarWidth / 10);
 coffeeBar.addChild(coffeeBarOutline);
 
 $(window).on('rendererReady', function () {
-	coffeeBar.position.set(renderer.width - coffeeBarWidth - coffeeBarMargin, coffeeBarMargin);
+	coffeeBar.position.set(StageManager.renderer.width - coffeeBarWidth - coffeeBarMargin, coffeeBarMargin);
 });

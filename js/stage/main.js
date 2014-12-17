@@ -4,7 +4,7 @@ var mainStage = {
 	blurFilter: new PIXI.BlurFilter(),
 	logo: null,
 	newGameLabel: new InteractiveText('New Game', 60, function () {
-		setStage(gameStage);
+		StageManager.changeStage(gameStage);
 	}),
 	i: 0,
 	onFrame: function () {
@@ -34,8 +34,8 @@ var mainStage = {
 		this.stage.addChild(this.newGameLabel);
 	},
 	keyboardManager: new KeyboardInputManager([
-		new KeyAction([13], function () {
-			setStage(gameStage);
+		new KeyAction([13], null, function () {
+			StageManager.changeStage(gameStage);
 		})
 	])
 };

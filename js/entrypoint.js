@@ -1,35 +1,10 @@
-var renderer;
-var currentStage;
 $(document).ready(function () {
-	renderer = PIXI.autoDetectRenderer(960, 480);
-	$('.game-wrapper').append(renderer.view);
+	$('.game-wrapper').append(StageManager.init());
 
-	setStage(loaderStage);
-
-	requestAnimFrame(animate);
-	function animate() {
-		requestAnimFrame(animate);
-		if(currentStage.onFrame)
-			currentStage.onFrame();	
-		renderer.render(currentStage.stage);
-	}
-
-	$(document).on('keydown', function (e) {
-		if (currentStage.keyboardManager)
-			currentStage.keyboardManager.keyDown(e.keyCode);
-	});
-
-	$(document).on('keyup', function (e) {
-		if (currentStage.keyboardManager)
-			currentStage.keyboardManager.keyUp(e.keyCode);
-	});
+	StageManager.changeStage(loaderStage);
 
 	$(window).trigger('rendererReady');
 });
-
-function setStage(stage) {
-	currentStage = stage;
-};
 
 PIXI.Stage.prototype.hasChild = function (child) {
 	for (var i = 0; i < this.children.length; i++) {
@@ -41,5 +16,5 @@ PIXI.Stage.prototype.hasChild = function (child) {
 
 PIXI.DisplayObjectContainer.prototype.center = function () {
 	this.pivot.set(this.width / 2, this.height / 2);
-	this.position.set(renderer.width / 2, renderer.height / 2);
+	this.position.set(StageManager.renderer.width / 2, StageManager.renderer.height / 2);
 };
