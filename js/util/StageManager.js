@@ -2,11 +2,11 @@ var StageManager = {
 	renderer: null,
 	stages: {},
 	currentStage: null,
-	createStage: function (id) {
-		
+	createStage: function (stage) {
+		this.stages[stage.name] = stage;
 	},
-	changeStage: function (id) {
-		this.currentStage = id;
+	changeStage: function (name) {
+		this.currentStage = this.stages[name];
 	},
 	init: function () {
 		this.renderer = PIXI.autoDetectRenderer(960, 480);
@@ -28,9 +28,14 @@ var StageManager = {
 		requestAnimFrame(StageManager.loop);
 		var stage = StageManager.currentStage;
 		if(stage) {
-			if(stage.onFrame)
-				stage.onFrame();	
+			if(stage.update)
+				stage.update();	
 			StageManager.renderer.render(stage.stage);
+		}
+	},
+	initStages: function () {
+		for(p in this.stages) {
+			this.stages[p].init();
 		}
 	}
 };

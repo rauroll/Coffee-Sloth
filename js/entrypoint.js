@@ -1,7 +1,13 @@
 $(document).ready(function () {
 	$('.game-wrapper').append(StageManager.init());
 
-	StageManager.changeStage(loaderStage);
+	StageManager.createStage(new LoaderStage());
+	StageManager.createStage(new MainStage());
+	StageManager.createStage(new GameStage());
+
+
+	StageManager.changeStage('loader');
+	StageManager.initStages();
 
 	$(window).trigger('rendererReady');
 });
