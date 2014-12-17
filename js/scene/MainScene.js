@@ -1,12 +1,12 @@
-function MainStage() {
+function MainScene() {
 	this.name = 'main';
-	this.stage = new PIXI.Stage();
+	this.scene = new PIXI.DisplayObjectContainer();
 
 	var bg = PIXI.Sprite.fromImage('asset/image/main-background.jpg');
 	var blurFilter = new PIXI.BlurFilter();
 	var logo;
 	var newGameLabel = new InteractiveText('New Game', 60, function () {
-		StageManager.changeStage('game');
+		SceneManager.changeScene('game');
 	});
 	var i = 0;
 
@@ -32,9 +32,13 @@ function MainStage() {
 		newGameLabel.center();
 		newGameLabel.position.y += 150;
 
-		this.stage.addChild(bg);
-		this.stage.addChild(logo);
-		this.stage.addChild(newGameLabel);
+		this.scene.addChild(bg);
+		this.scene.addChild(logo);
+		this.scene.addChild(newGameLabel);
+	};
+
+	this.attach = function () {
+		console.log(this.scene);
 	};
 
 	this.keyboardManager = new KeyboardInputManager([
@@ -44,4 +48,4 @@ function MainStage() {
 	]);
 };
 
-CStage.extendWith(MainStage);
+CScene.extendWith(MainScene);

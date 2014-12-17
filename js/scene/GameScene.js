@@ -3,9 +3,9 @@ var airResistance = -0.01;
 var gravity = 0.15;
 var backgroundVelocity = 0.1;
 
-function GameStage() {
+function GameScene() {
 	this.name = 'game';
-	this.stage = new PIXI.Stage();
+	this.scene = new PIXI.DisplayObjectContainer();
 
 	var acceleration = 0;
 	var velocity = new PIXI.Point(0, 0);
@@ -30,7 +30,7 @@ function GameStage() {
 			interval = false;
 		}),
 		new KeyAction([27], null, function () {
-			StageManager.changeStage('main');
+			SceneManager.changeScene('main');
 		})
 	]);
 	var slothFrameIndex = 1;
@@ -71,7 +71,7 @@ function GameStage() {
 		backArrow.position.set(12, 12);
 		backArrow.alpha = 0.5;
 		backArrow.interactive = true;
-		backArrow.click = function () { StageManager.changeStage('main'); };
+		backArrow.click = function () { SceneManager.changeScene('main'); };
 		backArrow.mouseover = function () { backArrow.alpha = 1; };
 		backArrow.mouseout = function () { backArrow.alpha = 0.5; };
 
@@ -79,11 +79,11 @@ function GameStage() {
 		backgroundContainer.addChild(far);
 		backgroundContainer.addChild(mid);
 
-		this.stage.addChild(backgroundContainer);
-		this.stage.addChild(sloth);
-		this.stage.addChild(coffeeBar);
-		this.stage.addChild(backArrow);
-		this.stage.addChild(overlay);
+		this.scene.addChild(backgroundContainer);
+		this.scene.addChild(sloth);
+		this.scene.addChild(coffeeBar);
+		this.scene.addChild(overlay);
+		this.scene.addChild(backArrow);
 	};
 	var boostCoffeeLevel = function (amount) {
 		amount = amount || 0.2;
@@ -95,11 +95,11 @@ function GameStage() {
 		throttleKeyAction.onKeyUp();
 		coffeeBar.visible = false;
 	};
-	var newGame = function () {
+	this.newGame = function () {
 		overlay.visible = false;
 		throttleKeyAction.enabled = true;
 		coffeeBar.visible = true;
 	};
 };
 
-CStage.extendWith(GameStage);
+CScene.extendWith(GameScene);

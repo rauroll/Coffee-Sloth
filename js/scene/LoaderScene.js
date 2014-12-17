@@ -1,6 +1,6 @@
-function LoaderStage() {
+function LoaderScene() {
 	this.name = 'loader';
-	this.stage = new PIXI.Stage(0x000000);
+	this.scene = new PIXI.DisplayObjectContainer();
 
 	var assetLoader = null;
 	var spriteSheetLoader = null;
@@ -32,7 +32,7 @@ function LoaderStage() {
 		});
 		assetLoader.on('onComplete', function () {
 			progressBar.scale.x = 1;
-			StageManager.changeStage('main');
+			SceneManager.changeScene('main');
 		});
 		assetLoader.load();
 		
@@ -54,8 +54,8 @@ function LoaderStage() {
 
 		container.center();
 
-		this.stage.addChild(container);
+		this.scene.addChild(container);
 	};
 };
 
-CStage.extendWith(LoaderStage);
+CScene.extendWith(LoaderScene);

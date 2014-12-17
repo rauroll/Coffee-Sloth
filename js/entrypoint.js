@@ -1,13 +1,12 @@
 $(document).ready(function () {
-	$('.game-wrapper').append(StageManager.init());
+	$('.game-wrapper').append(SceneManager.init());
 
-	StageManager.createStage(new LoaderStage());
-	StageManager.createStage(new MainStage());
-	StageManager.createStage(new GameStage());
+	SceneManager.createScene(new LoaderScene());
+	SceneManager.createScene(new MainScene());
+	SceneManager.createScene(new GameScene());
+	SceneManager.initScenes();
 
-
-	StageManager.changeStage('loader');
-	StageManager.initStages();
+	SceneManager.changeScene('loader');
 
 	$(window).trigger('rendererReady');
 });
@@ -22,5 +21,5 @@ PIXI.Stage.prototype.hasChild = function (child) {
 
 PIXI.DisplayObjectContainer.prototype.center = function () {
 	this.pivot.set(this.width / 2, this.height / 2);
-	this.position.set(StageManager.renderer.width / 2, StageManager.renderer.height / 2);
+	this.position.set(SceneManager.renderer.width / 2, SceneManager.renderer.height / 2);
 };

@@ -2,8 +2,8 @@ var overlay = new PIXI.DisplayObjectContainer();
 
 $(window).on('rendererReady', function () {
 	var background = new PIXI.Graphics();
-	background.beginFill(0x000000, 0.9);
-	background.drawRect(0, 0, StageManager.renderer.width, StageManager.renderer.height);
+	background.beginFill(0x000000, 0.7);
+	background.drawRect(0, 0, SceneManager.renderer.width, SceneManager.renderer.height);
 	
 	var container = new PIXI.DisplayObjectContainer();	
 	var gameOverLabel = new PIXI.Text('Game Over!', {
@@ -12,7 +12,7 @@ $(window).on('rendererReady', function () {
 	});
 	
 	var newGameLabel = new InteractiveText('Play Again', 30, function () {
-		gameStage.newGame();
+		SceneManager.getScene('game').newGame();
 	});
 	newGameLabel.position.set(gameOverLabel.width / 2 - newGameLabel.width / 2, 80);
 
