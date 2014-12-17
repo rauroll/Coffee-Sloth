@@ -37,10 +37,6 @@ function MainScene() {
 		this.scene.addChild(newGameLabel);
 	};
 
-	this.attach = function () {
-		console.log(this.scene);
-	};
-
 	this.keyboardManager = new KeyboardInputManager([
 		new KeyAction([13], null, function () {
 			newGameLabel.click();

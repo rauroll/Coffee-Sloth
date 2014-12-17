@@ -17,6 +17,8 @@ function GameScene() {
 	}, function () {
 		acceleration = 0;
 	});
+	var gameIsOver = false;
+	var t = this;
 	this.keyboardManager = new KeyboardInputManager([
 		new KeyAction([37, 39], function (code) {
 			rotationVelocity = code === 39 ? rotationStep : -rotationStep;
@@ -31,8 +33,13 @@ function GameScene() {
 		}),
 		new KeyAction([27], null, function () {
 			SceneManager.changeScene('main');
+		}),
+		new KeyAction([13], null, function () {
+			if(gameIsOver)
+				t.newGame();
 		})
 	]);
+
 	var slothFrameIndex = 1;
 	var slothFrameOffset = 0;
 	this.update = function () {
@@ -61,9 +68,10 @@ function GameScene() {
 
 		if(coffeeBarInside.scale.x > 0)
 			coffeeBarInside.scale.x -= 0.001;
-		else
+		else if(!gameIsOver)
 			gameOver();
 	};
+
 	this.init = function () {
 		this.keyboardManager.add(throttleKeyAction);
 
@@ -73,7 +81,7 @@ function GameScene() {
 		backArrow.interactive = true;
 		backArrow.click = function () { SceneManager.changeScene('main'); };
 		backArrow.mouseover = function () { backArrow.alpha = 1; };
-		backArrow.mouseout = function () { backArrow.alpha = 0.5; };
+		backArrow.mouseout = function () { backArrow.alpha = 0.6; };
 
 		backgroundContainer = new PIXI.DisplayObjectContainer();
 		backgroundContainer.addChild(far);
@@ -85,17 +93,28 @@ function GameScene() {
 		this.scene.addChild(overlay);
 		this.scene.addChild(backArrow);
 	};
+	this.attach = function () {
+		this.newGame();
+	};
 	var boostCoffeeLevel = function (amount) {
 		amount = amount || 0.2;
 		coffeeBarInside.scale.x = Math.min(1, coffeeBarInside.scale.x + amount);
 	};
 	var gameOver = function () {
+		gameIsOver = true;
 		overlay.visible = true;
 		throttleKeyAction.enabled = false;
 		throttleKeyAction.onKeyUp();
 		coffeeBar.visible = false;
 	};
 	this.newGame = function () {
+		coffeeBarInside.scale.x = 1;
+		sloth.position.set(250, 200);
+		acceleration = 0;
+		velocity.set(0, 0);
+		sloth.rotation = 0;
+
+		gameIsOver = false;
 		overlay.visible = false;
 		throttleKeyAction.enabled = true;
 		coffeeBar.visible = true;
