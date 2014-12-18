@@ -70,6 +70,8 @@ function GameScene() {
 	};
 
 	this.init = function () {
+		AudioManager.theme.play();
+		
 		this.keyboardManager.add(throttleKeyAction);
 
 		coffees = new CoffeePool();
