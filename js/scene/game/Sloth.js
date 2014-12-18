@@ -1,4 +1,5 @@
 function Sloth() {
+	var radius = 40;
 	this.displayObject = new PIXI.Sprite.fromImage('asset/image/sloth/slothsprite1.png');
 	this.displayObject.pivot.set(70, 30);
 	this.displayObject.rotation = 0;
@@ -57,4 +58,7 @@ function Sloth() {
 		this.velocity.set(0, 0);
 		d.rotation = 0;
 	}
+	this.collidesWith = function (x, y) {
+		return Math.sqrt(x !== undefined ? Math.pow(d.position.x - x, 2) : 0 + y !== undefined ? Math.pow(d.position.y - y, 2) : 0) < 10;
+	}	
 };

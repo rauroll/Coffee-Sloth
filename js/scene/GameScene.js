@@ -11,7 +11,7 @@ function GameScene() {
 		var container = new PIXI.DisplayObjectContainer();
 		var g = new PIXI.Graphics();
 		g.beginFill(0x000000);
-		g.drawRect(0, 0, 200, 480);
+		g.drawRect(40, 40, 50, 100);
 		return container.addChild(g);
 	}
 
@@ -22,6 +22,7 @@ function GameScene() {
 	var sloth = new Sloth();
 	var overlay = new GameOverOverlay();
 	var coffeeBar = new CoffeeBar();
+	var distance = new Distance(SceneManager.renderer.width, SceneManager.renderer.height);
 
 	var backgroundContainer = null;
 	var throttleKeyAction = new KeyAction([38], 
@@ -60,12 +61,14 @@ function GameScene() {
 		coffees.update(backgroundVelocity * sloth.velocity.x / 0.1);
 		enemies.update(backgroundVelocity * sloth.velocity.x / 0.1);
 
-		if(!coffeeBar.isEmpty())
-			coffeeBar.decrease(0.001);
-		else if(!gameIsOver)
+		if(!gameIsOver && (coffeeBar.isEmpty() || sloth.collidesWith(undefined, 470) || sloth.collidesWith(undefined, 0)))
 			gameOver();
+		else
+			coffeeBar.decrease(0.001);
 
 		sectionManager.update(sloth.velocity);
+		if(!gameIsOver)
+			distance.update(sloth.velocity.x);
 	};
 
 	this.init = function () {
@@ -91,6 +94,7 @@ function GameScene() {
 		this.scene.addChild(sectionManager.container);
 		this.scene.addChild(sloth.displayObject);
 		this.scene.addChild(coffeeBar.container);
+		this.scene.addChild(distance.container)
 		this.scene.addChild(coffees);
 		this.scene.addChild(enemies);
 		this.scene.addChild(overlay.displayObject);
@@ -114,6 +118,7 @@ function GameScene() {
 		coffeeBar.show();
 
 		sloth.init();
+		distance.init();
 	};
 };
 
