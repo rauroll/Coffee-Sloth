@@ -49,17 +49,15 @@ function GameScene() {
 	]);
 
 	this.update = function () {
-		if (coffees.length > 0)
-			console.log(coffees)
 
 		sloth.update(throttleKeyAction.active);
 
 		far.tilePosition.x -= backgroundVelocity * sloth.velocity.x;
-		mid.tilePosition.x = far.tilePosition.x / 0.2;
-		floor.tilePosition.x = far.tilePosition.x / 0.1
+		mid.tilePosition.x = far.tilePosition.x / 0.3;
+		floor.tilePosition.x = far.tilePosition.x / 0.2
 
-		coffees.update(backgroundVelocity * sloth.velocity.x / 0.1);
-		enemies.update(backgroundVelocity * sloth.velocity.x / 0.1);
+		coffees.update(backgroundVelocity * sloth.velocity.x / 0.2);
+		enemies.update(backgroundVelocity * sloth.velocity.x / 0.2);
 
 		if(!gameIsOver && (coffeeBar.isEmpty() || sloth.collidesWith(undefined, 470) || sloth.collidesWith(undefined, 0)))
 			gameOver();
