@@ -14,16 +14,17 @@ var extendObj = function(child, parent) {
 
 
 
-function GameObject(sprite) {
+function GameObject(sprite, width, height) {
+
 
     this.sprite = sprite;
-    this.sprite.position.x = 1100; // Spawn the object before it's visible.
-    this.sprite.position.y = 430 * Math.random() + 50;
+    this.sprite.position.x = width * Math.random(); // Spawn the object before it's visible.
+    this.sprite.position.y = height * Math.random();
 
 };
 
-GameObject.prototype.update = function(amount) {
-    this.sprite.position.x -= amount;
+GameObject.prototype.update = function() {
+    //this.sprite.position.x -= amount;
     this.sprite.rotation += 0.03;
 };
 
@@ -34,8 +35,8 @@ GameObject.prototype.constructor = GameObject;
 
 
 
-function Coffee(sprite) {
-    GameObject.call(this, sprite);
+function Coffee(sprite, width, height) {
+    GameObject.call(this, sprite, width, height);
     this.sprite.pivot.set(12, 20);
 };
 
@@ -44,8 +45,8 @@ Coffee.prototype.constructor = Coffee;
 
 
 
-function Enemy(sprite) {
-    GameObject.call(this, sprite);
+function Enemy(sprite, width, height) {
+    GameObject.call(this, sprite, width, height);
     this.sprite.pivot.set(20, 20);
 };
 
@@ -70,20 +71,20 @@ GameObjectPool.prototype.empty = function() {
 GameObjectPool.prototype.update = function(amount) {
 
     for (var i = 0; i < this.pool.length; i++) {
-        if (this.pool.length == 0) {
-            break;
-        }
+        //if (this.pool.length == 0) {
+        //    break;
+        //}
 
         this.pool[i].update(amount);
-        if (this.pool[i].sprite.position.x < -1000) {
-            this.pool.pop(i)
-            this.removeChildAt(i);
-            i--
-        }
+        //if (this.pool[i].sprite.position.x < -1000) {
+        //    this.pool.pop(i)
+        //    this.removeChildAt(i);
+        //    i--
+        //}
     }
-    if (Math.random() > 0.99) {
-        this.add();
-    }
+    //if (Math.random() > 0.99) {
+    //    this.add();
+    //}
 };
 
 function CoffeePool() {
@@ -96,25 +97,14 @@ CoffeePool.prototype.constructor = CoffeePool;
 
 
 
-CoffeePool.prototype.add = function(number) {
+CoffeePool.prototype.add = function(width, height) {
     if (!coffeeSprite) {
         coffeeSprite = new PIXI.Sprite.fromImage("asset/image/coffee.png");
     }
-    if (number) {
+    var coffee = new Coffee(coffeeSprite, width, height);
+    this.pool.push(coffee);
+    this.addChild(coffee.sprite);
 
-        for (var i = 0; i < number; i++) {
-            var coffee = new Coffee(coffeeSprite);
-            this.pool.push(coffee);
-            this.addChild(coffee.sprite);
-        }
-    } else {
-
-        var coffee = new Coffee(coffeeSprite);
-        this.pool.push(coffee);
-        this.addChild(coffee.sprite);
-
-
-    }
 };
 
 function EnemyPool() {
@@ -129,20 +119,17 @@ EnemyPool.prototype.constructor = EnemyPool;
 
 
 
-EnemyPool.prototype.add = function(number) {
+EnemyPool.prototype.add = function(number, width, height) {
     if (!enemySprite) {
         enemySprite = new PIXI.Sprite.fromImage("asset/image/enemy.png");
     }
+    var enemy = new Enemy(enemySprite, width, height);
     if (number) {
         for (var i = 0; i < number; i++) {
-            var enemy = new Enemy(enemySprite);
             this.pool.push(enemy);
             this.addChild(enemy.sprite);
         }
     } else {
-
-        var enemy = new Enemy(enemySprite);
-
         this.pool.push(enemy);
         this.addChild(enemy.sprite);
     }

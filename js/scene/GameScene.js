@@ -13,10 +13,20 @@ function GameScene() {
 		g.beginFill(0x000000);
 		g.drawRect(40, 40, 50, 100);
 		return container.addChild(g);
+	};
+
+	var sectionB = new Section(205);
+	sectionB.getContainer = function () {
+		var container = new PIXI.DisplayObjectContainer();
+		var coffee = new PIXI.Sprite.fromImage("asset/image/coffee.png")
+		coffee.position.set(40, (SceneManager.renderer.height - 40) * Math.random() + 40)
+		return container.addChild(coffee);
 	}
 
+
 	var sectionManager = new SectionManager(SceneManager.renderer.width, SceneManager.renderer.height, [
-		sectionA
+		sectionA,
+		sectionB
 	]);
 
 	var sloth = new Sloth();
@@ -56,8 +66,8 @@ function GameScene() {
 		mid.tilePosition.x = far.tilePosition.x / 0.3;
 		floor.tilePosition.x = far.tilePosition.x / 0.2
 
-		coffees.update(backgroundVelocity * sloth.velocity.x / 0.2);
-		enemies.update(backgroundVelocity * sloth.velocity.x / 0.2);
+		//coffees.update(backgroundVelocity * sloth.velocity.x / 0.2);
+		//enemies.update(backgroundVelocity * sloth.velocity.x / 0.2);
 
 		if(!gameIsOver && (coffeeBar.isEmpty() || sloth.collidesWith(undefined, 470) || sloth.collidesWith(undefined, 0)))
 			gameOver();
@@ -74,8 +84,8 @@ function GameScene() {
 		
 		this.keyboardManager.add(throttleKeyAction);
 
-		coffees = new CoffeePool();
-		enemies = new EnemyPool();
+		//coffees = new CoffeePool();
+		//enemies = new EnemyPool();
 
 		var backArrow = new PIXI.Sprite.fromImage('asset/image/back.png');
 		backArrow.position.set(12, 12);
@@ -95,8 +105,8 @@ function GameScene() {
 		this.scene.addChild(sloth.displayObject);
 		this.scene.addChild(coffeeBar.container);
 		this.scene.addChild(distance.container)
-		this.scene.addChild(coffees);
-		this.scene.addChild(enemies);
+		//this.scene.addChild(coffees);
+		//this.scene.addChild(enemies);
 		this.scene.addChild(overlay.displayObject);
 		this.scene.addChild(backArrow);
 	};
