@@ -15,7 +15,7 @@ function CoffeeBar() {
 	outline.drawRect(0, 0, width, width / 10);
 	this.container.addChild(outline);
 
-	this.container.position.set(SceneManager.renderer.width - width - height, height);
+	this.container.position.set(SceneManager.renderer.width / 2 - width / 2, height);
 
 	this.show = function () {
 		this.container.visibile = true;

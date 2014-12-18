@@ -8,5 +8,7 @@ $(document).ready(function () {
 
 	SceneManager.changeScene('loader');
 
+	SceneManager.addTopLevelChild(new MuteButton());
+
 	$(window).trigger('rendererReady');
 });

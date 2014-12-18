@@ -3,6 +3,9 @@ var SceneManager = {
 	scenes: {},
 	stage: null,
 	currentScene: null,
+	addTopLevelChild: function (displayObject) {
+		this.stage.addChildAt(displayObject, this.stage.children.length);
+	},
 	getScene: function (name) {
 		return this.scenes[name];
 	},
@@ -16,7 +19,7 @@ var SceneManager = {
 		}
 
 		this.currentScene = this.scenes[name];
-		this.stage.addChild(this.currentScene.scene);
+		this.stage.addChildAt(this.currentScene.scene, 0);
 
 		this.currentScene.attach();
 	},

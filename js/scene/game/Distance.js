@@ -9,6 +9,7 @@ function Distance(width, height) {
 
 	this.init = function () {
 		distance = 0;
+		maxDistance = 0;
 	};
 
 	this.update = function (amount) {

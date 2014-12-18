@@ -53,7 +53,7 @@ function Sloth() {
 		interval = false;
 	}
 	this.init = function () {
-		d.position.set(250, 200);
+		d.position.set(300, 200);
 		acceleration = 0;
 		this.velocity.set(0, 0);
 		d.rotation = 0;

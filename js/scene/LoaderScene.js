@@ -26,7 +26,9 @@ function LoaderScene() {
 		'asset/image/sloth/slothsprite_nofire.png',
 		'asset/image/floorTile.png',
 		'asset/image/coffee.png',
-		'asset/image/enemy.png'
+		'asset/image/enemy.png',
+		'asset/image/unmuted.png',
+		'asset/image/muted.png'
 	];
 	var soundAmount = AudioManager.init(function () { increaseProgress(); });
 	var assetAmount = images.length + soundAmount;
