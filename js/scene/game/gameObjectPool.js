@@ -2,13 +2,15 @@
  * Created by Olli on 17/12/14.
  */
 
-
+var coffeeSprite = new PIXI.Sprite.fromImage("asset/image/coffee.png");
+var enemySprite = new PIXI.Sprite.fromImage("asset/image/enemy.png");
 
 GameObjectPool = function() {
     this.pool = [];
 }
 
-GameObjectPool.prototype = new PIXI.DisplayObjectContainer()
+GameObjectPool.prototype = Object.create(PIXI.DisplayObjectContainer.prototype);
+GameObjectPool.prototype.constructor = GameObjectPool;
 
 GameObjectPool.prototype.empty = function() {
     this.pool.splice(0);
@@ -16,13 +18,10 @@ GameObjectPool.prototype.empty = function() {
 
 GameObjectPool.prototype.update = function(amount) {
     for (var i = 0; i < this.pool.length; i++) {
-        this.pool[i].position.x -= amount;
-        if (this.pool[i].position.x < -1000) {
-            console.log(this.pool.length);
-            this.removeChild(this.pool.pop(i));
-            console.log(this.pool.length);
-
-
+        console.log();
+        this.pool[i].update(amount);
+        if (this.pool[i].sprite.position.x < -1000) {
+            this.removeChild(this.pool.pop(i).sprite);
             i--
         }
     }
@@ -32,35 +31,39 @@ GameObjectPool.prototype.update = function(amount) {
 };
 
 CoffeePool = function() {
-
+    GameObjectPool.call(this);
 };
+
+CoffeePool.prototype = Object.create(GameObjectPool.prototype);
 CoffeePool.constructor = CoffeePool;
-CoffeePool.prototype = new GameObjectPool();
 
 
 
 
 CoffeePool.prototype.add = function(number) {
-    if (!number) {
-        var coffee = new PIXI.Sprite.fromImage("asset/image/coffee.png");
-        coffee.position.x = 1100; // Spawn the object before it's visible.
-        coffee.position.y = 430 * Math.random() + 50;
-        this.pool.push(coffee);
-        this.addChild(coffee);
-
-
-    } else {
+    if (number) {
         for (var i = 0; i < number; i++) {
-            this.pool.push(makeCoffee());
+            var coffee = new Coffee();
+            this.pool.push(coffee);
+            this.addChild(coffee.sprite);
         }
+    } else {
+        var coffee = new Coffee();
+        this.pool.push(coffee);
+        this.addChild(coffee.sprite);
+
+
     }
 };
 
 EnemyPool = function() {
+    GameObjectPool.call(this);
+
 };
 
-EnemyPool.constructor = EnemyPool;
-EnemyPool.prototype = new GameObjectPool();
+
+EnemyPool.prototype = Object.create(GameObjectPool.prototype);
+EnemyPool.prototype.constructor = EnemyPool;
 
 
 
@@ -68,27 +71,56 @@ EnemyPool.prototype = new GameObjectPool();
 EnemyPool.prototype.add = function(number) {
     if (number) {
         for (var i = 0; i < number; i++) {
-            this.pool.push(createEnemy());
+            var enemy = new Enemy();
+            this.pool.push(enemy);
+            this.addChild(enemy.sprite);
         }
     } else {
-        var enemy = new PIXI.Sprite.fromImage("asset/image/enemy.png");
-        enemy.position.x = 1100; // Spawn the object before it's visible.
-        enemy.position.y = 430 * Math.random() + 50;
+        var enemy = new Enemy();
         this.pool.push(enemy);
-        this.addChild(enemy);
+        this.addChild(enemy.sprite);
     }
 };
 
-// These are not in use atm.
-makeCoffee = function(coffee) {
 
-    coffee = new PIXI.Sprite.fromImage("asset/image/coffee.png");
-    coffee.position.x = 1100; // Spawn the object before it's visible.
-    coffee.position.y = 430 * Math.random() + 50;
+GameObject = function(sprite) {
+    PIXI.DisplayObject.call(this, sprite);
+    this.sprite = sprite;
+    this.sprite.position.x = 1100; // Spawn the object before it's visible.
+    this.sprite.position.y = 430 * Math.random() + 50;
+
 };
 
-createEnemy = function(enemy) {
-    enemy = new PIXI.Sprite.fromImage("asset/image/enemy.png");
-    enemy.position.x = 1100; // Spawn the object before it's visible.
-    enemy.position.y = 430 * Math.random() + 50;
+GameObject.prototype.update = function(amount) {
+    this.sprite.position.x -= amount;
 };
+
+
+GameObject.prototype = Object.create(PIXI.DisplayObject.prototype);
+GameObject.prototype.constructor = GameObject;
+
+Coffee = function() {
+    GameObject.call(this, coffeeSprite);
+
+};
+
+Coffee.prototype.update = function(amount) {
+    this.sprite.position.x -= amount
+}
+
+
+Coffee.prototype = Object.create(GameObject.prototype);
+Coffee.prototype.constructor = Coffee;
+
+Enemy = function() {
+    GameObject.call(this, enemySprite);
+
+};
+
+Enemy.prototype.update = function(amount) {
+    this.sprite.position.x -= amount
+}
+
+
+Enemy.prototype = Object.create(GameObject.prototype);
+Enemy.prototype.constructor = Enemy;
