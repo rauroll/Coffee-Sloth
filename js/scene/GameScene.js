@@ -6,26 +6,38 @@ function GameScene() {
 	this.name = 'game';
 	this.scene = new PIXI.DisplayObjectContainer();
 
+	var sectionA = new Section(205);
+	sectionA.getContainer = function () {
+		var container = new PIXI.DisplayObjectContainer();
+		var g = new PIXI.Graphics();
+		g.beginFill(0x000000);
+		g.drawRect(0, 0, 200, 480);
+		return container.addChild(g);
+	}
+
+	var sectionManager = new SectionManager(SceneManager.renderer.width, SceneManager.renderer.height, [
+		sectionA
+	]);
+
 	var sloth = new Sloth();
 	var overlay = new GameOverOverlay();
+	var coffeeBar = new CoffeeBar();
 
 	var backgroundContainer = null;
-	var throttleKeyAction = new KeyAction([38], function () {
-		sloth.accelerate(true);
-	}, function () {
-		sloth.accelerate(false);
-	});
+	var throttleKeyAction = new KeyAction([38], 
+		function () { sloth.accelerate(true); }, 
+		function () { sloth.accelerate(false); }
+	);
 	var gameIsOver = false;
 	var t = this;
 	var coffees;
 	var enemies;
 
 	this.keyboardManager = new KeyboardInputManager([
-		new KeyAction([37, 39], function (code) {
-			sloth.startRotation(code === 39 ? 'right' : 'left');
-		}, function () {
-			sloth.stopRotation();
-		}),
+		new KeyAction([37, 39], 
+			function (code) { sloth.startRotation(code === 39 ? 'right' : 'left'); }, 
+			function () { sloth.stopRotation(); }
+		),
 		new KeyAction([27], null, function () {
 			SceneManager.changeScene('main');
 		}),
@@ -48,10 +60,12 @@ function GameScene() {
 		coffees.update(backgroundVelocity * sloth.velocity.x / 0.1);
 		enemies.update(backgroundVelocity * sloth.velocity.x / 0.1);
 
-		if(coffeeBarInside.scale.x > 0)
-			coffeeBarInside.scale.x -= 0.001;
+		if(!coffeeBar.isEmpty())
+			coffeeBar.decrease(0.001);
 		else if(!gameIsOver)
 			gameOver();
+
+		sectionManager.update(sloth.velocity);
 	};
 
 	this.init = function () {
@@ -74,8 +88,9 @@ function GameScene() {
 		backgroundContainer.addChild(floor);
 
 		this.scene.addChild(backgroundContainer);
+		this.scene.addChild(sectionManager.container);
 		this.scene.addChild(sloth.displayObject);
-		this.scene.addChild(coffeeBar);
+		this.scene.addChild(coffeeBar.container);
 		this.scene.addChild(coffees);
 		this.scene.addChild(enemies);
 		this.scene.addChild(overlay.displayObject);
@@ -84,23 +99,19 @@ function GameScene() {
 	this.attach = function () {
 		this.newGame();
 	};
-	var boostCoffeeLevel = function (amount) {
-		amount = amount || 0.2;
-		coffeeBarInside.scale.x = Math.min(1, coffeeBarInside.scale.x + amount);
-	};
 	var gameOver = function () {
 		gameIsOver = true;
 		overlay.show();
 		throttleKeyAction.enabled = false;
 		throttleKeyAction.onKeyUp();
-		coffeeBar.visible = false;
+		coffeeBar.hide();
 	};
 	this.newGame = function () {
-		coffeeBarInside.scale.x = 1;
+		coffeeBar.fill();
 		gameIsOver = false;
 		overlay.hide();
 		throttleKeyAction.enabled = true;
-		coffeeBar.visible = true;
+		coffeeBar.show();
 
 		sloth.init();
 	};

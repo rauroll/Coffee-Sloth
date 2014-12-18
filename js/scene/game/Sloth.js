@@ -37,7 +37,7 @@ function Sloth() {
 			rotationVelocity += rotationVelocity > 0 ? -0.5 : 0.5;
 	}
 	this.accelerate = function (accelerate) {
-		acceleration = accelerate ? 0.6 : 0;
+		acceleration = accelerate ? 0.4 : 0;
 	}
 	this.startRotation = function (direction) {
 		rotationVelocity = direction === 'right' ? rotationStep : -rotationStep;
