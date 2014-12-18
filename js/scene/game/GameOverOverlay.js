@@ -1,6 +1,5 @@
-var overlay = new PIXI.DisplayObjectContainer();
-
-$(window).on('rendererReady', function () {
+function GameOverOverlay() {
+	this.displayObject = new PIXI.DisplayObjectContainer();
 	var background = new PIXI.Graphics();
 	background.beginFill(0x000000, 0.7);
 	background.drawRect(0, 0, SceneManager.renderer.width, SceneManager.renderer.height);
@@ -20,7 +19,14 @@ $(window).on('rendererReady', function () {
 	container.addChild(newGameLabel);
 	container.center();
 
-	overlay.addChild(background);
-	overlay.addChild(container);
-	overlay.visible = false;
-});
+	this.displayObject.addChild(background);
+	this.displayObject.addChild(container);
+	this.displayObject.visible = false;
+	
+	this.show = function () {
+		this.displayObject.visible = true;
+	}
+	this.hide = function () {
+		this.displayObject.visible = false;
+	}
+}

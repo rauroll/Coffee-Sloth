@@ -18,10 +18,18 @@ GameObjectPool.prototype.empty = function() {
 
 GameObjectPool.prototype.update = function(amount) {
     for (var i = 0; i < this.pool.length; i++) {
+<<<<<<< HEAD
         console.log();
         this.pool[i].update(amount);
         if (this.pool[i].sprite.position.x < -1000) {
             this.removeChild(this.pool.pop(i).sprite);
+=======
+        this.pool[i].position.x -= amount;
+        if (this.pool[i].position.x < -1000) {
+            this.removeChild(this.pool.pop(i));
+
+
+>>>>>>> 85bd54fdfeb6286fe841ce9d822ad3ef734e9d53
             i--
         }
     }
