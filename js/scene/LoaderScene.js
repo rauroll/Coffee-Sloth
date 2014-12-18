@@ -23,7 +23,10 @@ function LoaderScene() {
 		'asset/image/sloth/slothsprite2.png',
 		'asset/image/sloth/slothsprite3.png',
 		'asset/image/sloth/slothsprite4.png',
-		'asset/image/sloth/slothsprite_nofire.png'
+		'asset/image/sloth/slothsprite_nofire.png',
+		'asset/image/floorTile.png',
+		'asset/image/coffee.png',
+		'asset/image/enemy.png'
 	];
 	this.init = function () {
 		assetLoader = new PIXI.AssetLoader(assets);

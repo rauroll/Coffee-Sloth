@@ -19,6 +19,10 @@ function GameScene() {
 	});
 	var gameIsOver = false;
 	var t = this;
+	var coffees;
+	var enemies;
+
+
 	this.keyboardManager = new KeyboardInputManager([
 		new KeyAction([37, 39], function (code) {
 			rotationVelocity = code === 39 ? rotationStep : -rotationStep;
@@ -43,6 +47,10 @@ function GameScene() {
 	var slothFrameIndex = 1;
 	var slothFrameOffset = 0;
 	this.update = function () {
+		if (coffees.length > 0) {
+			console.log(coffees)
+		}
+
 		if (throttleKeyAction.active) {
 			if (slothFrameOffset > 3) {
 				slothFrameIndex = slothFrameIndex % 4 + 1;
@@ -58,6 +66,10 @@ function GameScene() {
 		velocity.y -= acceleration * Math.cos(sloth.rotation + 1) - gravity - airResistance * velocity.y;
 		far.tilePosition.x -= backgroundVelocity * velocity.x;
 		mid.tilePosition.x = far.tilePosition.x / 0.2;
+		floor.tilePosition.x = far.tilePosition.x / 0.1
+
+		coffees.update(backgroundVelocity * velocity.x / 0.1);
+		enemies.update(backgroundVelocity * velocity.x / 0.1);
 
 		sloth.position.y += velocity.y;
 
@@ -66,7 +78,7 @@ function GameScene() {
 		if(removeRotationBoost && rotationVelocity !== 0)
 			rotationVelocity += rotationVelocity > 0 ? -0.5 : 0.5;
 
-		if(coffeeBarInside.scale.x > 0)
+		if(coffeeBarInside.scale.x > 0 && sloth.y < 410)
 			coffeeBarInside.scale.x -= 0.001;
 		else if(!gameIsOver)
 			gameOver();
@@ -74,6 +86,9 @@ function GameScene() {
 
 	this.init = function () {
 		this.keyboardManager.add(throttleKeyAction);
+
+		coffees = new CoffeePool();
+		enemies = new EnemyPool();
 
 		var backArrow = new PIXI.Sprite.fromImage('asset/image/back.png');
 		backArrow.position.set(12, 12);
@@ -86,12 +101,22 @@ function GameScene() {
 		backgroundContainer = new PIXI.DisplayObjectContainer();
 		backgroundContainer.addChild(far);
 		backgroundContainer.addChild(mid);
+		backgroundContainer.addChild(floor);
+
+
 
 		this.scene.addChild(backgroundContainer);
 		this.scene.addChild(sloth);
 		this.scene.addChild(coffeeBar);
 		this.scene.addChild(overlay);
 		this.scene.addChild(backArrow);
+		this.scene.addChild(coffees);
+		this.scene.addChild(enemies);
+
+
+
+
+
 	};
 	this.attach = function () {
 		this.newGame();
@@ -122,3 +147,4 @@ function GameScene() {
 };
 
 CScene.extendWith(GameScene);
+
