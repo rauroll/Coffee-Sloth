@@ -1,4 +1,3 @@
-var rotationStep = 8;
 var airResistance = -0.01;
 var gravity = 0.15;
 var backgroundVelocity = 0.1;
@@ -7,33 +6,25 @@ function GameScene() {
 	this.name = 'game';
 	this.scene = new PIXI.DisplayObjectContainer();
 
-	var acceleration = 0;
-	var velocity = new PIXI.Point(0, 0);
-	var removeRotationBoost = false;
-	var rotationVelocity = 0;
+	var sloth = new Sloth();
+	var overlay = new GameOverOverlay();
+
 	var backgroundContainer = null;
 	var throttleKeyAction = new KeyAction([38], function () {
-		acceleration = 0.6;
+		sloth.accelerate(true);
 	}, function () {
-		acceleration = 0;
+		sloth.accelerate(false);
 	});
 	var gameIsOver = false;
 	var t = this;
 	var coffees;
 	var enemies;
 
-
 	this.keyboardManager = new KeyboardInputManager([
 		new KeyAction([37, 39], function (code) {
-			rotationVelocity = code === 39 ? rotationStep : -rotationStep;
-			removeRotationBoost = false;
-			interval = setInterval(function () {
-				rotationVelocity *= 1.07;
-			}, 50);
+			sloth.startRotation(code === 39 ? 'right' : 'left');
 		}, function () {
-			removeRotationBoost = true;
-			clearInterval(interval);
-			interval = false;
+			sloth.stopRotation();
 		}),
 		new KeyAction([27], null, function () {
 			SceneManager.changeScene('main');
@@ -44,41 +35,20 @@ function GameScene() {
 		})
 	]);
 
-	var slothFrameIndex = 1;
-	var slothFrameOffset = 0;
 	this.update = function () {
-		if (coffees.length > 0) {
+		if (coffees.length > 0)
 			console.log(coffees)
-		}
 
-		if (throttleKeyAction.active) {
-			if (slothFrameOffset > 3) {
-				slothFrameIndex = slothFrameIndex % 4 + 1;
-				slothFrameOffset = 0;
-			}
-			sloth.setTexture(PIXI.Texture.fromImage('asset/image/sloth/slothsprite' + slothFrameIndex + '.png'));
-			slothFrameOffset++;
-		}
-		else
-			sloth.setTexture(PIXI.Texture.fromImage('asset/image/sloth/slothsprite_nofire.png'));
+		sloth.update(throttleKeyAction.active);
 
-		velocity.x += acceleration * Math.sin(sloth.rotation + 1) + airResistance * velocity.x;
-		velocity.y -= acceleration * Math.cos(sloth.rotation + 1) - gravity - airResistance * velocity.y;
-		far.tilePosition.x -= backgroundVelocity * velocity.x;
+		far.tilePosition.x -= backgroundVelocity * sloth.velocity.x;
 		mid.tilePosition.x = far.tilePosition.x / 0.2;
 		floor.tilePosition.x = far.tilePosition.x / 0.1
 
-		coffees.update(backgroundVelocity * velocity.x / 0.1);
-		enemies.update(backgroundVelocity * velocity.x / 0.1);
+		coffees.update(backgroundVelocity * sloth.velocity.x / 0.1);
+		enemies.update(backgroundVelocity * sloth.velocity.x / 0.1);
 
-		sloth.position.y += velocity.y;
-
-		sloth.rotation += rotationVelocity / 200;
-
-		if(removeRotationBoost && rotationVelocity !== 0)
-			rotationVelocity += rotationVelocity > 0 ? -0.5 : 0.5;
-
-		if(coffeeBarInside.scale.x > 0 && sloth.y < 410)
+		if(coffeeBarInside.scale.x > 0)
 			coffeeBarInside.scale.x -= 0.001;
 		else if(!gameIsOver)
 			gameOver();
@@ -103,20 +73,13 @@ function GameScene() {
 		backgroundContainer.addChild(mid);
 		backgroundContainer.addChild(floor);
 
-
-
 		this.scene.addChild(backgroundContainer);
-		this.scene.addChild(sloth);
+		this.scene.addChild(sloth.displayObject);
 		this.scene.addChild(coffeeBar);
-		this.scene.addChild(overlay);
-		this.scene.addChild(backArrow);
 		this.scene.addChild(coffees);
 		this.scene.addChild(enemies);
-
-
-
-
-
+		this.scene.addChild(overlay.displayObject);
+		this.scene.addChild(backArrow);
 	};
 	this.attach = function () {
 		this.newGame();
@@ -127,22 +90,19 @@ function GameScene() {
 	};
 	var gameOver = function () {
 		gameIsOver = true;
-		overlay.visible = true;
+		overlay.show();
 		throttleKeyAction.enabled = false;
 		throttleKeyAction.onKeyUp();
 		coffeeBar.visible = false;
 	};
 	this.newGame = function () {
 		coffeeBarInside.scale.x = 1;
-		sloth.position.set(250, 200);
-		acceleration = 0;
-		velocity.set(0, 0);
-		sloth.rotation = 0;
-
 		gameIsOver = false;
-		overlay.visible = false;
+		overlay.hide();
 		throttleKeyAction.enabled = true;
 		coffeeBar.visible = true;
+
+		sloth.init();
 	};
 };
 

@@ -18,9 +18,7 @@ GameObjectPool.prototype.update = function(amount) {
     for (var i = 0; i < this.pool.length; i++) {
         this.pool[i].position.x -= amount;
         if (this.pool[i].position.x < -1000) {
-            console.log(this.pool.length);
             this.removeChild(this.pool.pop(i));
-            console.log(this.pool.length);
 
 
             i--
