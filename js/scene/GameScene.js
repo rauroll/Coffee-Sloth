@@ -70,7 +70,7 @@ function GameScene() {
 	};
 
 	this.init = function () {
-		AudioManager.theme.play();
+		//AudioManager.theme.play();
 		
 		this.keyboardManager.add(throttleKeyAction);
 

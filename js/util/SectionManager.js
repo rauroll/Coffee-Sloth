@@ -37,6 +37,11 @@ SectionManager.prototype = {
 		section.enqueued();
 		this.sectionQueue.push(section);
 		this.container.addChild(section.container);
+	},
+	dequeueSection: function (section) {
+		section.dequeued();
+		this.sectionQueue.pop();
+		this.container.removeChild(section.container);
 	}
 };
 
@@ -51,6 +56,7 @@ Section.prototype = {
 	},
 	update: function () {},
 	enqueued: function () {},
+	dequeued: function () {},
 	getWidth: function () {
 		return this.container.getBounds().width;
 	},

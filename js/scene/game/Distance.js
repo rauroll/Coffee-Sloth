@@ -1,6 +1,7 @@
 function Distance(width, height) {
 	var margin = 10;
 	var distance = 0;
+	var maxDistance = 0;
 	this.container = new PIXI.Text(distance, {
 		font: 'bold 50px Arial',
 		fill: '#FFF'
@@ -11,10 +12,9 @@ function Distance(width, height) {
 	};
 
 	this.update = function (amount) {
-		if(amount >= 0) {
-			distance += amount;
-			this.container.setText(Math.round(distance / 100));
-			this.container.position.set(width - this.container.width - margin, height - this.container.height - margin);
-		}
+		distance += amount;
+		maxDistance = Math.max(distance, maxDistance);
+		this.container.setText(Math.round(maxDistance / 100));
+		this.container.position.set(width - this.container.width - margin, height - this.container.height - margin);
 	};
 };
