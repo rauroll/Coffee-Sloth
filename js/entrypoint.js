@@ -9,4 +9,10 @@ $(document).ready(function () {
 	SceneManager.changeScene('loader');
 
 	$(window).trigger('rendererReady');
+
+	new buzz.sound('asset/audio/theme.mp3', {
+		autoplay: true,
+		preload: true,
+		loop: true
+	});
 });
