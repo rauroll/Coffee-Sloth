@@ -4,7 +4,7 @@ function LoaderScene() {
 
 	var assetLoader = null;
 	var spriteSheetLoader = null;
-	var loaded = 0;
+	
 	var container = null;
 	var progressBar = null;
 	var progressBarOutline = null;
@@ -14,7 +14,7 @@ function LoaderScene() {
 		dropShadow: true,
 		dropShadowDistance: 1
 	});
-	var assets = [
+	var images = [
 		'asset/image/bg-far.png',
 		'asset/image/bg-mid.png',
 		'asset/image/logo.png',
@@ -28,15 +28,19 @@ function LoaderScene() {
 		'asset/image/coffee.png',
 		'asset/image/enemy.png'
 	];
-	this.init = function () {
-		assetLoader = new PIXI.AssetLoader(assets);
-		assetLoader.on('onProgress', function () {
-			progressBar.scale.x = loaded++ / assets.length;
-		});
-		assetLoader.on('onComplete', function () {
-			progressBar.scale.x = 1;
+	var soundAmount = AudioManager.init(function () { increaseProgress(); });
+	var assetAmount = images.length + soundAmount;
+	var loaded = 0;
+
+	function increaseProgress() {
+		progressBar.scale.x = ++loaded / assetAmount;
+		if(loaded === assetAmount)
 			SceneManager.changeScene('main');
-		});
+	}
+
+	this.init = function () {
+		assetLoader = new PIXI.AssetLoader(images);
+		assetLoader.on('onProgress', function () { increaseProgress(); });
 		assetLoader.load();
 		
 		progressBar = new PIXI.Graphics();
