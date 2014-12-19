@@ -9,17 +9,13 @@ function GameScene() {
 	this.name = 'game';
 	this.scene = new PIXI.DisplayObjectContainer();
 
-	var coffeeSection = new Section(205);
-	coffeeSection.getContainer = function () {
-		var container = new PIXI.DisplayObjectContainer();
-		var coffee = new PIXI.Sprite.fromImage("asset/image/coffee.png")
-		coffee.position.set(40, (SceneManager.renderer.height - 40) * Math.random() + 40)
-		return container.addChild(coffee);
-	}
+	var coffeeSection = new CoffeeSection(205);
+
 
 	var sectionManager = new SectionManager(SceneManager.renderer.width, SceneManager.renderer.height, [
 		coffeeSection
 	]);
+
 
 	var sloth = new Sloth();
 	var overlay = new GameOverOverlay();

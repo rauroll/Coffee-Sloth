@@ -12,13 +12,20 @@ SectionManager.prototype = {
 		if(this.sectionQueue.length === 0) {
 			this.increaseQueue();
 		} else {
+
 			for(var i = 0; i < this.sectionQueue.length; i++) {
 				var section = this.sectionQueue[i];
 				section.container.x -= velocity.x;
 				section.update();
+
+
 				if((i === this.sectionQueue.length - 1 && section.isVisible(this)) || this.sectionQueue.length === 0) {
 					this.increaseQueue();
 					break;
+				}
+				if (section.container.x < -1000) {
+					this.dequeueSection(section);
+					i--
 				}
 			}
 		}
@@ -40,21 +47,24 @@ SectionManager.prototype = {
 	},
 	dequeueSection: function (section) {
 		section.dequeued();
-		this.sectionQueue.pop();
-		this.container.removeChild(section.container);
+		this.sectionQueue.shift();
+		//this.container.removeChild(section.container);
 	}
 };
 
 function Section(width) {
 	this.width = width;
 	this.container;
+	this.objects = [];
 }
 
 Section.prototype = {	
 	isVisible: function (sectionManager) {
 		return this.container.position.x < sectionManager.viewportWidth;
 	},
-	update: function () {},
+	update: function () {
+		this.objects.forEach(function(e) {e.update();})
+	},
 	enqueued: function () {},
 	dequeued: function () {},
 	getWidth: function () {
@@ -62,9 +72,8 @@ Section.prototype = {
 	},
 	getContainer: function () {},
 	clone: function () {
-		var newSection = new Section();
-		newSection.container = this.getContainer();
-		newSection.width = this.width;
+		var newSection = new Section(this.width);
+		newSection.container = this.getContainer(newSection);
 		return newSection;
 	}
 };
