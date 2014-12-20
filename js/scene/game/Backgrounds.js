@@ -24,5 +24,5 @@ function Backgrounds() {
 		floor.tilePosition.x = far.tilePosition.x / 0.2;
 	};
 
-	return container;
+	this.container = container;
 };
