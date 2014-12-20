@@ -50,6 +50,10 @@ SectionManager.prototype = {
 	},
 	removeSectionAt: function(i) {
 		this.sectionQueue.splice(i, 1);
+	},
+	reset: function() {
+		this.container.removeChildren();
+		this.sectionQueue.splice(0, this.sectionQueue.length);
 	}
 };
 
