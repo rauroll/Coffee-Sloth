@@ -88,7 +88,7 @@ function GameScene() {
 		backArrow.mouseover = function () { backArrow.alpha = 1; };
 		backArrow.mouseout = function () { backArrow.alpha = 0.6; };
 
-		this.scene.addChild(backgrounds);
+		this.scene.addChild(backgrounds.container);
 		this.scene.addChild(sectionManager.container);
 		this.scene.addChild(sloth.displayObject);
 		this.scene.addChild(coffeeBar.container);
@@ -118,4 +118,4 @@ function GameScene() {
 	};
 };
 
-CScene.extendWith(GameScene);
+CScene.extendWith(GameScene);	
