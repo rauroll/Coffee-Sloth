@@ -15,8 +15,8 @@ function LoaderScene() {
 		dropShadowDistance: 1
 	});
 	var images = [
-		'asset/image/bg-far.png',
-		'asset/image/bg-mid.png',
+		'asset/image/bluetheme/bg-far.png',
+		'asset/image/bluetheme/bg-mid.png',
 		'asset/image/logo.png',
 		'asset/image/main-background.jpg',
 		'asset/image/sloth/slothsprite1.png',

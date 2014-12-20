@@ -24,7 +24,7 @@ var SceneManager = {
 		this.currentScene.attach();
 	},
 	init: function () {
-		this.renderer = PIXI.autoDetectRenderer(960, 480);
+		this.renderer = PIXI.autoDetectRenderer(1280, 720); // old 960, 480
 		this.stage = new PIXI.Stage();
 		requestAnimFrame(SceneManager.loop);
 
