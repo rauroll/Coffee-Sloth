@@ -30,10 +30,11 @@ SectionManager.prototype = {
 					i--;
 				}
 				
-				if (!section.playerIsInside && this.player.position.x > section.container.x && this.player.position.x < section.container.x + section.width) {
+				var p = this.player.position;
+				if (!section.playerIsInside && p.x > section.container.x && p.x < section.container.x + section.width) {
 					section.playerIsInside = true;
 					section.playerEntered();
-				} else if (section.playerIsInside && this.player.position.x > section.container.x + section.width) {
+				} else if (section.playerIsInside && (p.x > section.container.x + section.width || p.x < section.container.x)) {
 					section.playerIsInside = false;
 					section.playerExited();
 				}
