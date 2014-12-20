@@ -18,24 +18,22 @@ function MainScene() {
 			i = 0;
 	};
 
-	this.init = function () {
-		// background
-		blurFilter.blur = 20;
-		bg.filters = [blurFilter];
+	// background
+	blurFilter.blur = 20;
+	bg.filters = [blurFilter];
 
-		// coffee sloth label
-		logo = PIXI.Sprite.fromImage('asset/image/logo.png');
-		logo.center();
-		logo.pivot.set(700 / 2, 200 / 2);
+	// coffee sloth label
+	logo = PIXI.Sprite.fromImage('asset/image/logo.png');
+	logo.center();
+	logo.pivot.set(700 / 2, 200 / 2);
 
-		// new game label
-		newGameLabel.center();
-		newGameLabel.position.y += 150;
+	// new game label
+	newGameLabel.center();
+	newGameLabel.position.y += 150;
 
-		this.scene.addChild(bg);
-		this.scene.addChild(logo);
-		this.scene.addChild(newGameLabel);
-	};
+	this.scene.addChild(bg);
+	this.scene.addChild(logo);
+	this.scene.addChild(newGameLabel);
 
 	this.keyboardManager = new KeyboardInputManager([
 		new KeyAction([13], null, function () {

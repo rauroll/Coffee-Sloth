@@ -15,7 +15,7 @@ function generateFlipSection(sloth) {
 		var borderWidth = 6;
 		var border = new PIXI.Graphics();
 		border.lineStyle(borderWidth, 0xFF0000);
-		border.drawRect(0, borderWidth / 2, this.width, SceneManager.renderer.height - borderWidth);
+		border.drawRect(0, borderWidth / 2, this.width, viewportHeight - borderWidth);
 		border.alpha = 0.9;
 		border.visible = false;
 		this.border = border;
@@ -48,6 +48,8 @@ function generateFlipSection(sloth) {
 
 		this.container = container;
 	}
+
+	FlipSection.weight = 1;
 
 	FlipSection.prototype = new Section();
 	FlipSection.prototype.constructor = Section;

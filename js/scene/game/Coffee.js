@@ -29,6 +29,8 @@ function generateCoffeeSection (width) {
         this.container = coffee.addChild(container);
     };
 
+    CoffeeSection.weight = 5;
+
     CoffeeSection.prototype = new Section();
     CoffeeSection.prototype.constructor = CoffeeSection;
 
