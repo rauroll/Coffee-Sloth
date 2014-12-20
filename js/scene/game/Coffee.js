@@ -16,7 +16,7 @@ Coffee.prototype.update = function () {
 };
 
 // Section that can be added to the sectionQueue of SectionManager, inherits Section.
-function CoffeeSectionWrapper (width) {
+function generateCoffeeSection (width) {
     function CoffeeSection () {
         Section.call(this, width);
 
@@ -25,7 +25,7 @@ function CoffeeSectionWrapper (width) {
         var coffee = new Coffee(205, SceneManager.renderer.height);
         container.addChild(coffee.sprite);
 
-        target.objects.push(coffee);
+        this.objects.push(coffee);
         this.container = coffee.addChild(container);
     };
 

@@ -44,7 +44,6 @@ SectionManager.prototype = {
 			offset = lastSection.container.position.x + lastSection.width;
 		}
 		var randomSection = new this.sections[Math.floor(Math.random() * this.sections.length)];
-		console.log(randomSection);
 		randomSection.container.position.x = offset;
 		this.enqueueSection(randomSection);
 	},

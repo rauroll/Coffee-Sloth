@@ -17,8 +17,8 @@ function GameScene() {
 
 	// sections
 	var sectionManager = new SectionManager(SceneManager.renderer.width, SceneManager.renderer.height, sloth.displayObject, [
-		new CoffeeSectionWrapper(205),
-		new FlipSectionWrapper(sloth)
+		generateCoffeeSection(205),
+		generateFlipSection(sloth)
 	]);
 
 	// key actionds
@@ -49,7 +49,7 @@ function GameScene() {
 		sectionManager.update(sloth.velocity);
 
 		if(!gameIsOver && (coffeeBar.isEmpty() || sloth.collidesWith(undefined, 470) || sloth.collidesWith(undefined, 0)))
-			gameOver();
+			this.gameOver();
 		else
 			coffeeBar.decrease(0.001);
 
@@ -98,7 +98,7 @@ function GameScene() {
 	this.attach = function () {
 		this.newGame();
 	};
-	var gameOver = function () {
+	this.gameOver = function () {
 		gameIsOver = true;
 		overlay.show();
 		throttleKeyAction.enabled = false;
