@@ -24,7 +24,7 @@ var SceneManager = {
 		this.currentScene.attach();
 	},
 	init: function () {
-		this.renderer = PIXI.autoDetectRenderer(1280, 720); // old 960, 480
+		this.renderer = PIXI.autoDetectRenderer(viewportWidth, viewportHeight);
 		this.stage = new PIXI.Stage();
 		requestAnimFrame(SceneManager.loop);
 
@@ -45,9 +45,5 @@ var SceneManager = {
 
 		SceneManager.currentScene.update();
 		SceneManager.renderer.render(SceneManager.stage);
-	},
-	initScenes: function () {
-		for(p in this.scenes)
-			this.scenes[p].init();
 	}
 };

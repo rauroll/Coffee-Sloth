@@ -1,7 +1,10 @@
 function SectionManager(viewportWidth, viewportHeight, player, sections) {
 	this.viewportWidth = viewportWidth;
 	this.viewportHeight = viewportHeight;
-	this.sections = sections;
+	this.sections = sections.sort(function (a, b) {
+		return a.weight - b.weight;
+	});
+	this.maxWeight = this.sections[this.sections.length - 1].weight;
 	this.sectionQueue = [];
 	this.currentSection;
 	this.container = new PIXI.DisplayObjectContainer();
@@ -43,7 +46,17 @@ SectionManager.prototype = {
 			var lastSection = this.sectionQueue[this.sectionQueue.length - 1];
 			offset = lastSection.container.position.x + lastSection.width;
 		}
-		var randomSection = new this.sections[Math.floor(Math.random() * this.sections.length)];
+		var r = Math.random() * this.maxWeight;
+		var randomSection;
+		var c = 0;
+		for(var i = 0; i < this.sections.length; i++) {
+			var s = this.sections[i];
+			c += s.weight;
+			if (r < c) {
+				randomSection = new s;
+				break;
+			}
+		}
 		randomSection.container.position.x = offset;
 		this.enqueueSection(randomSection);
 	},

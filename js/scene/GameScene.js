@@ -74,27 +74,26 @@ function GameScene() {
 		}
 	};
 
-	this.init = function () {
-		AudioManager.theme.play();
-		
-		this.keyboardManager.add(throttleKeyAction);
+	AudioManager.theme.play();
+	
+	this.keyboardManager.add(throttleKeyAction);
 
-		var backArrow = new PIXI.Sprite.fromImage('asset/image/back.png');
-		backArrow.position.set(12, 12);
-		backArrow.alpha = 0.5;
-		backArrow.interactive = true;
-		backArrow.click = function () { SceneManager.changeScene('main'); };
-		backArrow.mouseover = function () { backArrow.alpha = 1; };
-		backArrow.mouseout = function () { backArrow.alpha = 0.6; };
+	var backArrow = new PIXI.Sprite.fromImage('asset/image/back.png');
+	backArrow.position.set(12, 12);
+	backArrow.alpha = 0.5;
+	backArrow.interactive = true;
+	backArrow.click = function () { SceneManager.changeScene('main'); };
+	backArrow.mouseover = function () { backArrow.alpha = 1; };
+	backArrow.mouseout = function () { backArrow.alpha = 0.6; };
 
-		this.scene.addChild(backgrounds.container);
-		this.scene.addChild(sectionManager.container);
-		this.scene.addChild(sloth.displayObject);
-		this.scene.addChild(coffeeBar.container);
-		this.scene.addChild(overlay.displayObject);
-		this.scene.addChild(distance.container)
-		this.scene.addChild(backArrow);
-	};
+	this.scene.addChild(backgrounds.container);
+	this.scene.addChild(sectionManager.container);
+	this.scene.addChild(sloth.displayObject);
+	this.scene.addChild(coffeeBar.container);
+	this.scene.addChild(overlay.displayObject);
+	this.scene.addChild(distance.container)
+	this.scene.addChild(backArrow);
+	
 	this.attach = function () {
 		this.newGame();
 	};

@@ -40,31 +40,29 @@ function LoaderScene() {
 			SceneManager.changeScene('main');
 	}
 
-	this.init = function () {
-		assetLoader = new PIXI.AssetLoader(images);
-		assetLoader.on('onProgress', function () { increaseProgress(); });
-		assetLoader.load();
-		
-		progressBar = new PIXI.Graphics();
-		progressBar.beginFill(0xFFFFFF);
-		progressBar.drawRect(0, 0, label.width, 5);
-		progressBar.position.set(0, label.height + 10);
-		progressBar.scale.x = 0;
-		
-		progressBarOutline = new PIXI.Graphics();
-		progressBarOutline.lineStyle(1, 0xFFFFFF);
-		progressBarOutline.drawRect(0, 0, label.width, 5);
-		progressBarOutline.position.set(0, label.height + 10);
+	assetLoader = new PIXI.AssetLoader(images);
+	assetLoader.on('onProgress', function () { increaseProgress(); });
+	assetLoader.load();
+	
+	progressBar = new PIXI.Graphics();
+	progressBar.beginFill(0xFFFFFF);
+	progressBar.drawRect(0, 0, label.width, 5);
+	progressBar.position.set(0, label.height + 10);
+	progressBar.scale.x = 0;
+	
+	progressBarOutline = new PIXI.Graphics();
+	progressBarOutline.lineStyle(1, 0xFFFFFF);
+	progressBarOutline.drawRect(0, 0, label.width, 5);
+	progressBarOutline.position.set(0, label.height + 10);
 
-		container = new PIXI.DisplayObjectContainer();
-		container.addChild(label);
-		container.addChild(progressBar);
-		container.addChild(progressBarOutline);
+	container = new PIXI.DisplayObjectContainer();
+	container.addChild(label);
+	container.addChild(progressBar);
+	container.addChild(progressBarOutline);
 
-		container.center();
+	container.center();
 
-		this.scene.addChild(container);
-	};
+	this.scene.addChild(container);
 };
 
 CScene.extendWith(LoaderScene);
