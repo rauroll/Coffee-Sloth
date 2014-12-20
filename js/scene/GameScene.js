@@ -44,10 +44,13 @@ function GameScene() {
 	// methods
 
 	this.update = function () {
-		if(!gameIsOver && (coffeeBar.isEmpty() || sloth.collidesWith(undefined, SceneManager.renderer.height)))
+		if(!gameIsOver && sloth.collidesWith(undefined, SceneManager.renderer.height))
 			this.gameOver();
 		else
 			coffeeBar.decrease(0.001);
+
+		if(coffeeBar.isEmpty())
+			throttleKeyAction.enabled = false;
 
 		if(!gameIsOver) {
 			distance.update(sloth.velocity.x);

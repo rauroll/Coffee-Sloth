@@ -41,9 +41,9 @@ function Sloth() {
 		}
 		d.rotation += rotationVelocity / 200;
 
-		if (Math.abs(rotationVelocity) > 10 && spinStart === 0)
+		if (Math.abs(rotationVelocity) > 15 && spinStart === 0)
 			spinStart = d.rotation;
-		else if (Math.abs(rotationVelocity) < 10 && spinStart !== 0) {
+		else if (Math.abs(rotationVelocity) < 15 && spinStart !== 0) {
 			var loops = (d.rotation - spinStart) / (2 * Math.PI);
 			if (Math.abs(loops) > 0.5)
 				$(this).trigger('loop', loops);
