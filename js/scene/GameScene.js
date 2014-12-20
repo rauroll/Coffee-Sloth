@@ -113,6 +113,7 @@ function GameScene() {
 		coffeeBar.fill();
 		throttleKeyAction.enabled = true;
 
+		sectionManager.reset()
 		sloth.init();
 		distance.init();
 	};

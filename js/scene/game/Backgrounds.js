@@ -10,7 +10,7 @@ function Backgrounds() {
 	far.tilePosition.set(0, 0);
 	mid.tilePosition.set(0, 0);
 	var floorTexture = PIXI.Texture.fromImage("asset/image/floorTile.png");
-	var floor = new PIXI.TilingSprite(floorTexture, 960, 50)
+	var floor = new PIXI.TilingSprite(floorTexture, 960, 50);
 	floor.tilePosition.set(0, 0);
 	floor.anchor.y = -8.6;
 
@@ -20,8 +20,8 @@ function Backgrounds() {
 
 	this.update = function (velocity) {
 		far.tilePosition.x -= backgroundVelocity * velocity.x;
-		mid.tilePosition.x = far.tilePosition.x / 0.3;
-		floor.tilePosition.x = far.tilePosition.x / 0.2;
+		mid.tilePosition.x -= backgroundVelocity * velocity.x / 0.3;
+		floor.tilePosition.x -= backgroundVelocity * velocity.x / 0.2;
 	};
 
 	this.container = container;
