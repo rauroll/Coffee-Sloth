@@ -8,13 +8,6 @@ function GameScene() {
 	this.name = 'game';
 	this.scene = new PIXI.DisplayObjectContainer();
 
-	// sections
-	var coffeeSection = new CoffeeSection(205);
-
-	var sectionManager = new SectionManager(SceneManager.renderer.width, SceneManager.renderer.height, [
-		coffeeSection
-	]);
-
 	// display elements
 	var sloth = new Sloth();
 	var backgrounds = new Backgrounds();
@@ -22,9 +15,11 @@ function GameScene() {
 	var coffeeBar = new CoffeeBar();
 	var distance = new Distance(SceneManager.renderer.width, SceneManager.renderer.height);
 
-	$(sloth).on('loop', function (event, loops) {
-		console.log(loops);
-	});
+	// sections
+	var sectionManager = new SectionManager(SceneManager.renderer.width, SceneManager.renderer.height, sloth.displayObject, [
+		new CoffeeSectionWrapper(205),
+		new FlipSectionWrapper(sloth)
+	]);
 
 	// key actionds
 	var throttleKeyAction = new KeyAction([38], 
@@ -111,15 +106,15 @@ function GameScene() {
 		coffeeBar.hide();
 	};
 	this.newGame = function () {
-		gameIsOver = false;
 		overlay.hide();
 		coffeeBar.show();
 		coffeeBar.fill();
 		throttleKeyAction.enabled = true;
 
-		sectionManager.reset()
 		sloth.init();
 		distance.init();
+		sectionManager.reset();
+		gameIsOver = false;
 	};
 };
 

@@ -16,24 +16,27 @@ Coffee.prototype.update = function () {
 };
 
 // Section that can be added to the sectionQueue of SectionManager, inherits Section.
-function CoffeeSection (width) {
-    Section.call(this, width);
-    this.getContainer = function(target) {
+function CoffeeSectionWrapper (width) {
+    function CoffeeSection () {
+        Section.call(this, width);
+
         this.objects.splice(0);
         var container = new PIXI.DisplayObjectContainer();
         var coffee = new Coffee(205, SceneManager.renderer.height);
         container.addChild(coffee.sprite);
 
         target.objects.push(coffee);
-        return coffee.addChild(container);
+        this.container = coffee.addChild(container);
     };
-};
 
-CoffeeSection.prototype.update = function () {
-    this.objects.forEach(function (e) {
-        e.update();
-    });
-};
+    CoffeeSection.prototype = new Section();
+    CoffeeSection.prototype.constructor = CoffeeSection;
 
-CoffeeSection.prototype = new Section();
-CoffeeSection.prototype.constructor = CoffeeSection;
+    CoffeeSection.prototype.update = function () {
+        this.objects.forEach(function (e) {
+            e.update();
+        });
+    };
+
+    return CoffeeSection;
+}
