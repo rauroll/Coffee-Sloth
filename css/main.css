@@ -1,0 +1,23 @@
+body {
+	font-family: Open Sans, sans-serif;
+	background: #232323;
+}
+
+.main-wrapper {
+	width: 960px;
+	text-align: center;
+	margin: 5em auto;
+}
+
+.main-wrapper canvas {
+	width: 100%;
+	height: auto;
+	border-radius: 1em;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width:960px) {
+	.main-wrapper {
+		width: 100%;
+	}
+}
