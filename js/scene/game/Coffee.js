@@ -1,4 +1,4 @@
-function Coffee(width, height) {
+function Coffee (width, height) {
     this.sprite = PIXI.Sprite.fromImage("asset/image/coffee.png");
     this.sprite.pivot.set(this.sprite.width / 2, this.sprite.height / 2);
     this.sprite.position.x = (Math.min(width - this.sprite.width, width * Math.random()));
@@ -6,12 +6,12 @@ function Coffee(width, height) {
 };
 
 Coffee.prototype = new PIXI.DisplayObjectContainer();
-Coffee.prototype.update = function() {
+Coffee.prototype.update = function () {
     this.sprite.rotation += 0.08;
 };
 
 // Section that can be added to the sectionQueue of SectionManager, inherits Section.
-function CoffeeSection(width) {
+function CoffeeSection (width) {
     Section.call(this, width);
     this.getContainer = function(target) {
         this.objects.splice(0);
@@ -24,9 +24,9 @@ function CoffeeSection(width) {
     };
 };
 
-CoffeeSection.prototype.update = function() {
-    this.objects.forEach(function(e) {
-        e.update()
+CoffeeSection.prototype.update = function () {
+    this.objects.forEach(function (e) {
+        e.update();
     });
 };
 
