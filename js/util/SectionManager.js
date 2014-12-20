@@ -1,10 +1,11 @@
-function SectionManager(viewportWidth, viewportHeight, sections) {
+function SectionManager(viewportWidth, viewportHeight, player, sections) {
 	this.viewportWidth = viewportWidth;
 	this.viewportHeight = viewportHeight;
 	this.sections = sections;
 	this.sectionQueue = [];
 	this.currentSection;
 	this.container = new PIXI.DisplayObjectContainer();
+	this.player = player;
 }
 
 SectionManager.prototype = {
@@ -25,6 +26,14 @@ SectionManager.prototype = {
 					this.dequeueSection(section);
 					i--;
 				}
+				
+				if (!section.playerIsInside && this.player.position.x > section.container.x && this.player.position.x < section.container.x + section.width) {
+					section.playerIsInside = true;
+					section.playerEntered();
+				} else if (section.playerIsInside && this.player.position.x > section.container.x + section.width) {
+					section.playerIsInside = false;
+					section.playerExited();
+				}
 			}
 		}
 	},
@@ -34,7 +43,7 @@ SectionManager.prototype = {
 			var lastSection = this.sectionQueue[this.sectionQueue.length - 1];
 			offset = lastSection.container.position.x + lastSection.width;
 		}
-		var randomSection = this.sections[Math.floor(Math.random() * this.sections.length)].clone();
+		var randomSection = new this.sections[Math.floor(Math.random() * this.sections.length)];
 		randomSection.container.position.x = offset;
 		this.enqueueSection(randomSection);
 	},
@@ -61,6 +70,7 @@ function Section(width) {
 	this.width = width;
 	this.container;
 	this.objects = [];
+	this.playerIsInside = false;
 }
 
 Section.prototype = {	
@@ -72,13 +82,6 @@ Section.prototype = {
 	},
 	enqueued: function () {},
 	dequeued: function () {},
-	getWidth: function () {
-		return this.container.getBounds().width;
-	},
-	getContainer: function () {},
-	clone: function () {
-		var newSection = new Section(this.width);
-		newSection.container = this.getContainer(newSection);
-		return newSection;
-	}
+	playerEntered: function () {},
+	playerExited: function () {}
 };
