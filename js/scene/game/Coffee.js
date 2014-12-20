@@ -3,11 +3,16 @@ function Coffee (width, height) {
     this.sprite.pivot.set(this.sprite.width / 2, this.sprite.height / 2);
     this.sprite.position.x = (Math.min(width - this.sprite.width, width * Math.random()));
     this.sprite.position.y = (Math.min(height - 100, Math.min(height - this.sprite.height, height * Math.random())));
+
+    this.scaleStepper = 0;
+    this.rotationStepper = 0;
 };
 
 Coffee.prototype = new PIXI.DisplayObjectContainer();
 Coffee.prototype.update = function () {
-    this.sprite.rotation += 0.08;
+    this.sprite.rotation = Math.sin(this.rotationStepper += 0.2) * 0.4;
+    this.sprite.scale.x = ((Math.sin(this.scaleStepper += 0.3) + 1) / 2) * 0.2 + 0.8;
+    this.sprite.scale.y = this.sprite.scale.x;
 };
 
 // Section that can be added to the sectionQueue of SectionManager, inherits Section.
