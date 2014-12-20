@@ -1,5 +1,5 @@
 var viewportWidth = 1280;
-var viewportHeight = 780;
+var viewportHeight = 720;
 $(document).ready(function () {
 	$('.game-wrapper').append(SceneManager.init());
 
