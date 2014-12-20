@@ -25,8 +25,8 @@ function GameOverOverlay() {
 	
 	this.show = function () {
 		this.displayObject.visible = true;
-	}
+	};
 	this.hide = function () {
 		this.displayObject.visible = false;
-	}
-}
+	};
+};

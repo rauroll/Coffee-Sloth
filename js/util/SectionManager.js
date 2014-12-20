@@ -12,12 +12,10 @@ SectionManager.prototype = {
 		if(this.sectionQueue.length === 0) {
 			this.increaseQueue();
 		} else {
-
 			for(var i = 0; i < this.sectionQueue.length; i++) {
 				var section = this.sectionQueue[i];
 				section.container.x -= velocity.x;
 				section.update();
-
 
 				if((i === this.sectionQueue.length - 1 && section.isVisible(this)) || this.sectionQueue.length === 0) {
 					this.increaseQueue();
@@ -25,7 +23,7 @@ SectionManager.prototype = {
 				}
 				if (section.container.x < -1000) {
 					this.dequeueSection(section);
-					i--
+					i--;
 				}
 			}
 		}
