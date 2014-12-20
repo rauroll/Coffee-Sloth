@@ -56,6 +56,23 @@ function GameScene() {
 		sectionManager.update(sloth.velocity);
 		if(!gameIsOver)
 			distance.update(sloth.velocity.x);
+
+		if (!gameIsOver) {
+
+			// Check for coffees and drink them!
+			for (var i = 0; i < sectionManager.sectionQueue.length; i++) {
+				var section = sectionManager.sectionQueue[i];
+				for (var j = 0; j < section.objects.length; j++) {
+					var obj = section.objects[j];
+					if (sloth.collidesWithRect(obj.sprite)) {
+						coffeeBar.increase();
+						section.container.removeChildAt(j);
+						section.objects.splice(j, 1);
+						j--
+					}
+				}
+			}
+		}
 	};
 
 	this.init = function () {

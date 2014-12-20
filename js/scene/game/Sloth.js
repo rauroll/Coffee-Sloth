@@ -12,9 +12,11 @@ function Sloth() {
 	var removeRotationBoost = false;
 	var rotationVelocity = 0;
 	var interval;
+	var collisionRange = 10;
 
 	var slothFrameIndex = 1;
 	var slothFrameOffset = 0;
+
 
 	this.update = function (throttle) {
 		if (throttle) {
@@ -60,5 +62,21 @@ function Sloth() {
 	}
 	this.collidesWith = function (x, y) {
 		return Math.sqrt(x !== undefined ? Math.pow(d.position.x - x, 2) : 0 + y !== undefined ? Math.pow(d.position.y - y, 2) : 0) < 10;
-	}	
+	}
+	this.collidesWithRect = function(sprite) {
+		var spriteBounds = sprite.getBounds();
+		var slothx = d.position.x;
+		var slothy = d.position.y;
+		var x2 = spriteBounds.x + spriteBounds.width;
+		var y2 = spriteBounds.y + spriteBounds.height;
+		var xDiff = (slothx < spriteBounds.x) ? spriteBounds.x - slothx : slothx - x2;
+		var yDiff = (slothy < spriteBounds.y) ? spriteBounds.y - slothy : slothy - y2;
+		xDiff = (xDiff < 0) ? 0 : xDiff;
+		yDiff = (yDiff < 0) ? 0 : yDiff;
+		return Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2)) < collisionRange;
+	}
+
+	this.location = function() {
+		return d.position;
+	}
 };

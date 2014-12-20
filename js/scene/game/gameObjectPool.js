@@ -137,7 +137,7 @@ function Coffee(width, height) {
 
 Coffee.prototype = new PIXI.DisplayObjectContainer();
 Coffee.prototype.update = function() {
-    this.sprite.rotation += 0.02;
+    this.sprite.rotation += 0.08;
 }
 
 // Section that can be added to the sectionQueue of SectionManager, inherits Section.
@@ -145,9 +145,12 @@ function CoffeeSection(width) {
     Section.call(this, width);
     this.getContainer = function(target) {
         this.objects.splice(0);
+        var container = new PIXI.DisplayObjectContainer();
         var coffee = new Coffee(205, SceneManager.renderer.height);
+        container.addChild(coffee.sprite);
+
         target.objects.push(coffee);
-        return coffee.addChild(coffee.sprite);
+        return coffee.addChild(container);
     }
 }
 

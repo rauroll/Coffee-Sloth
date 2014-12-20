@@ -49,6 +49,9 @@ SectionManager.prototype = {
 		section.dequeued();
 		this.sectionQueue.shift();
 		//this.container.removeChild(section.container);
+	},
+	removeSectionAt: function(i) {
+		this.sectionQueue.splice(i, 1);
 	}
 };
 
