@@ -22,6 +22,10 @@ function GameScene() {
 	var coffeeBar = new CoffeeBar();
 	var distance = new Distance(SceneManager.renderer.width, SceneManager.renderer.height);
 
+	$(sloth).on('loop', function (event, loops) {
+		console.log(loops);
+	});
+
 	// key actionds
 	var throttleKeyAction = new KeyAction([38], 
 		function () { sloth.accelerate(true); }, 

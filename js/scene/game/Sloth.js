@@ -17,6 +17,8 @@ function Sloth() {
 	var slothFrameIndex = 1;
 	var slothFrameOffset = 0;
 
+	var spinStart = 0;
+
 
 	this.update = function (throttle) {
 		if (throttle) {
@@ -35,6 +37,15 @@ function Sloth() {
 
 		d.position.y += this.velocity.y;
 		d.rotation += rotationVelocity / 200;
+
+		if (Math.abs(rotationVelocity) > 10 && spinStart === 0)
+			spinStart = d.rotation;
+		else if (Math.abs(rotationVelocity) < 10 && spinStart !== 0) {
+			var loops = (d.rotation - spinStart) / (2 * Math.PI);
+			if (Math.abs(loops) > 0.5)
+				$(this).trigger('loop', loops);
+			spinStart = 0;
+		}
 
 		if(removeRotationBoost && rotationVelocity !== 0)
 			rotationVelocity += rotationVelocity > 0 ? -0.5 : 0.5;
