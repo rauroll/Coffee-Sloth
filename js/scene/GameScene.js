@@ -48,13 +48,8 @@ function GameScene() {
 		backgrounds.update(sloth.velocity);
 		sectionManager.update(sloth.velocity);
 
-<<<<<<< HEAD
 		if(!gameIsOver && (coffeeBar.isEmpty() || sloth.collidesWith(undefined, SceneManager.renderer.height) || sloth.collidesWith(undefined, 0)))
-			gameOver();
-=======
-		if(!gameIsOver && (coffeeBar.isEmpty() || sloth.collidesWith(undefined, 470) || sloth.collidesWith(undefined, 0)))
 			this.gameOver();
->>>>>>> 642d1e2a8716cead17ebce4b8a826fca3d3d310f
 		else
 			coffeeBar.decrease(0.001);
 
