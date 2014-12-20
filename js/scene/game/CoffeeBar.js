@@ -18,7 +18,7 @@ function CoffeeBar() {
 	this.container.position.set(SceneManager.renderer.width / 2 - width / 2, height);
 
 	this.show = function () {
-		this.container.visibile = true;
+		this.container.visible = true;
 	};
 
 	this.hide = function () {
