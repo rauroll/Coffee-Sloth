@@ -44,17 +44,17 @@ function GameScene() {
 	// methods
 
 	this.update = function () {
-		sloth.update(throttleKeyAction.active);
-		backgrounds.update(sloth.velocity);
-		sectionManager.update(sloth.velocity);
-
-		if(!gameIsOver && (coffeeBar.isEmpty() || sloth.collidesWith(undefined, SceneManager.renderer.height) || sloth.collidesWith(undefined, 0)))
+		if(!gameIsOver && (coffeeBar.isEmpty() || sloth.collidesWith(undefined, SceneManager.renderer.height)))
 			this.gameOver();
 		else
 			coffeeBar.decrease(0.001);
 
-		if(!gameIsOver)
+		if(!gameIsOver) {
 			distance.update(sloth.velocity.x);
+			sloth.update(throttleKeyAction.active);
+			backgrounds.update(sloth.velocity);
+			sectionManager.update(sloth.velocity);
+		}
 
 		if (!gameIsOver) {
 

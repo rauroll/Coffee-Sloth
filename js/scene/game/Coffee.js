@@ -10,7 +10,7 @@ function Coffee (width, height) {
 
 Coffee.prototype = new PIXI.DisplayObjectContainer();
 Coffee.prototype.update = function () {
-    this.sprite.rotation = Math.sin(this.rotationStepper += 0.2) * 0.4;
+    this.sprite.rotation = Math.sin(this.rotationStepper += 0.2) * 0.1;
     this.sprite.scale.x = ((Math.sin(this.scaleStepper += 0.3) + 1) / 2) * 0.2 + 0.8;
     this.sprite.scale.y = this.sprite.scale.x;
 };

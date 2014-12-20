@@ -35,6 +35,10 @@ function Sloth() {
 		this.velocity.y -= acceleration * Math.cos(d.rotation + 1) - gravity - airResistance * this.velocity.y;
 
 		d.position.y += this.velocity.y;
+		if (d.position.y < d.pivot.y) {
+			d.position.y = d.pivot.y;
+			this.velocity.y = 0;
+		}
 		d.rotation += rotationVelocity / 200;
 
 		if (Math.abs(rotationVelocity) > 10 && spinStart === 0)
@@ -68,6 +72,7 @@ function Sloth() {
 		d.position.set(300, 200);
 		acceleration = 0;
 		this.velocity.set(0, 0);
+		rotationVelocity = 0;
 		d.rotation = 0;
 	}
 	this.collidesWith = function (x, y) {

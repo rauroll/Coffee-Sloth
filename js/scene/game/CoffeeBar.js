@@ -1,6 +1,6 @@
 function CoffeeBar() {
-	var width = 200;
-	var height = 20;
+	var width = 300;
+	var height = 30;
 
 	this.container = new PIXI.DisplayObjectContainer();
 
