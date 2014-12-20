@@ -1,5 +1,5 @@
 function Sloth() {
-	var radius = 40;
+	var radius = 80;
 	this.displayObject = new PIXI.Sprite.fromImage('asset/image/sloth/slothsprite1.png');
 	this.displayObject.pivot.set(70, 30);
 	this.displayObject.rotation = 0;
@@ -18,7 +18,6 @@ function Sloth() {
 	var slothFrameOffset = 0;
 
 	var spinStart = 0;
-
 
 	this.update = function (throttle) {
 		if (throttle) {

@@ -1,4 +1,4 @@
-var airResistance = -0.02;
+var airResistance = -0.01;
 var gravity = 0.1;
 
 function GameScene() {
@@ -16,7 +16,7 @@ function GameScene() {
 	var distance = new Distance(SceneManager.renderer.width, SceneManager.renderer.height);
 
 	// sections
-	var sectionManager = new SectionManager(SceneManager.renderer.width, SceneManager.renderer.height, sloth.displayObject, [
+	var sectionManager = new SectionManager(viewportWidth, viewportHeight, sloth.displayObject, [
 		generateCoffeeSection(205),
 		generateFlipSection(sloth)
 	]);

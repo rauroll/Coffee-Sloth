@@ -8,7 +8,7 @@ function generateFlipSection(sloth) {
 
 		var background = new PIXI.Graphics();
 		background.beginFill(0xffffff);
-		background.drawRect(0, 0, this.width, 480);
+		background.drawRect(0, 0, this.width, viewportHeight);
 		background.alpha = 0.2;
 		this.background = background;
 
