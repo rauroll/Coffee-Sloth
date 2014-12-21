@@ -40,5 +40,18 @@ function generateCoffeeSection (width) {
         });
     };
 
+    CoffeeSection.prototype.checkForCollisionsWith = function(sloth) {
+        for (var j = 0; j < this.objects.length; j++) {
+            var obj = this.objects[j];
+            if (sloth.collidesWithRect(obj.sprite)) {
+                SceneManager.getScene('game').getCoffeeBar().increase();
+                this.container.removeChildAt(j);
+                this.objects.splice(j, 1);
+                console.log("Collision")
+                j--;
+            }
+        }
+    }
+
     return CoffeeSection;
 }

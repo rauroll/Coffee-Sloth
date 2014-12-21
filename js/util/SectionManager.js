@@ -97,5 +97,6 @@ Section.prototype = {
 	enqueued: function () {},
 	dequeued: function () {},
 	playerEntered: function () {},
-	playerExited: function () {}
+	playerExited: function () {},
+	checkForCollisionsWith: function(sloth) {}
 };

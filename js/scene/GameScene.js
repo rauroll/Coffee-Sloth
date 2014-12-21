@@ -18,7 +18,8 @@ function GameScene() {
 	// sections
 	var sectionManager = new SectionManager(viewportWidth, viewportHeight, sloth.displayObject, [
 		generateCoffeeSection(205),
-		generateFlipSection(sloth)
+		generateFlipSection(sloth),
+		generateHorizontalBarSection(100, 500, viewportHeight)
 	]);
 
 	// key actionds
@@ -64,15 +65,11 @@ function GameScene() {
 			// Check for coffees and drink them!
 			for (var i = 0; i < sectionManager.sectionQueue.length; i++) {
 				var section = sectionManager.sectionQueue[i];
-				for (var j = 0; j < section.objects.length; j++) {
-					var obj = section.objects[j];
-					if (sloth.collidesWithRect(obj.sprite)) {
-						coffeeBar.increase();
-						section.container.removeChildAt(j);
-						section.objects.splice(j, 1);
-						j--;
-					}
-				}
+
+				// Process collision check for sections
+
+				section.checkForCollisionsWith(sloth);
+
 			}
 		}
 	};
@@ -118,6 +115,10 @@ function GameScene() {
 		sectionManager.reset();
 		gameIsOver = false;
 	};
+
+	this.getCoffeeBar = function() {
+		return coffeeBar;
+	}
 };
 
 CScene.extendWith(GameScene);
