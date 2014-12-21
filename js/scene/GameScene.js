@@ -19,7 +19,7 @@ function GameScene() {
 	var sectionManager = new SectionManager(viewportWidth, viewportHeight, sloth.displayObject, [
 		generateCoffeeSection(205),
 		generateFlipSection(sloth),
-		generateHorizontalBarSection(100, 500, viewportHeight)
+		generateHorizontalBarSection(50, 300)
 	]);
 
 	// key actionds

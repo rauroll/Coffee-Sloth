@@ -1,35 +1,28 @@
-/**
- * Created by Olli on 21/12/14.
- */
 function HorizontalBar(x, y, width, height) {
-
-
     var bar = new PIXI.Graphics();
-    bar.beginFill(0x000000);
+    bar.beginFill(0xFFFFFF, 0.9);
     bar.drawRect(x, y, width, height);
     return bar;
 }
 
-function generateHorizontalBarSection(width, height, viewHeight) {
+function generateHorizontalBarSection(width, height) {
     function HorBarSection() {
-        Section.call(this, width);
+        var offset = new PIXI.Point(25, 100);
+        Section.call(this, width + offset.x);
+
         this.direction = 1;
-        var offsety = 100;
-        this.topLimit = offsety;
-        var offsetx = 25;
-        this.lowerLimit = viewHeight - offsety;
+        
+        this.upperLimit = offset.y;
+        this.lowerLimit = viewportHeight - offset.y;
+
         this.objects.splice(0);
-        var container = new PIXI.DisplayObjectContainer();
-        var barHeight = Math.max(100, Math.random() * height);
-        this.ypos = Math.random() * (viewHeight - height);
-        var bar = new HorizontalBar(offsetx, this.ypos, width - offsetx, barHeight);
-        container.addChild(bar);
 
-
-        this.container = container;
+        this.container = new PIXI.DisplayObjectContainer();
+        var barHeight = Math.random() * (height - 100) + 100;
+        this.ypos = Math.random() * (viewportHeight - height);
+        this.bar = new HorizontalBar(offset.x, this.ypos, width - offset.x, barHeight);
+        this.container.addChild(this.bar);
     }
-
-
 
     HorBarSection.weight = 1;
 
@@ -41,27 +34,30 @@ function generateHorizontalBarSection(width, height, viewHeight) {
     }
 
     HorBarSection.prototype.checkForCollisionsWith = function(sloth) {
-        var bar = this.container.children[0];
-        if (sloth.collidesWithRect(bar)) {
+        if (sloth.collidesWithRect(this.bar))
             SceneManager.getScene('game').gameOver();
-        }
-
     }
 
     HorBarSection.prototype.update = function() {
-
-
-        var bar = this.container.children[0];
+        var bar = this.bar;
         var actualY = this.ypos + bar.y;
 
-        if (bar.height < (this.lowerLimit - this.topLimit)) {
+        if (bar.height < (this.lowerLimit - this.upperLimit)) {
             bar.y += this.direction
             switch(this.direction) {
                 case -1:
-                    if (actualY > this.topLimit) { bar.y += this.direction } else { this.direction *= -1};
+                    if (actualY > this.upperLimit) { 
+                        bar.y += this.direction 
+                    } else { 
+                        this.direction *= -1 
+                    }
                     break;
                 case 1:
-                    if (actualY + bar.height < this.lowerLimit) { bar.y += this.direction} else { this.direction *= -1};
+                    if (actualY + bar.height < this.lowerLimit) { 
+                        bar.y += this.direction
+                    } else { 
+                        this.direction *= -1 
+                    }
                     break;
             }
         }
@@ -69,4 +65,3 @@ function generateHorizontalBarSection(width, height, viewHeight) {
 
     return HorBarSection;
 }
-
