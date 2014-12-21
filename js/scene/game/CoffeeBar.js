@@ -1,21 +1,24 @@
 function CoffeeBar() {
-	var width = 300;
-	var height = 30;
+	var width = 400;
+	var height = 15;
 
 	this.container = new PIXI.DisplayObjectContainer();
 
 	var inside = new PIXI.Graphics();
-	inside.beginFill(0xFFFFFF, 0.8);
-	inside.drawRect(0, 0, width, width / 10);
+	inside.beginFill(0xFFFFFF);
+	inside.drawRect(0, 0, width, height);
 	inside.scale.x = 1;
+	var colorFilter = new PIXI.ColorMatrixFilter();
+	inside.filters = [colorFilter];
 	this.container.addChild(inside);
 
 	var outline = new PIXI.Graphics();
-	outline.lineStyle(2, 0xFFFFFF, 0.8);
-	outline.drawRect(0, 0, width, width / 10);
+	outline.lineStyle(3, 0xFFFFFF);
+	outline.drawRect(0, 0, width, height);
+	outline.filters = [colorFilter];
 	this.container.addChild(outline);
 
-	this.container.position.set(SceneManager.renderer.width / 2 - width / 2, height);
+	this.container.position.set(viewportWidth / 2 - width / 2, 10);
 
 	this.show = function () {
 		this.container.visible = true;
@@ -28,10 +31,12 @@ function CoffeeBar() {
 	this.increase = function (amount) {
 		amount = amount || 0.2;
 		inside.scale.x = Math.min(1, inside.scale.x + amount);
+		updateColor();
 	};
 
 	this.decrease = function (amount) {
 		inside.scale.x = Math.max(0, inside.scale.x - amount);
+		updateColor();
 	};
 
 	this.isEmpty = function (amount) {
@@ -40,5 +45,16 @@ function CoffeeBar() {
 
 	this.fill = function () {
 		inside.scale.x = 1;
+		updateColor();
+	}
+
+	function updateColor() {
+		var s = inside.scale.x;
+		colorFilter.matrix = [
+			Math.min(1, 2 - 2 * s),0,0,0,
+			0,Math.min(1, 2 * s),0,0,
+			0,0,0.2,0,
+			0,0,0,1
+		];
 	}
 };
