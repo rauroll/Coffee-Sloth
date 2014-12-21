@@ -47,7 +47,6 @@ function generateCoffeeSection (width) {
                 SceneManager.getScene('game').getCoffeeBar().increase();
                 this.container.removeChildAt(j);
                 this.objects.splice(j, 1);
-                console.log("Collision")
                 j--;
             }
         }
