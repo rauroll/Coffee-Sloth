@@ -3,16 +3,16 @@ function Backgrounds() {
 
 	var container = new PIXI.DisplayObjectContainer();
 
-	var farTexture = PIXI.Texture.fromImage("asset/image/bg-far.png");
-	var far = new PIXI.TilingSprite(farTexture, 960, 640);
-	var midTexture = PIXI.Texture.fromImage("asset/image/bg-mid.png");
-	var mid = new PIXI.TilingSprite(midTexture, 960, 640);
+	var farTexture = PIXI.Texture.fromImage("asset/image/bluetheme/bg-far.png");
+	var far = new PIXI.TilingSprite(farTexture, 1280, 720);
+	var midTexture = PIXI.Texture.fromImage("asset/image/bluetheme/bg-mid.png");
+	var mid = new PIXI.TilingSprite(midTexture, 1280, 720);
 	far.tilePosition.set(0, 0);
 	mid.tilePosition.set(0, 0);
-	var floorTexture = PIXI.Texture.fromImage("asset/image/floorTile.png");
-	var floor = new PIXI.TilingSprite(floorTexture, 960, 50);
+	var floorTexture = PIXI.Texture.fromImage("asset/image/bluetheme/floor.png");
+	var floor = new PIXI.TilingSprite(floorTexture, 1280, 50);
 	floor.tilePosition.set(0, 0);
-	floor.anchor.y = -8.6;
+	floor.anchor.y = -13.2;
 
 	container.addChild(far);
 	container.addChild(mid);

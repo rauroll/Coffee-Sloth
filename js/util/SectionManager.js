@@ -1,10 +1,14 @@
-function SectionManager(viewportWidth, viewportHeight, sections) {
+function SectionManager(viewportWidth, viewportHeight, player, sections) {
 	this.viewportWidth = viewportWidth;
 	this.viewportHeight = viewportHeight;
-	this.sections = sections;
+	this.sections = sections.sort(function (a, b) {
+		return a.weight - b.weight;
+	});
+	this.maxWeight = this.sections[this.sections.length - 1].weight;
 	this.sectionQueue = [];
 	this.currentSection;
 	this.container = new PIXI.DisplayObjectContainer();
+	this.player = player;
 }
 
 SectionManager.prototype = {
@@ -25,6 +29,15 @@ SectionManager.prototype = {
 					this.dequeueSection(section);
 					i--;
 				}
+				
+				var p = this.player.position;
+				if (!section.playerIsInside && p.x > section.container.x && p.x < section.container.x + section.width) {
+					section.playerIsInside = true;
+					section.playerEntered();
+				} else if (section.playerIsInside && (p.x > section.container.x + section.width || p.x < section.container.x)) {
+					section.playerIsInside = false;
+					section.playerExited();
+				}
 			}
 		}
 	},
@@ -34,7 +47,17 @@ SectionManager.prototype = {
 			var lastSection = this.sectionQueue[this.sectionQueue.length - 1];
 			offset = lastSection.container.position.x + lastSection.width;
 		}
-		var randomSection = this.sections[Math.floor(Math.random() * this.sections.length)].clone();
+		var r = Math.random() * this.maxWeight;
+		var randomSection;
+		var c = 0;
+		for(var i = 0; i < this.sections.length; i++) {
+			var s = this.sections[i];
+			c += s.weight;
+			if (r < c) {
+				randomSection = new s;
+				break;
+			}
+		}
 		randomSection.container.position.x = offset;
 		this.enqueueSection(randomSection);
 	},
@@ -61,6 +84,7 @@ function Section(width) {
 	this.width = width;
 	this.container;
 	this.objects = [];
+	this.playerIsInside = false;
 }
 
 Section.prototype = {	
@@ -72,13 +96,6 @@ Section.prototype = {
 	},
 	enqueued: function () {},
 	dequeued: function () {},
-	getWidth: function () {
-		return this.container.getBounds().width;
-	},
-	getContainer: function () {},
-	clone: function () {
-		var newSection = new Section(this.width);
-		newSection.container = this.getContainer(newSection);
-		return newSection;
-	}
+	playerEntered: function () {},
+	playerExited: function () {}
 };

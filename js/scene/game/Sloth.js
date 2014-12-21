@@ -1,5 +1,5 @@
 function Sloth() {
-	var radius = 40;
+	var radius = 50;
 	this.displayObject = new PIXI.Sprite.fromImage('asset/image/sloth/slothsprite1.png');
 	this.displayObject.pivot.set(70, 30);
 	this.displayObject.rotation = 0;
@@ -17,6 +17,7 @@ function Sloth() {
 	var slothFrameIndex = 1;
 	var slothFrameOffset = 0;
 
+	var spinStart = 0;
 
 	this.update = function (throttle) {
 		if (throttle) {
@@ -34,7 +35,20 @@ function Sloth() {
 		this.velocity.y -= acceleration * Math.cos(d.rotation + 1) - gravity - airResistance * this.velocity.y;
 
 		d.position.y += this.velocity.y;
+		if (d.position.y < d.pivot.y) {
+			d.position.y = d.pivot.y;
+			this.velocity.y = 0;
+		}
 		d.rotation += rotationVelocity / 200;
+
+		if (Math.abs(rotationVelocity) > 15 && spinStart === 0)
+			spinStart = d.rotation;
+		else if (Math.abs(rotationVelocity) < 15 && spinStart !== 0) {
+			var loops = (d.rotation - spinStart) / (2 * Math.PI);
+			if (Math.abs(loops) > 0.5)
+				$(this).trigger('loop', loops);
+			spinStart = 0;
+		}
 
 		if(removeRotationBoost && rotationVelocity !== 0)
 			rotationVelocity += rotationVelocity > 0 ? -0.5 : 0.5;
@@ -58,10 +72,11 @@ function Sloth() {
 		d.position.set(300, 200);
 		acceleration = 0;
 		this.velocity.set(0, 0);
+		rotationVelocity = 0;
 		d.rotation = 0;
 	}
 	this.collidesWith = function (x, y) {
-		return Math.sqrt(x !== undefined ? Math.pow(d.position.x - x, 2) : 0 + y !== undefined ? Math.pow(d.position.y - y, 2) : 0) < 10;
+		return Math.sqrt(x !== undefined ? Math.pow(d.position.x - x, 2) : 0 + y !== undefined ? Math.pow(d.position.y - y, 2) : 0) < radius;
 	}
 	this.collidesWithRect = function(sprite) {
 		var spriteBounds = sprite.getBounds();
