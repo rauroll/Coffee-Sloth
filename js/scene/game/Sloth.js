@@ -12,7 +12,7 @@ function Sloth() {
 	var removeRotationBoost = false;
 	var rotationVelocity = 0;
 	var interval;
-	var collisionRange = 10;
+	var collisionRange = 20;
 
 	var slothFrameIndex = 1;
 	var slothFrameOffset = 0;
