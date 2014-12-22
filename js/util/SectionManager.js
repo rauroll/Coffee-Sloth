@@ -76,7 +76,6 @@ SectionManager.prototype = {
 	addStartingSection: function (width) {
 		var sectionGen = generateStartingSection(width);
 		var section = new sectionGen;
-		console.log(section);
 		this.enqueueSection(section);
 	},
 

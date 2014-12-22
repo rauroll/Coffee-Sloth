@@ -14,8 +14,6 @@ function generateHorizontalBarSection(width, height) {
         
         this.upperLimit = offset.y;
         this.lowerLimit = viewportHeight - offset.y;
-        console.log("Before splicing:", this.objects);
-        this.objects.splice(0);
 
         this.container = new PIXI.DisplayObjectContainer();
         var barHeight = Math.random() * (height - 100) + 100;
