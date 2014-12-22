@@ -9,14 +9,14 @@ function GameScene() {
 	this.scene = new PIXI.DisplayObjectContainer();
 
 	// display elements
-	var sloth = new Sloth();
+	sloth = new Sloth();
 	var backgrounds = new Backgrounds();
 	var overlay = new GameOverOverlay();
 	var coffeeBar = new CoffeeBar();
 	var distance = new Distance(SceneManager.renderer.width, SceneManager.renderer.height);
 
 	// sections
-	var sectionManager = new SectionManager(viewportWidth, viewportHeight, sloth.displayObject, [
+	sectionManager = new SectionManager(viewportWidth, viewportHeight, sloth.displayObject, [
 		generateCoffeeSection(205),
 		generateFlipSection(sloth),
 		generateHorizontalBarSection(50, 300)

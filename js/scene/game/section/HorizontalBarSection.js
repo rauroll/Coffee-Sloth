@@ -7,14 +7,14 @@ function HorizontalBar(x, y, width, height) {
 
 function generateHorizontalBarSection(width, height) {
     function HorBarSection() {
-        var offset = new PIXI.Point(25, 100);
+        var offset = new PIXI.Point(30, 50);
         Section.call(this, width + offset.x);
 
         this.direction = 1;
         
         this.upperLimit = offset.y;
         this.lowerLimit = viewportHeight - offset.y;
-
+        console.log("Before splicing:", this.objects);
         this.objects.splice(0);
 
         this.container = new PIXI.DisplayObjectContainer();

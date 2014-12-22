@@ -6,7 +6,6 @@ function SectionManager(viewportWidth, viewportHeight, player, sections) {
 	});
 	this.maxWeight = this.sections[this.sections.length - 1].weight;
 	this.sectionQueue = [];
-	this.currentSection;
 	this.container = new PIXI.DisplayObjectContainer();
 	this.player = player;
 }
@@ -14,7 +13,7 @@ function SectionManager(viewportWidth, viewportHeight, player, sections) {
 SectionManager.prototype = {
 	update: function (velocity) {
 		if(this.sectionQueue.length === 0) {
-			this.increaseQueue();
+			this.addStartingSection(viewportWidth*0.8);
 		} else {
 			for(var i = 0; i < this.sectionQueue.length; i++) {
 				var section = this.sectionQueue[i];
@@ -74,6 +73,13 @@ SectionManager.prototype = {
 	removeSectionAt: function(i) {
 		this.sectionQueue.splice(i, 1);
 	},
+	addStartingSection: function (width) {
+		var sectionGen = generateStartingSection(width);
+		var section = new sectionGen;
+		console.log(section);
+		this.enqueueSection(section);
+	},
+
 	reset: function() {
 		this.container.removeChildren();
 		this.sectionQueue.splice(0, this.sectionQueue.length);
