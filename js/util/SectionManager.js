@@ -25,7 +25,7 @@ SectionManager.prototype = {
 					this.increaseQueue();
 					break;
 				}
-				if (section.container.x < -1000) {
+				if (section.container.x < -viewportWidth) {
 					this.dequeueSection(section);
 					i--;
 				}
