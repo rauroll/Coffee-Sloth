@@ -49,7 +49,7 @@ var AudioManager = {
 				t.theme.setVolume(t.theme.getVolume() + step);
 				if(t.theme.getVolume() === volume)
 					clearInterval(t.fader);
-			}, 40);
+			}, 20);
 		}
 	},
 	playCoffee: function () {
