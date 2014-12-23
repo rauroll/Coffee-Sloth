@@ -22,7 +22,7 @@ function CoffeeSection () {
 
     this.objects.splice(0);
     var container = new PIXI.DisplayObjectContainer();
-    var coffee = new Coffee(width, SceneManager.renderer.height);
+    var coffee = new Coffee(width, viewportHeight);
     container.addChild(coffee.sprite);
 
     this.objects.push(coffee);

@@ -91,7 +91,7 @@ function Sloth() {
 		return Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2)) < collisionRange;
 	}
 
-	this.location = function() {
+	this.getLocation = function() {
 		return d.position;
 	}
 };

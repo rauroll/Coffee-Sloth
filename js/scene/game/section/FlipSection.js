@@ -38,11 +38,12 @@ function FlipSection() {
 	container.addChild(text);
 	var t = this;
 	$(t.sloth).on('loop', function (event, loops) {
-		if(t.playerIsInside) {
+		if(t.playerIsInside && !SceneManager.getScene('game').gameIsOver()) {
 			if (loops < 0.8) {
 				text.setText('Go!');
 				text.center(background);
 				t.looped = true;
+				AudioManager.playFlip();
 				t.background.filters = [greenFilter];
 			}
 		}

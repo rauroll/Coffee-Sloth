@@ -20,7 +20,8 @@ function GameScene() {
 		CoffeeSection,
 		FlipSection,
 		HorizontalBarSection,
-		SpinningBarSection
+		//SpinningBarSection
+		EnemySection
 	]);
 
 	// key actionds
@@ -51,21 +52,21 @@ function GameScene() {
 	// methods
 
 	this.update = function () {
-		if(!gameIsOver && sloth.collidesWith(undefined, SceneManager.renderer.height))
+		if(!this.gameIsOver() && sloth.collidesWith(undefined, SceneManager.renderer.height))
 			this.gameOver();
 		else
 			coffeeBar.decrease(0.001);
 
 		throttleKeyAction.enabled = !coffeeBar.isEmpty();
 
-		if(!gameIsOver) {
+		if(!this.gameIsOver()) {
 			distance.update(sloth.velocity.x);
 			sloth.update(throttleKeyAction.active);
 			backgrounds.update(sloth.velocity);
 			sectionManager.update(sloth.velocity);
 		}
 
-		if (!gameIsOver) {
+		if (!this.gameIsOver()) {
 
 			// Check for coffees and drink them!
 			for (var i = 0; i < sectionManager.sectionQueue.length; i++) {
@@ -109,7 +110,10 @@ function GameScene() {
 		throttleKeyAction.enabled = false;
 		throttleKeyAction.onKeyUp();
 		coffeeBar.hide();
-		AudioManager.death.play();
+		AudioManager.playDeath();
+	};
+	this.gameIsOver = function () {
+		return gameIsOver;
 	};
 	this.newGame = function () {
 		overlay.hide();
