@@ -35,9 +35,9 @@ HorizontalBarSection.prototype.checkForCollisionsWith = function(sloth) {
 }
 
 HorizontalBarSection.prototype.update = function () {
-    this.setBarPosition(this.stepper += 0.01);
+    this.setBarPosition(Math.sin(this.stepper += 0.01));
 }
 
 HorizontalBarSection.prototype.setBarPosition = function (pos) {
-    this.bar.position.y = Math.sin(pos) * (viewportHeight / 2 - this.barHeight / 2);
+    this.bar.position.y = pos * (viewportHeight / 2 - this.barHeight / 2);
 }

@@ -1,5 +1,8 @@
 function KeyboardInputManager(actions) {
 	this.actions = actions;
+	this.actions.push(new KeyAction([77], null, function () {
+		AudioManager.toggleMute();
+	}));
 };
 
 KeyboardInputManager.prototype.add = function (keyAction) {

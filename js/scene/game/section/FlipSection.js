@@ -51,7 +51,7 @@ function FlipSection() {
 	this.container = container;
 }
 
-FlipSection.weight = 1;
+FlipSection.weight = 0.5;
 
 FlipSection.prototype = new Section();
 FlipSection.prototype.constructor = Section;

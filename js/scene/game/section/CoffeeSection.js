@@ -17,11 +17,12 @@ Coffee.prototype.update = function () {
 
 // Section that can be added to the sectionQueue of SectionManager, inherits Section.
 function CoffeeSection () {
-    Section.call(this, 205);
+    var width = 205;
+    Section.call(this, width);
 
     this.objects.splice(0);
     var container = new PIXI.DisplayObjectContainer();
-    var coffee = new Coffee(205, SceneManager.renderer.height);
+    var coffee = new Coffee(width, SceneManager.renderer.height);
     container.addChild(coffee.sprite);
 
     this.objects.push(coffee);
@@ -46,6 +47,7 @@ CoffeeSection.prototype.checkForCollisionsWith = function(sloth) {
             SceneManager.getScene('game').getCoffeeBar().increase();
             this.container.removeChildAt(j);
             this.objects.splice(j, 1);
+            AudioManager.playCoffee();
             j--;
         }
     }

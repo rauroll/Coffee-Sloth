@@ -42,6 +42,11 @@ function GameScene() {
 		})
 	]);
 
+	$(sloth).on('loop', function(e, loops) {
+		if (Math.abs(loops) > 0.8)
+			AudioManager.flip.play();
+	});
+
 	// methods
 
 	this.update = function () {
@@ -103,6 +108,7 @@ function GameScene() {
 		throttleKeyAction.enabled = false;
 		throttleKeyAction.onKeyUp();
 		coffeeBar.hide();
+		AudioManager.death.play();
 	};
 	this.newGame = function () {
 		overlay.hide();
