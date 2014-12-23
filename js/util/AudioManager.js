@@ -28,6 +28,9 @@ var AudioManager = {
 		else
 			this.mute(true);
 		return this.muted;
+	},
+	setThemeVolume: function (volume) {
+		this.theme.setVolume(volume);
 	}
 };
 

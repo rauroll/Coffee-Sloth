@@ -1,65 +1,43 @@
-function HorizontalBar(x, y, width, height) {
-    var bar = new PIXI.Graphics();
-    bar.beginFill(0xFFFFFF, 0.9);
-    bar.drawRect(x, y, width, height);
-    return bar;
+function HorizontalBarSection() {
+    function makeHorizontalBar(offset, width, height) {
+        var bar = new PIXI.Graphics();
+        bar.beginFill(0xFFFFFF, 0.9);
+        bar.drawRect(offset, viewportHeight / 2 - height / 2, width - offset, height);
+        return bar;
+    }
+
+    var width = 50;
+    var maxHeight = 300;
+    var offset = 30;
+    Section.call(this, width + offset);
+
+    this.stepper = 0;
+
+    this.container = new PIXI.DisplayObjectContainer();
+    this.barHeight = Math.random() * (maxHeight - 100) + 100;
+    this.bar = makeHorizontalBar(offset, width, this.barHeight);
+    this.container.addChild(this.bar);
+    this.setBarPosition(Math.random() * 2 - 1);
 }
 
-function generateHorizontalBarSection(width, height) {
-    function HorBarSection() {
-        var offset = new PIXI.Point(30, 50);
-        Section.call(this, width + offset.x);
+HorizontalBarSection.weight = 1;
 
-        this.direction = 1;
-        
-        this.upperLimit = offset.y;
-        this.lowerLimit = viewportHeight - offset.y;
+HorizontalBarSection.prototype = new Section();
+HorizontalBarSection.prototype.constructor = Section;
 
-        this.container = new PIXI.DisplayObjectContainer();
-        var barHeight = Math.random() * (height - 100) + 100;
-        this.ypos = Math.random() * (viewportHeight - height);
-        this.bar = new HorizontalBar(offset.x, this.ypos, width - offset.x, barHeight);
-        this.container.addChild(this.bar);
-    }
+HorizontalBarSection.prototype.collided = function () {
+    SceneManager.getScene('game').gameOver();
+}
 
-    HorBarSection.weight = 1;
-
-    HorBarSection.prototype = new Section();
-    HorBarSection.prototype.constructor = Section;
-
-    HorBarSection.prototype.collided = function () {
+HorizontalBarSection.prototype.checkForCollisionsWith = function(sloth) {
+    if (sloth.collidesWithRect(this.bar))
         SceneManager.getScene('game').gameOver();
-    }
+}
 
-    HorBarSection.prototype.checkForCollisionsWith = function(sloth) {
-        if (sloth.collidesWithRect(this.bar))
-            SceneManager.getScene('game').gameOver();
-    }
+HorizontalBarSection.prototype.update = function () {
+    this.setBarPosition(this.stepper += 0.01);
+}
 
-    HorBarSection.prototype.update = function() {
-        var bar = this.bar;
-        var actualY = this.ypos + bar.y;
-
-        if (bar.height < (this.lowerLimit - this.upperLimit)) {
-            bar.y += this.direction
-            switch(this.direction) {
-                case -1:
-                    if (actualY > this.upperLimit) { 
-                        bar.y += this.direction 
-                    } else { 
-                        this.direction *= -1 
-                    }
-                    break;
-                case 1:
-                    if (actualY + bar.height < this.lowerLimit) { 
-                        bar.y += this.direction
-                    } else { 
-                        this.direction *= -1 
-                    }
-                    break;
-            }
-        }
-    }
-
-    return HorBarSection;
+HorizontalBarSection.prototype.setBarPosition = function (pos) {
+    this.bar.position.y = Math.sin(pos) * (viewportHeight / 2 - this.barHeight / 2);
 }

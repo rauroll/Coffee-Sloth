@@ -16,41 +16,37 @@ Coffee.prototype.update = function () {
 };
 
 // Section that can be added to the sectionQueue of SectionManager, inherits Section.
-function generateCoffeeSection (width) {
-    function CoffeeSection () {
-        Section.call(this, width);
+function CoffeeSection () {
+    Section.call(this, 205);
 
-        this.objects.splice(0);
-        var container = new PIXI.DisplayObjectContainer();
-        var coffee = new Coffee(205, SceneManager.renderer.height);
-        container.addChild(coffee.sprite);
+    this.objects.splice(0);
+    var container = new PIXI.DisplayObjectContainer();
+    var coffee = new Coffee(205, SceneManager.renderer.height);
+    container.addChild(coffee.sprite);
 
-        this.objects.push(coffee);
-        this.container = coffee.addChild(container);
-    };
+    this.objects.push(coffee);
+    this.container = coffee.addChild(container);
+};
 
-    CoffeeSection.weight = 5;
+CoffeeSection.weight = 5;
 
-    CoffeeSection.prototype = new Section();
-    CoffeeSection.prototype.constructor = CoffeeSection;
+CoffeeSection.prototype = new Section();
+CoffeeSection.prototype.constructor = CoffeeSection;
 
-    CoffeeSection.prototype.update = function () {
-        this.objects.forEach(function (e) {
-            e.update();
-        });
-    };
+CoffeeSection.prototype.update = function () {
+    this.objects.forEach(function (e) {
+        e.update();
+    });
+};
 
-    CoffeeSection.prototype.checkForCollisionsWith = function(sloth) {
-        for (var j = 0; j < this.objects.length; j++) {
-            var obj = this.objects[j];
-            if (sloth.collidesWithRect(obj.sprite)) {
-                SceneManager.getScene('game').getCoffeeBar().increase();
-                this.container.removeChildAt(j);
-                this.objects.splice(j, 1);
-                j--;
-            }
+CoffeeSection.prototype.checkForCollisionsWith = function(sloth) {
+    for (var j = 0; j < this.objects.length; j++) {
+        var obj = this.objects[j];
+        if (sloth.collidesWithRect(obj.sprite)) {
+            SceneManager.getScene('game').getCoffeeBar().increase();
+            this.container.removeChildAt(j);
+            this.objects.splice(j, 1);
+            j--;
         }
     }
-
-    return CoffeeSection;
 }

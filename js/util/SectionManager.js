@@ -13,9 +13,9 @@ function SectionManager(viewportWidth, viewportHeight, player, sections) {
 SectionManager.prototype = {
 	update: function (velocity) {
 		if(this.sectionQueue.length === 0) {
-			this.addStartingSection(viewportWidth*0.8);
+			this.addStartingSection(viewportWidth * 0.8);
 		} else {
-			for(var i = 0; i < this.sectionQueue.length; i++) {
+			for (var i = 0; i < this.sectionQueue.length; i++) {
 				var section = this.sectionQueue[i];
 				section.container.x -= velocity.x;
 				section.update();
