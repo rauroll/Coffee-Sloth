@@ -26,7 +26,9 @@ function LoaderScene() {
 		'asset/image/sloth/slothsprite_nofire.png',
 		'asset/image/bluetheme/floor.png',
 		'asset/image/coffee.png',
-		'asset/image/enemy.png',
+		'asset/image/owl/owl1.png',
+		'asset/image/owl/owl2.png',
+		'asset/image/owl/owl3.png',
 		'asset/image/unmuted.png',
 		'asset/image/muted.png'
 	];
