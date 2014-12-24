@@ -16,7 +16,7 @@ function GameScene() {
 	var distance = new Distance(SceneManager.renderer.width, SceneManager.renderer.height);
 
 	// sections
-	sectionManager = new SectionManager(viewportWidth, viewportHeight, sloth.displayObject, [
+	this.sectionManager = new SectionManager(viewportWidth, viewportHeight, sloth.displayObject, [
 		CoffeeSection,
 		FlipSection,
 		HorizontalBarSection,
@@ -63,14 +63,14 @@ function GameScene() {
 			distance.update(sloth.velocity.x);
 			sloth.update(throttleKeyAction.active);
 			backgrounds.update(sloth.velocity);
-			sectionManager.update(sloth.velocity);
+			this.sectionManager.update(sloth.velocity);
 		}
 
 		if (!this.gameIsOver()) {
 
 			// Check for coffees and drink them!
-			for (var i = 0; i < sectionManager.sectionQueue.length; i++) {
-				var section = sectionManager.sectionQueue[i];
+			for (var i = 0; i < this.sectionManager.sectionQueue.length; i++) {
+				var section = this.sectionManager.sectionQueue[i];
 
 				// Process collision check for sections
 
@@ -93,7 +93,7 @@ function GameScene() {
 	backArrow.mouseout = function () { backArrow.alpha = 0.6; };
 
 	this.scene.addChild(backgrounds.container);
-	this.scene.addChild(sectionManager.container);
+	this.scene.addChild(this.sectionManager.container);
 	this.scene.addChild(sloth.displayObject);
 	this.scene.addChild(coffeeBar.container);
 	this.scene.addChild(overlay.displayObject);
@@ -123,7 +123,7 @@ function GameScene() {
 
 		sloth.init();
 		distance.init();
-		sectionManager.reset();
+		this.sectionManager.reset();
 		gameIsOver = false;
 	};
 

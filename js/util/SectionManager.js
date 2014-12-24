@@ -80,6 +80,9 @@ SectionManager.prototype = {
 	reset: function() {
 		this.container.removeChildren();
 		this.sectionQueue.splice(0, this.sectionQueue.length);
+	},
+	canMoveBackwards: function () {
+		return this.sectionQueue.length === 0 || this.sectionQueue[0].container.position.x < 0;
 	}
 };
 
