@@ -27,7 +27,7 @@ function EnemySection() {
 
 }
 
-EnemySection.weight = 0.5;
+EnemySection.weight = 1;
 
 EnemySection.prototype = new Section();
 

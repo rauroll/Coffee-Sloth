@@ -16,7 +16,7 @@ function HorizontalBarSection() {
     this.setBarPosition(Math.random() * 2 - 1);
 }
 
-HorizontalBarSection.weight = 1;
+HorizontalBarSection.weight = 4;
 
 HorizontalBarSection.prototype = new Section();
 HorizontalBarSection.prototype.constructor = Section;
@@ -27,7 +27,7 @@ HorizontalBarSection.prototype.checkForCollisionsWith = function(sloth) {
 }
 
 HorizontalBarSection.prototype.update = function () {
-    this.setBarPosition(Math.sin(this.stepper += 0.01));
+    this.setBarPosition(Math.sin(this.stepper += 0.05));
 }
 
 HorizontalBarSection.prototype.setBarPosition = function (pos) {

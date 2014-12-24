@@ -29,7 +29,7 @@ function CoffeeSection () {
     this.container = coffee.addChild(container);
 };
 
-CoffeeSection.weight = 5;
+CoffeeSection.weight = 35;
 
 CoffeeSection.prototype = new Section();
 CoffeeSection.prototype.constructor = CoffeeSection;
