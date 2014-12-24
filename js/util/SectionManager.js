@@ -6,7 +6,6 @@ function SectionManager(viewportWidth, viewportHeight, player, sections) {
 	});
 	this.maxWeight = this.sections[this.sections.length - 1].weight;
 	this.sectionQueue = [];
-	this.currentSection;
 	this.container = new PIXI.DisplayObjectContainer();
 	this.player = player;
 }
@@ -14,22 +13,26 @@ function SectionManager(viewportWidth, viewportHeight, player, sections) {
 SectionManager.prototype = {
 	update: function (velocity) {
 		if(this.sectionQueue.length === 0) {
-			this.increaseQueue();
+			this.addStartingSection();
 		} else {
-			for(var i = 0; i < this.sectionQueue.length; i++) {
+			for (var i = 0; i < this.sectionQueue.length; i++) {
 				var section = this.sectionQueue[i];
 				section.container.x -= velocity.x;
 				section.update();
 
+				// if the last section in the queue is visible or the queue is empty, add a new section
 				if((i === this.sectionQueue.length - 1 && section.isVisible(this)) || this.sectionQueue.length === 0) {
 					this.increaseQueue();
 					break;
 				}
-				if (section.container.x < -1000) {
+
+				// if this section is further away than the viewport width remove it
+				if (section.container.x < -viewportWidth) {
 					this.dequeueSection(section);
 					i--;
 				}
 				
+				// check if player is inside a section
 				var p = this.player.position;
 				if (!section.playerIsInside && p.x > section.container.x && p.x < section.container.x + section.width) {
 					section.playerIsInside = true;
@@ -69,14 +72,17 @@ SectionManager.prototype = {
 	dequeueSection: function (section) {
 		section.dequeued();
 		this.sectionQueue.shift();
-		//this.container.removeChild(section.container);
+		this.container.removeChild(section.container);
 	},
-	removeSectionAt: function(i) {
-		this.sectionQueue.splice(i, 1);
+	addStartingSection: function () {
+		this.enqueueSection(new StartingSection());
 	},
 	reset: function() {
 		this.container.removeChildren();
 		this.sectionQueue.splice(0, this.sectionQueue.length);
+	},
+	canMoveBackwards: function () {
+		return this.sectionQueue.length === 0 || this.sectionQueue[0].container.position.x < 0;
 	}
 };
 
@@ -92,11 +98,11 @@ Section.prototype = {
 		return this.container.position.x < sectionManager.viewportWidth;
 	},
 	update: function () {
-		this.objects.forEach(function(e) {e.update();})
+		this.objects.forEach(function (e) { e.update(); })
 	},
 	enqueued: function () {},
 	dequeued: function () {},
 	playerEntered: function () {},
 	playerExited: function () {},
-	checkForCollisionsWith: function(sloth) {}
+	checkForCollisionsWith: function (sloth) {}
 };

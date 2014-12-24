@@ -1,72 +1,35 @@
-/**
- * Created by Olli on 21/12/14.
- */
-function HorizontalBar(x, y, width, height) {
+function HorizontalBarSection() {
+    var width = 50;
+    var maxHeight = 300;
+    var offset = 30;
 
+    Section.call(this, width + offset);
+
+    this.stepper = 0;
+
+    this.barHeight = Math.random() * (maxHeight - 100) + 100;
 
     var bar = new PIXI.Graphics();
-    bar.beginFill(0x000000);
-    bar.drawRect(x, y, width, height);
-    return bar;
+    bar.beginFill(0xFFFFFF, 0.9);
+    bar.drawRect(offset, viewportHeight / 2 - this.barHeight / 2, width - offset, this.barHeight);
+    this.container = bar;
+    this.setBarPosition(Math.random() * 2 - 1);
 }
 
-function generateHorizontalBarSection(width, height, viewHeight) {
-    function HorBarSection() {
-        Section.call(this, width);
-        this.direction = 1;
-        var offsety = 100;
-        this.topLimit = offsety;
-        var offsetx = 25;
-        this.lowerLimit = viewHeight - offsety;
-        this.objects.splice(0);
-        var container = new PIXI.DisplayObjectContainer();
-        var barHeight = Math.max(100, Math.random() * height);
-        this.ypos = Math.random() * (viewHeight - height);
-        var bar = new HorizontalBar(offsetx, this.ypos, width - offsetx, barHeight);
-        container.addChild(bar);
+HorizontalBarSection.weight = 1;
 
+HorizontalBarSection.prototype = new Section();
+HorizontalBarSection.prototype.constructor = Section;
 
-        this.container = container;
-    }
-
-
-
-    HorBarSection.weight = 1;
-
-    HorBarSection.prototype = new Section();
-    HorBarSection.prototype.constructor = Section;
-
-    HorBarSection.prototype.collided = function () {
+HorizontalBarSection.prototype.checkForCollisionsWith = function(sloth) {
+    if (sloth.collidesWithRect(this.container))
         SceneManager.getScene('game').gameOver();
-    }
-
-    HorBarSection.prototype.checkForCollisionsWith = function(sloth) {
-        var bar = this.container.children[0];
-        if (sloth.collidesWithRect(bar)) {
-            SceneManager.getScene('game').gameOver();
-        }
-
-    }
-
-    HorBarSection.prototype.update = function() {
-
-
-        var bar = this.container.children[0];
-        var actualY = this.ypos + bar.y;
-
-        if (bar.height < (this.lowerLimit - this.topLimit)) {
-            bar.y += this.direction
-            switch(this.direction) {
-                case -1:
-                    if (actualY > this.topLimit) { bar.y += this.direction } else { this.direction *= -1};
-                    break;
-                case 1:
-                    if (actualY + bar.height < this.lowerLimit) { bar.y += this.direction} else { this.direction *= -1};
-                    break;
-            }
-        }
-    }
-
-    return HorBarSection;
 }
 
+HorizontalBarSection.prototype.update = function () {
+    this.setBarPosition(Math.sin(this.stepper += 0.01));
+}
+
+HorizontalBarSection.prototype.setBarPosition = function (pos) {
+    this.container.position.y = pos * (viewportHeight / 2 - this.barHeight / 2);
+}

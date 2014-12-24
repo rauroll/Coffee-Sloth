@@ -8,7 +8,10 @@ function Sloth() {
 	var rotationStep = 8;
 
 	var acceleration = 0;
+
+	var trueVelocity = new PIXI.Point(0, 0);
 	this.velocity = new PIXI.Point(0, 0);
+
 	var removeRotationBoost = false;
 	var rotationVelocity = 0;
 	var interval;
@@ -20,6 +23,7 @@ function Sloth() {
 	var spinStart = 0;
 
 	this.update = function (throttle) {
+		// draw the texture
 		if (throttle) {
 			if (slothFrameOffset > 3) {
 				slothFrameIndex = slothFrameIndex % 4 + 1;
@@ -31,16 +35,33 @@ function Sloth() {
 		else
 			d.setTexture(PIXI.Texture.fromImage('asset/image/sloth/slothsprite_nofire.png'));
 
-		this.velocity.x += acceleration * Math.sin(d.rotation + 1) + airResistance * this.velocity.x;
-		this.velocity.y -= acceleration * Math.cos(d.rotation + 1) - gravity - airResistance * this.velocity.y;
+		// update velocities
+		trueVelocity.x += acceleration * Math.sin(d.rotation + 1) + airResistance * trueVelocity.x;
+		trueVelocity.y -= acceleration * Math.cos(d.rotation + 1) - gravity - airResistance * trueVelocity.y;
 
-		d.position.y += this.velocity.y;
-		if (d.position.y < d.pivot.y) {
-			d.position.y = d.pivot.y;
-			this.velocity.y = 0;
+		// check to see if we should move backwards
+		if (!SceneManager.getScene('game').sectionManager.canMoveBackwards() && (Math.sin(d.rotation + 1) < 0 || d.position.x < 300)) {
+			this.velocity.x = 0;
+			d.position.x = Math.max(d.pivot.x, d.position.x + trueVelocity.x);
 		}
+		else
+			this.velocity.x = trueVelocity.x;
+
+		this.velocity.y = trueVelocity.y;
+
+		d.position.y = Math.max(d.position.y + trueVelocity.y, d.pivot.y);
+
+		// velocities should be zero when on an edge
+		if (d.position.x <= d.pivot.x)
+			trueVelocity.x = 0;
+
+		if (d.position.y <= d.pivot.y)
+			trueVelocity.y = 0;
+
+		// update rotation
 		d.rotation += rotationVelocity / 200;
 
+		// check for loops
 		if (Math.abs(rotationVelocity) > 15 && spinStart === 0)
 			spinStart = d.rotation;
 		else if (Math.abs(rotationVelocity) < 15 && spinStart !== 0) {
@@ -50,6 +71,7 @@ function Sloth() {
 			spinStart = 0;
 		}
 
+		// decrease rotation if necessary
 		if(removeRotationBoost && rotationVelocity !== 0)
 			rotationVelocity += rotationVelocity > 0 ? -0.5 : 0.5;
 	}
@@ -91,7 +113,7 @@ function Sloth() {
 		return Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2)) < collisionRange;
 	}
 
-	this.location = function() {
+	this.getLocation = function() {
 		return d.position;
 	}
 };

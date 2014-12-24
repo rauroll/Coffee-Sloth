@@ -18,6 +18,10 @@ function MainScene() {
 			i = 0;
 	};
 
+	this.attach = function () {
+		AudioManager.setThemeVolume(80);
+	};
+
 	// background
 	blurFilter.blur = 20;
 	bg.filters = [blurFilter];

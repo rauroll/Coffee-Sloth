@@ -20,8 +20,8 @@ function Backgrounds() {
 
 	this.update = function (velocity) {
 		far.tilePosition.x -= backgroundVelocity * velocity.x;
-		mid.tilePosition.x = far.tilePosition.x / 0.3;
-		floor.tilePosition.x = far.tilePosition.x / 0.2;
+		mid.tilePosition.x -= backgroundVelocity * velocity.x / 0.3;
+		floor.tilePosition.x -= velocity.x;
 	};
 
 	return container;
