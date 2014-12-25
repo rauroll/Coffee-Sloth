@@ -55,7 +55,6 @@ var AudioManager = {
 	playCoffee: function () {
 		var s = this.coffee[Math.round(Math.random() * (this.coffee.length - 1))];
 		s.stop();
-		//s.currentTime = 0;
 		s.play();
 	},
 	playDeath: function () {

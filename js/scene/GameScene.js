@@ -17,10 +17,10 @@ function GameScene() {
 
 	// sections
 	this.sectionManager = new SectionManager(viewportWidth, viewportHeight, sloth.displayObject, [
-		//CoffeeSection,
-		//FlipSection,
+		CoffeeSection,
+		FlipSection,
 		HorizontalBarSection,
-		//EnemySection
+		EnemySection
 	]);
 
 	// key actionds
@@ -45,7 +45,7 @@ function GameScene() {
 
 	$(sloth).on('loop', function(e, loops) {
 		if (Math.abs(loops) > 0.8)
-			AudioManager.flip.play();
+			AudioManager.playFlip();
 	});
 
 	// methods
