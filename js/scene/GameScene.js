@@ -59,10 +59,12 @@ function GameScene() {
 		throttleKeyAction.enabled = !coffeeBar.isEmpty();
 
 		if(!this.gameIsOver()) {
-			distance.update(sloth.velocity.x);
 			sloth.update(throttleKeyAction.active);
 			backgrounds.update(sloth.velocity);
 			this.sectionManager.update(sloth.velocity);
+			distance.update(sloth.velocity.x);
+		} else {
+			distance.update(0);
 		}
 
 		if (!this.gameIsOver()) {
@@ -110,6 +112,7 @@ function GameScene() {
 		throttleKeyAction.onKeyUp();
 		coffeeBar.hide();
 		AudioManager.playDeath();
+		distance.showScoreLabel(true);
 	};
 	this.gameIsOver = function () {
 		return gameIsOver;
