@@ -73,7 +73,7 @@ function MuteButton() {
 	var mutedTexture = PIXI.Texture.fromImage('asset/image/muted.png');
 	var unmutedTexture = PIXI.Texture.fromImage('asset/image/unmuted.png');
 	var sprite = new PIXI.Sprite(AudioManager.muted ? mutedTexture : unmutedTexture);
-	sprite.position.set(SceneManager.renderer.width - 32 - 10, 10);
+	sprite.position.set(SceneManager.renderer.width - 48 - 10, 10);
 	sprite.alpha = 0.5;
 	sprite.interactive = true;
 	sprite.mouseover = function () { sprite.alpha = 1; };
