@@ -20,7 +20,8 @@ function GameScene() {
 		CoffeeSection,
 		FlipSection,
 		HorizontalBarSection,
-		EnemySection
+		EnemySection,
+		RandomEmptySection
 	]);
 
 	// key actionds
