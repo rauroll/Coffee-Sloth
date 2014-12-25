@@ -5,7 +5,7 @@ function HorizontalBarSection() {
 
     Section.call(this, width + offset);
 
-    this.stepper = 0;
+    this.stepper = Math.random() * Math.PI;
 
     this.barHeight = Math.random() * (maxHeight - 100) + 100;
 
@@ -13,7 +13,6 @@ function HorizontalBarSection() {
     bar.beginFill(0xFFFFFF, 0.9);
     bar.drawRect(offset, viewportHeight / 2 - this.barHeight / 2, width - offset, this.barHeight);
     this.container = bar;
-    this.setBarPosition(Math.random() * 2 - 1);
 }
 
 HorizontalBarSection.weight = 4;
@@ -27,9 +26,5 @@ HorizontalBarSection.prototype.checkForCollisionsWith = function(sloth) {
 }
 
 HorizontalBarSection.prototype.update = function () {
-    this.setBarPosition(Math.sin(this.stepper += 0.05));
-}
-
-HorizontalBarSection.prototype.setBarPosition = function (pos) {
-    this.container.position.y = pos * (viewportHeight / 2 - this.barHeight / 2);
+    this.container.position.y = Math.sin(this.stepper += 0.05) * (viewportHeight / 2 - this.barHeight / 2);
 }

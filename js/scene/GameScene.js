@@ -17,11 +17,10 @@ function GameScene() {
 
 	// sections
 	this.sectionManager = new SectionManager(viewportWidth, viewportHeight, sloth.displayObject, [
-		CoffeeSection,
-		FlipSection,
+		//CoffeeSection,
+		//FlipSection,
 		HorizontalBarSection,
-		//SpinningBarSection
-		EnemySection
+		//EnemySection
 	]);
 
 	// key actionds
