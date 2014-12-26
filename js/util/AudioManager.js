@@ -1,7 +1,7 @@
 var AudioManager = {
 	theme: null,
 	sounds: null,
-	muted: localStorage.muted ? true : false,
+	muted: localStorage.muted === 'true' ? true : false,
 	init: function (onProgress) {
 		this.theme = new buzz.sound('asset/audio/theme.mp3', { loop: true });
 		this.death = new buzz.sound('asset/audio/ded.mp3');
