@@ -13,7 +13,7 @@ function SectionManager(viewportWidth, viewportHeight, player, sections) {
 SectionManager.prototype = {
 	update: function (velocity) {
 		if(this.sectionQueue.length === 0) {
-			this.addStartingSection();
+			this.enqueueSection(new EmptySection(viewportWidth * 0.5));
 		} else {
 			for (var i = 0; i < this.sectionQueue.length; i++) {
 				var section = this.sectionQueue[i];
@@ -73,9 +73,6 @@ SectionManager.prototype = {
 		section.dequeued();
 		this.sectionQueue.shift();
 		this.container.removeChild(section.container);
-	},
-	addStartingSection: function () {
-		this.enqueueSection(new StartingSection());
 	},
 	reset: function() {
 		this.container.removeChildren();

@@ -1,12 +1,32 @@
 function Coffee (width, height) {
     this.sprite = PIXI.Sprite.fromImage("asset/image/coffee.png");
     this.sprite.pivot.set(this.sprite.width / 2, this.sprite.height / 2);
-    this.sprite.position.x = (Math.min(width - this.sprite.width, width * Math.random()));
-    this.sprite.position.y = (Math.min(height - 100, Math.min(height - this.sprite.height, height * Math.random())));
+
+    if (Math.random() > 0.3)
+        Coffee.direction = Coffee.randomDirection();
+
+    if (!Coffee.lastPosition)
+        Coffee.lastPosition = Math.random() * viewportHeight / 2;
+
+    var newPosition = Coffee.lastPosition + Coffee.direction;
+    if (newPosition > viewportHeight - this.sprite.pivot.y || newPosition < this.sprite.pivot.y) {
+        Coffee.direction *= -1;
+        newPosition = Coffee.lastPosition + Coffee.direction;
+    }
+
+    this.sprite.position.set(0, Coffee.lastPosition = newPosition);
 
     this.scaleStepper = 0;
     this.rotationStepper = 0;
 };
+
+Coffee.randomDirection = function () {
+    var max = 200, min = 0;
+    return max / 2 - Math.random() * (max - min) + min;
+};
+
+Coffee.lastPosition;
+Coffee.direction = Coffee.randomDirection();
 
 Coffee.prototype = new PIXI.DisplayObjectContainer();
 Coffee.prototype.update = function () {
@@ -23,13 +43,14 @@ function CoffeeSection () {
     this.objects.splice(0);
     var container = new PIXI.DisplayObjectContainer();
     var coffee = new Coffee(width, viewportHeight);
+    coffee.sprite.position.x = width / 2;
     container.addChild(coffee.sprite);
 
     this.objects.push(coffee);
     this.container = coffee.addChild(container);
 };
 
-CoffeeSection.weight = 5;
+CoffeeSection.weight = 35;
 
 CoffeeSection.prototype = new Section();
 CoffeeSection.prototype.constructor = CoffeeSection;

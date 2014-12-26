@@ -1,15 +1,19 @@
 var enemyAttackVelocity = 6;
-var enemyAttackRange = 500;
+var enemyAttackRange = 400;
+var enemyFPS = 7;
 
 function Enemy (sectionWidth) {
     this.orbitalRadius = 200;
-    this.sprite = PIXI.Sprite.fromImage("asset/image/enemy.png");
+    this.sprite = PIXI.Sprite.fromImage("asset/image/owl/owl1.png");
     this.sprite.pivot.set(this.sprite.width / 2, this.sprite.height / 2);
     this.sprite.position.x = sectionWidth / 2 + this.orbitalRadius;
     this.sprite.position.y = viewportHeight / 2;
     this.orbitalStepper = 0;
     this.playerSeen = false;
     this.followCounter = 0;
+    this.frameIndex = 0;
+    var d = new Date();
+    this.lastTime = d.getTime();
 }
 
 function EnemySection() {
@@ -23,7 +27,7 @@ function EnemySection() {
 
 }
 
-EnemySection.weight = 0.5;
+EnemySection.weight = 1;
 
 EnemySection.prototype = new Section();
 
@@ -31,6 +35,14 @@ EnemySection.prototype.constructor = Section;
 
 EnemySection.prototype.update = function () {
     var enemy = this.objects[0];
+    var d = new Date();
+    var currentTime = d.getTime();
+    var dt = currentTime - enemy.lastTime;
+    if (dt > 1000/enemyFPS) {
+        enemy.lastTime = currentTime;
+        (enemy.frameIndex < 3) ? enemy.frameIndex++ : enemy.frameIndex = 1;
+        enemy.sprite.setTexture(PIXI.Texture.fromImage("asset/image/owl/owl" + enemy.frameIndex + ".png"));
+    }
     var slothPos = SceneManager.getScene('game').getSloth().getLocation();
     var actualEnemyPosition = enemy.sprite.toGlobal(new PIXI.Point(0, 0));
     var distance = this.distanceFromSloth(slothPos, actualEnemyPosition);

@@ -1,5 +1,6 @@
 function Sloth() {
 	var radius = 50;
+	var xPosition = 400;
 	this.displayObject = new PIXI.Sprite.fromImage('asset/image/sloth/slothsprite1.png');
 	this.displayObject.pivot.set(70, 30);
 	this.displayObject.rotation = 0;
@@ -40,7 +41,7 @@ function Sloth() {
 		trueVelocity.y -= acceleration * Math.cos(d.rotation + 1) - gravity - airResistance * trueVelocity.y;
 
 		// check to see if we should move backwards
-		if (!SceneManager.getScene('game').sectionManager.canMoveBackwards() && (Math.sin(d.rotation + 1) < 0 || d.position.x < 300)) {
+		if (!SceneManager.getScene('game').sectionManager.canMoveBackwards() && (Math.sin(d.rotation + 1) < 0 || d.position.x < xPosition)) {
 			this.velocity.x = 0;
 			d.position.x = Math.max(d.pivot.x, d.position.x + trueVelocity.x);
 		}
@@ -91,9 +92,9 @@ function Sloth() {
 		interval = false;
 	}
 	this.init = function () {
-		d.position.set(300, 200);
+		d.position.set(xPosition, 200);
 		acceleration = 0;
-		this.velocity.set(0, 0);
+		trueVelocity.set(0, 0);
 		rotationVelocity = 0;
 		d.rotation = 0;
 	}

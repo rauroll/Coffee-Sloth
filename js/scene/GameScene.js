@@ -20,8 +20,8 @@ function GameScene() {
 		CoffeeSection,
 		FlipSection,
 		HorizontalBarSection,
-		//SpinningBarSection
-		EnemySection
+		EnemySection,
+		RandomEmptySection
 	]);
 
 	// key actionds
@@ -46,7 +46,7 @@ function GameScene() {
 
 	$(sloth).on('loop', function(e, loops) {
 		if (Math.abs(loops) > 0.8)
-			AudioManager.flip.play();
+			AudioManager.playFlip();
 	});
 
 	// methods
@@ -60,10 +60,12 @@ function GameScene() {
 		throttleKeyAction.enabled = !coffeeBar.isEmpty();
 
 		if(!this.gameIsOver()) {
-			distance.update(sloth.velocity.x);
 			sloth.update(throttleKeyAction.active);
 			backgrounds.update(sloth.velocity);
 			this.sectionManager.update(sloth.velocity);
+			distance.update(sloth.velocity.x);
+		} else {
+			distance.update(0);
 		}
 
 		if (!this.gameIsOver()) {
@@ -111,6 +113,7 @@ function GameScene() {
 		throttleKeyAction.onKeyUp();
 		coffeeBar.hide();
 		AudioManager.playDeath();
+		distance.showScoreLabel(true);
 	};
 	this.gameIsOver = function () {
 		return gameIsOver;

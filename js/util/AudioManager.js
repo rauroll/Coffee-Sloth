@@ -1,7 +1,7 @@
 var AudioManager = {
 	theme: null,
 	sounds: null,
-	muted: localStorage.muted ? true : false,
+	muted: localStorage.muted === 'true',
 	init: function (onProgress) {
 		this.theme = new buzz.sound('asset/audio/theme.mp3', { loop: true });
 		this.death = new buzz.sound('asset/audio/ded.mp3');
@@ -55,7 +55,6 @@ var AudioManager = {
 	playCoffee: function () {
 		var s = this.coffee[Math.round(Math.random() * (this.coffee.length - 1))];
 		s.stop();
-		//s.currentTime = 0;
 		s.play();
 	},
 	playDeath: function () {
@@ -74,7 +73,7 @@ function MuteButton() {
 	var mutedTexture = PIXI.Texture.fromImage('asset/image/muted.png');
 	var unmutedTexture = PIXI.Texture.fromImage('asset/image/unmuted.png');
 	var sprite = new PIXI.Sprite(AudioManager.muted ? mutedTexture : unmutedTexture);
-	sprite.position.set(SceneManager.renderer.width - 32 - 10, 10);
+	sprite.position.set(SceneManager.renderer.width - 48 - 10, 10);
 	sprite.alpha = 0.5;
 	sprite.interactive = true;
 	sprite.mouseover = function () { sprite.alpha = 1; };
