@@ -81,8 +81,10 @@ EnemySection.prototype.distanceFromSloth = function(slothPos, enemy) {
 EnemySection.prototype.checkForCollisionsWith = function(sloth) {
     for (var j = 0; j < this.objects.length; j++) {
         var obj = this.objects[j];
-        if (sloth.collidesWithRect(obj.sprite)) {
+
+        if (sloth.collidesWithRect(obj.sprite, 1)) {
             SceneManager.getScene('game').gameOver();
+
         }
     }
 }
