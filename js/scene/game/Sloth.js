@@ -98,7 +98,7 @@ function Sloth() {
 		rotationVelocity = 0;
 		d.rotation = 0;
 	}
-	this.collidesWith = function (x, y, r2) {
+	this.collidesWith = function (x, y) {
 		return Math.sqrt(x !== undefined ? Math.pow(d.position.x - x, 2) : 0 + y !== undefined ? Math.pow(d.position.y - y, 2) : 0) < radius;
 	}
 	this.collidesWithRect = function(sprite, range) {
