@@ -36,4 +36,6 @@ function Distance(width, height) {
 	this.showScoreLabel = function (show) {
 		scoreLabel.visible = show;
 	};
+
+
 };

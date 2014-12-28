@@ -52,6 +52,7 @@ function GameScene() {
 	// methods
 
 	this.update = function () {
+		console.log(this.sectionManager.sections[4].weight);
 		if(!this.gameIsOver() && sloth.collidesWith(undefined, SceneManager.renderer.height))
 			this.gameOver();
 		else
@@ -137,6 +138,7 @@ function GameScene() {
 	this.getSloth = function () {
 		return sloth;
 	}
+
 };
 
 CScene.extendWith(GameScene);

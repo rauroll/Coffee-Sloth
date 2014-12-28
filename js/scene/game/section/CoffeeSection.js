@@ -52,8 +52,11 @@ function CoffeeSection () {
 
 CoffeeSection.weight = 25;
 
+
+
 CoffeeSection.prototype = new Section();
 CoffeeSection.prototype.constructor = CoffeeSection;
+
 
 CoffeeSection.prototype.update = function () {
     this.objects.forEach(function (e) {
