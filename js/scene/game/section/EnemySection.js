@@ -17,8 +17,8 @@ function Enemy (sectionWidth) {
 }
 
 function EnemySection() {
-
     Section.call(this, 1000);
+    AudioManager.play('owl');
     var enemy = new Enemy(this.width);
     var container = new PIXI.DisplayObjectContainer();
     container.addChild(enemy.sprite);

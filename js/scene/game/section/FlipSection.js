@@ -43,7 +43,7 @@ function FlipSection() {
 				text.setText('Go!');
 				text.center(background);
 				t.looped = true;
-				AudioManager.playFlip();
+				AudioManager.play('flip');
 				t.background.filters = [greenFilter];
 			}
 		}

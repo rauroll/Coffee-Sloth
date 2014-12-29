@@ -13,7 +13,7 @@ function RandomEmptySection() {
 	EmptySection.call(this, Math.floor(Math.random() * (max - min + 1) + min));
 }
 
-RandomEmptySection.weight = 1000;
+RandomEmptySection.weight = 10;
 
 RandomEmptySection.prototype = new EmptySection();
 RandomEmptySection.prototype.constructor = EmptySection;

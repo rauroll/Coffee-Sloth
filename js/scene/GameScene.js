@@ -46,7 +46,7 @@ function GameScene() {
 
 	$(sloth).on('loop', function(e, loops) {
 		if (Math.abs(loops) > 0.8)
-			AudioManager.playFlip();
+			AudioManager.play('flip');
 	});
 
 	// methods
@@ -55,14 +55,14 @@ function GameScene() {
 		if(!this.gameIsOver() && sloth.collidesWith(undefined, SceneManager.renderer.height))
 			this.gameOver();
 		else
-			coffeeBar.decrease(0.01);
+			coffeeBar.decrease(0.001);
 
 		throttleKeyAction.enabled = !coffeeBar.isEmpty();
 		if (throttleKeyAction.active && coffeeBar.isEmpty()) {
 			throttleKeyAction.onKeyUp();
 			throttleKeyAction.active = false;
 		}
-		
+
 		if(!this.gameIsOver()) {
 			sloth.update(throttleKeyAction.active);
 			backgrounds.update(sloth.velocity);
@@ -116,7 +116,7 @@ function GameScene() {
 		throttleKeyAction.enabled = false;
 		throttleKeyAction.onKeyUp();
 		coffeeBar.hide();
-		AudioManager.playDeath();
+		AudioManager.play('death');
 		distance.showScoreLabel(true);
 	};
 	this.gameIsOver = function () {

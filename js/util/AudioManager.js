@@ -6,12 +6,13 @@ var AudioManager = {
 		this.theme = new buzz.sound('asset/audio/theme.mp3', { loop: true });
 		this.death = new buzz.sound('asset/audio/ded.mp3');
 		this.flip = new buzz.sound('asset/audio/flip.mp3');
+		this.owl = new buzz.sound('asset/audio/owl.mp3');
 		this.coffee = [
 			new buzz.sound('asset/audio/coffee1.mp3'),
 			new buzz.sound('asset/audio/coffee2.mp3'),
 			new buzz.sound('asset/audio/coffee3.mp3')
 		];
-		this.sounds = new buzz.group(this.theme, this.death, this.flip, this.coffee[0], this.coffee[1], this.coffee[2]);
+		this.sounds = new buzz.group(this.theme, this.death, this.flip, this.coffee[0], this.coffee[1], this.coffee[2], this.owl);
 		var i = 0;
 		this.sounds.bind('canplaythrough', function () {
 			if(onProgress)
@@ -52,18 +53,13 @@ var AudioManager = {
 			}, 20);
 		}
 	},
+	play: function (sound) {
+		var s = this[sound];
+		s.stop();
+		s.play();
+	},
 	playCoffee: function () {
 		var s = this.coffee[Math.round(Math.random() * (this.coffee.length - 1))];
-		s.stop();
-		s.play();
-	},
-	playDeath: function () {
-		var s = this.death;
-		s.stop();
-		s.play();
-	},
-	playFlip: function () {
-		var s = this.flip;
 		s.stop();
 		s.play();
 	}
