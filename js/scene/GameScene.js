@@ -55,10 +55,14 @@ function GameScene() {
 		if(!this.gameIsOver() && sloth.collidesWith(undefined, SceneManager.renderer.height))
 			this.gameOver();
 		else
-			coffeeBar.decrease(0.001);
+			coffeeBar.decrease(0.01);
 
 		throttleKeyAction.enabled = !coffeeBar.isEmpty();
-
+		if (throttleKeyAction.active && coffeeBar.isEmpty()) {
+			throttleKeyAction.onKeyUp();
+			throttleKeyAction.active = false;
+		}
+		
 		if(!this.gameIsOver()) {
 			sloth.update(throttleKeyAction.active);
 			backgrounds.update(sloth.velocity);
