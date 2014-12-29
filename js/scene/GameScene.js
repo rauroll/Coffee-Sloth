@@ -86,7 +86,7 @@ function GameScene() {
 		}
 	};
 
-	AudioManager.theme.play();
+	AudioManager.playTheme();
 	
 	this.keyboardManager.add(throttleKeyAction);
 

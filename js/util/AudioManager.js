@@ -1,34 +1,40 @@
 var AudioManager = {
-	theme: null,
-	sounds: null,
+	sounds: {},
+	soundGroup: null,
 	muted: localStorage.muted === 'true',
 	init: function (onProgress) {
-		this.theme = new buzz.sound('asset/audio/theme.mp3', { loop: true });
-		this.death = new buzz.sound('asset/audio/ded.mp3');
-		this.flip = new buzz.sound('asset/audio/flip.mp3');
-		this.owl = new buzz.sound('asset/audio/owl.mp3');
-		this.coffee = [
-			new buzz.sound('asset/audio/coffee1.mp3'),
-			new buzz.sound('asset/audio/coffee2.mp3'),
-			new buzz.sound('asset/audio/coffee3.mp3')
-		];
-		this.sounds = new buzz.group(this.theme, this.death, this.flip, this.coffee[0], this.coffee[1], this.coffee[2], this.owl);
+		var t = this;
+		var sounds = [];
+		[	'theme',
+			'death',
+			'flip',
+			'owl',
+			'coffee1',
+			'coffee2',
+			'coffee3'
+		].forEach(function (soundName) {
+			var sound = new buzz.sound(['asset/audio/' + soundName + '.mp3', 'asset/audio/' + soundName + '.ogg']);
+			sounds.push(sound);
+			t.sounds[soundName] = sound;
+		});
+
+		this.soundGroup = new buzz.group(sounds);
 		var i = 0;
-		this.sounds.bind('canplaythrough', function () {
+		this.soundGroup.bind('canplaythrough', function () {
 			if(onProgress)
 				onProgress(++i);
 		});
-		this.sounds.load();
+		this.soundGroup.load();
 		this.mute(this.muted);
-		return this.sounds.getSounds().length;
+		return this.soundGroup.getSounds().length;
 	},
 	mute: function (mute) {
 		this.muted = mute;
 		localStorage.muted = mute;
 		if(mute)
-			this.sounds.mute();
+			this.soundGroup.mute();
 		else
-			this.sounds.unmute();
+			this.soundGroup.unmute();
 	},
 	toggleMute: function () {
 		if(this.muted)
@@ -41,25 +47,18 @@ var AudioManager = {
 		return this.muted;
 	},
 	setThemeVolume: function (volume) {
-		if (this.theme.getVolume() !== volume) {
-			if (this.fader)
-				clearInterval(this.fader);
-			var step = volume < this.theme.volume ? -1 : 1;
-			var t = this;
-			this.fader = setInterval(function () {
-				t.theme.setVolume(t.theme.getVolume() + step);
-				if(t.theme.getVolume() === volume)
-					clearInterval(t.fader);
-			}, 20);
-		}
+		this.sounds.theme.fadeTo(volume, 1000);
 	},
 	play: function (sound) {
-		var s = this[sound];
+		var s = this.sounds[sound];
 		s.stop();
 		s.play();
 	},
+	playTheme: function () {
+		this.sounds.theme.loop().play();
+	},
 	playCoffee: function () {
-		var s = this.coffee[Math.round(Math.random() * (this.coffee.length - 1))];
+		var s = this.sounds['coffee' + Math.floor(Math.random() * 3 + 1)];
 		s.stop();
 		s.play();
 	}
