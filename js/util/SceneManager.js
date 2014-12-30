@@ -1,3 +1,12 @@
+/*
+
+The scene manager is used to control the current scene of the game.
+
+The different scenes, or states, of the game are the game scene, loader scene
+and main scene.
+
+ */
+
 var SceneManager = {
 	renderer: null,
 	scenes: {},

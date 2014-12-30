@@ -1,3 +1,6 @@
+
+// Main scene, the main view that is shown to the player once the assets have been loaded.
+
 function MainScene() {
 	this.name = 'main';
 	this.scene = new PIXI.DisplayObjectContainer();

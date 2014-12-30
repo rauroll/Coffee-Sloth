@@ -1,3 +1,10 @@
+/*
+
+The coffee bar displays the coffee level to the player.
+Once the coffee level drops to zero, the player won't be able to fly.
+
+ */
+
 function CoffeeBar() {
 	var width = 400;
 	var height = 15;

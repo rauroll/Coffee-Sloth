@@ -1,3 +1,5 @@
+// Section that can be added to the sectionQueue of SectionManager, inherits Section.
+
 function HorizontalBarSection() {
     var width = 50;
     var maxHeight = 300;

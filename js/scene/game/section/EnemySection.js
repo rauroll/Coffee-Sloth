@@ -2,6 +2,9 @@ var enemyAttackVelocity = 6;
 var enemyAttackRange = 400;
 var enemyFPS = 7;
 
+
+// Section that can be added to the sectionQueue of SectionManager, inherits Section.
+
 function Enemy (sectionWidth) {
     this.orbitalRadius = 200;
     this.sprite = PIXI.Sprite.fromImage("asset/image/owl/owl1.png");
@@ -18,7 +21,7 @@ function Enemy (sectionWidth) {
 
 function EnemySection() {
     Section.call(this, 1000);
-    AudioManager.play('owl');
+
     var enemy = new Enemy(this.width);
     var container = new PIXI.DisplayObjectContainer();
     container.addChild(enemy.sprite);
@@ -47,6 +50,7 @@ EnemySection.prototype.update = function () {
     var actualEnemyPosition = enemy.sprite.toGlobal(new PIXI.Point(0, 0));
     var distance = this.distanceFromSloth(slothPos, actualEnemyPosition);
     if (distance <= enemyAttackRange && !enemy.playerSeen) {
+        AudioManager.play('owl');
         enemy.playerSeen = true;
     }
     if (enemy.playerSeen && enemy.followCounter < 500) {

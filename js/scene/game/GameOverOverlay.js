@@ -1,3 +1,6 @@
+
+// Shown to the player when the game is over.
+
 function GameOverOverlay() {
 	this.displayObject = new PIXI.DisplayObjectContainer();
 	var background = new PIXI.Graphics();

@@ -1,3 +1,10 @@
+/*
+
+The keyboard input manager is used to react to the user's
+actions.
+
+ */
+
 function KeyboardInputManager(actions) {
 	this.actions = actions;
 	this.actions.push(new KeyAction([77], null, function () {

@@ -1,3 +1,9 @@
+/*
+
+The game scene, which contains the actual game itself.
+
+ */
+
 var airResistance = -0.01;
 var gravity = 0.1;
 
@@ -24,7 +30,7 @@ function GameScene() {
 		RandomEmptySection
 	]);
 
-	// key actionds
+	// key actions
 	var throttleKeyAction = new KeyAction([38], 
 		function () { sloth.accelerate(true); }, 
 		function () { sloth.accelerate(false); }
@@ -74,11 +80,10 @@ function GameScene() {
 
 		if (!this.gameIsOver()) {
 
-			// Check for coffees and drink them!
 			for (var i = 0; i < this.sectionManager.sectionQueue.length; i++) {
 				var section = this.sectionManager.sectionQueue[i];
 
-				// Process collision check for sections
+				// Check for collisions and react to them properly and as defined for the particular section in question.
 
 				section.checkForCollisionsWith(sloth);
 

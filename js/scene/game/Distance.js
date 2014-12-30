@@ -1,3 +1,5 @@
+// The player's score is based on the distance that the player manages
+// to advance before the game ends.
 function Distance(width, height) {
 	var margin = 10;
 	var distance = 0;

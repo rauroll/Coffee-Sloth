@@ -1,3 +1,14 @@
+/*
+
+ The section manager is used to provide the game with dynamic content.
+
+ The section queue contains the current sections. New instantiations of the section classes can be added to this queue,
+ and once the player moves past them they are removed from the section queue.
+
+ The functions used are pretty self-explanatory.
+
+ */
+
 function SectionManager(viewportWidth, viewportHeight, player, sections) {
 	this.viewportWidth = viewportWidth;
 	this.viewportHeight = viewportHeight;
@@ -44,6 +55,9 @@ SectionManager.prototype = {
 			}
 		}
 	},
+
+	// The section to be added is randomly selected using weights defined for each section.
+	// The weight defines the probability at which it is selected.
 	increaseQueue: function () {
 		var offset = 0;
 		if(this.sectionQueue.length > 0) {
@@ -82,6 +96,13 @@ SectionManager.prototype = {
 		return this.sectionQueue.length === 0 || this.sectionQueue[0].container.position.x < 0;
 	}
 };
+
+/*
+
+The abstract class Section is used as a base class for all the sections that
+can be added to the section queue, eg. the EnemySection that contains the owl.
+
+ */
 
 function Section(width) {
 	this.width = width;

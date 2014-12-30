@@ -1,3 +1,10 @@
+/*
+
+The backgrounds, which each move at a different pace to create
+an illusion of depth. The background consists of the far, mid and floor components.
+
+ */
+
 function Backgrounds() {
 	var backgroundVelocity = 0.1;
 

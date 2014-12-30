@@ -1,3 +1,5 @@
+// Section that can be added to the sectionQueue of SectionManager, inherits Section.
+
 function FlipSection() {
 	Section.call(this, 500);
 	this.sloth = SceneManager.getScene('game').getSloth();

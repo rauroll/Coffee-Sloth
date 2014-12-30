@@ -1,3 +1,5 @@
+// Section that can be added to the sectionQueue of SectionManager, inherits Section.
+
 function EmptySection(width) {
     Section.call(this, width);
     this.container = new PIXI.DisplayObjectContainer();

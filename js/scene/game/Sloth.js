@@ -1,3 +1,4 @@
+// The player class, Sloth
 function Sloth() {
 	var radius = 50;
 	var xPosition = 400;

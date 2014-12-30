@@ -1,3 +1,10 @@
+/*
+
+The loader scene, in which all the assets are loaded.
+
+ */
+
+
 function LoaderScene() {
 	this.name = 'loader';
 	this.scene = new PIXI.DisplayObjectContainer();
